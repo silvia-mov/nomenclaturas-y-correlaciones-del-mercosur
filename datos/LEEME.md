@@ -5,10 +5,10 @@ Resultados generados con los programas de [`python/`](../python/). Fuente: SAREM
 | Archivo | Contenido |
 |---|---|
 | `versiones.csv` | Las 63 versiones de la NCM, 2002–2026: año, mes y cantidad de códigos de 8 dígitos |
-| `mapeo_2002_2015.csv` | Para cada código y período de validez, su código (o códigos) en la NCM de enero 2015 |
-| `cambios_por_paso_2002_2015.csv` | Solo los códigos que cambiaron en cada paso entre versiones seguidas |
+| `mapeo_2002_2019.csv` | Para cada código y período de validez, su código (o códigos) en la NCM de enero 2019 |
+| `cambios_por_paso_2002_2019.csv` | Solo los códigos que cambiaron en cada paso entre versiones seguidas |
 
-## Columnas de `mapeo_2002_2015.csv`
+## Columnas de `mapeo_2002_2019.csv`
 
 | Columna | Qué es |
 |---|---|
@@ -18,8 +18,10 @@ Resultados generados con los programas de [`python/`](../python/). Fuente: SAREM
 | `tipo_cambio` | igual, renumerado, se divide, se fusiona, complejo |
 | `codigo_final` | Código de destino en la última versión de la cadena (una fila por destino) |
 | `descripcion_final` | Descripción del destino |
-| `version_final` | Última versión de la cadena (hoy `NCM_2015_1`, enero 2015) |
+| `version_final` | Última versión de la cadena (hoy `NCM_2019_1`, enero 2019) |
 | `n_destinos` | Cuántos destinos tiene el código |
 | `camino` | En qué paso cambió y cómo |
+| `notas` | Vínculos del camino que se agregaron o que la OMA no respalda (ver el README, decisiones 4 y 5) |
 
-Los archivos `datos/*.json` son intermedios grandes y no se publican: se regeneran con los programas.
+Los archivos `datos/*.json` son intermedios y no se publican: se regeneran con los programas. Entre
+ellos, `oma_2012_2017.json` (la tabla de la OMA leída por `python/leer_oma.py`).

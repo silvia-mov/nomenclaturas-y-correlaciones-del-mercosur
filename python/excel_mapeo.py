@@ -1,6 +1,6 @@
 """Arma el Excel del mapeo de la NCM a partir de versiones.json y cadena.json.
 
-Uso: python python/excel_mapeo.py datos/versiones.json datos/cadena.json salidas/Mapeo_NCM.xlsx
+Uso: python python/excel_mapeo.py datos/versiones.json datos/cadena.json salidas/Mapeo_NCM_2002-2019.xlsx
 """
 import json, sys
 import openpyxl
@@ -49,30 +49,30 @@ orden = [v for v, _ in ORDEN]
 wm = wb.active; wm.title = 'Mapeo'
 header(wm, 1, ['Código', 'Código (formato)', 'Válido desde', 'Válido hasta', 'Descripción (en "válido desde")',
                f'Tipo de cambio hasta {FINC}', f'Código en {FINC}', f'Descripción en {FINC}',
-               'Destinos de este código', 'Camino (paso: qué pasó)'],
-       [10, 12, 15, 15, 50, 16, 12, 50, 10, 90])
+               'Destinos de este código', 'Camino (paso: qué pasó)', 'Notas (vínculos agregados o sin respaldo de la OMA)'],
+       [10, 12, 15, 15, 50, 16, 12, 50, 10, 90, 60])
 for g in sorted(C['agrupado'], key=lambda g: (g['codigo'], orden.index(g['desde']))):
     for d in g['destino']:
         wm.append([g['codigo'], fmt(g['codigo']), fecha(g['desde']), fecha(g['hasta']), desc(g['desde'], g['codigo']),
-                   g['tipo'], d, desc(FIN, d), len(g['destino']), ' | '.join(g['camino'])])
+                   g['tipo'], d, desc(FIN, d), len(g['destino']), ' | '.join(g['camino']), ' | '.join(g.get('notas', []))])
 NM = wm.max_row
 for k, col in COLOR.items():
     wm.conditional_formatting.add(f'F2:F{NM}', FormulaRule(formula=[f'$F2="{k}"'], fill=PatternFill('solid', fgColor=col)))
-wm.freeze_panes = 'C2'; wm.auto_filter.ref = f'A1:J{NM}'; wm.row_dimensions[1].height = 32
+wm.freeze_panes = 'C2'; wm.auto_filter.ref = f'A1:K{NM}'; wm.row_dimensions[1].height = 32
 body(wm, 2)
 
 # ---------- Cambios por paso ----------
 wc = wb.create_sheet('Cambios_por_paso')
-header(wc, 1, ['Paso', 'Código viejo', 'Descripción vieja', 'Marca SAREM', 'Código nuevo', 'Descripción nueva', 'Tipo de cambio'],
-       [26, 11, 50, 9, 11, 50, 14])
+header(wc, 1, ['Paso', 'Código viejo', 'Descripción vieja', 'Marca SAREM', 'Código nuevo', 'Descripción nueva', 'Tipo de cambio', 'Nota'],
+       [26, 11, 50, 9, 11, 50, 14, 60])
 for p in C['pasos']:
     nombre = f"{fecha(p['de'])} → {fecha(p['a'])}"
-    for o, d, ex, t in p['filas']:
-        wc.append([nombre, o, desc(p['de'], o), 'ex' if ex else '', d, desc(p['a'], d), t])
+    for o, d, ex, t, *nota in p['filas']:
+        wc.append([nombre, o, desc(p['de'], o), 'ex' if ex else '', d, desc(p['a'], d), t, nota[0] if nota else ''])
 NC = wc.max_row
 for k, col in COLOR.items():
     wc.conditional_formatting.add(f'G2:G{NC}', FormulaRule(formula=[f'$G2="{k}"'], fill=PatternFill('solid', fgColor=col)))
-wc.freeze_panes = 'B2'; wc.auto_filter.ref = f'A1:G{NC}'
+wc.freeze_panes = 'B2'; wc.auto_filter.ref = f'A1:H{NC}'
 body(wc, 2)
 
 # ---------- Versiones ----------
@@ -113,14 +113,23 @@ for col, w in zip('ABCDEFG', [32, 14, 10, 11, 10, 10, 10]):
     wr.column_dimensions[col].width = w
 r0 = last + 2
 wr.cell(r0, 1, 'Control: la cadena armada paso a paso contra las tablas directas de SAREM').font = SUB
-for j, h in enumerate(['Desde', 'Hasta', 'Pares en la cadena', 'Pares en SAREM', 'Solo en la cadena', 'Solo en SAREM'], 1):
-    c = wr.cell(r0 + 1, j, h); c.font = HF; c.fill = HFILL
+for j, h in enumerate(['Desde', 'Hasta', 'Pares en la cadena', 'Pares en SAREM', 'Solo en la cadena', 'Solo en SAREM',
+                       'Sin explicar (cadena)', 'Sin explicar (SAREM)'], 1):
+    c = wr.cell(r0 + 1, j, h); c.font = HF; c.fill = HFILL; c.alignment = Alignment(wrap_text=True)
 for i, k in enumerate(C['controles']):
     rr = r0 + 2 + i
     for j, v in enumerate([fecha(k['de']), fecha(k['a']), k['pares_cadena'], k['pares_sarem'],
-                           len(k['solo_cadena']), len(k['solo_sarem'])], 1):
+                           len(k['solo_cadena']), len(k['solo_sarem']),
+                           len(k.get('solo_cadena_sin_explicar', k['solo_cadena'])),
+                           len(k.get('solo_sarem_sin_explicar', k['solo_sarem']))], 1):
         c = wr.cell(rr, j, v); c.font = B
         if j >= 3: c.number_format = '#,##0'
+rn = r0 + 3 + len(C['controles'])
+wr.cell(rn, 1, 'Las diferencias "explicadas" vienen de las decisiones del paso a enero 2017 (ver Leeme): vínculos agregados o marcados '
+               'en la cadena, y vínculos de SAREM que la OMA no registra (circuitos integrados 85.42 y 3004.60).').font = Font(name=A, size=9, italic=True)
+for k2, dsc in enumerate(C.get('descartadas', [])):
+    if 'hermanos' in dsc['motivo']:
+        wr.cell(rn + 1 + k2, 1, f"No usada como control: {dsc['tabla']} ({fecha(dsc['de'])} → {fecha(dsc['a'])}): {dsc['motivo']}.").font = Font(name=A, size=9, italic=True)
 
 # ---------- Léeme ----------
 wl = wb.create_sheet('Leeme')
@@ -145,6 +154,10 @@ notas = [
     ('Decisiones y problemas de SAREM', None),
     ('Noviembre 2006 → enero 2007', 'La tabla de SAREM está incompleta: le faltan 9 vínculos (pelo fino en los capítulos 61 y 62, y 8517.62.59). Se usó la tabla directa de octubre 2006 a enero 2007, que tiene los mismos códigos de origen.'),
     ('Octubre 2011 → enero 2012', 'A la tabla de SAREM le faltan 19 vínculos hacia la partida nueva 96.19 (compresas, tampones y pañales de cualquier materia), desde los capítulos 39, 61, 62 y 63. Se agregaron desde la tabla enero 2011 → enero 2012, y coinciden con las tablas largas desde 2002 y 2007.'),
+    ('Setiembre 2016 → enero 2017', 'VI Enmienda del SA. Se revisó contra la tabla de la OMA (SA 2012 → 2017). Cambios dentro de la misma subpartida de 6 dígitos: de SAREM. Cambios entre subpartidas que la OMA registra y faltaban: se agregaron (116 desde la tabla SAREM enero 2016 → enero 2017, sobre todo despojos de pescado hacia 0302.99 y 0303.99; 62 para toda la subpartida: 2939.99 → 2939.80 y 3808.92 → 3808.59). Vínculos de SAREM que la OMA no registra: se mantienen marcados (42: 29.33/29.34 → 2939.80, 29.22 → 2922.19, 03.05 → 0305.32). Los vínculos de las tablas largas hacia circuitos integrados (85.42) y 3004.60 no se usaron: la OMA no los registra.'),
+    ('Enero 2002 ↔ julio 2018', 'Las tablas largas dicen 0101.21.01 (no existe) en lugar de 0101.21.00. Se corrigió al leerlas.'),
+    ('Julio 2007 → enero 2016 y enero 2017', 'Las tablas largas desde julio 2007 unen entre sí códigos hermanos creados en julio 2007 (por ejemplo 8431.49.21 "Cabinas" con 8431.49.22 "Orugas"). No se usaron como control.'),
+    ('Agosto 2016', 'Abre 14 códigos en 55 que setiembre 2016 vuelve a juntar: julio y setiembre 2016 tienen los mismos códigos.'),
     ('Enero 2003 ↔ enero 2004', 'Las tablas NCM_200213_NCM_200225 y la inversa dicen ser de enero 2004, pero sus códigos son los de enero 2005. No se usaron.'),
     ('Hacia y desde enero 2007', 'Las tablas de enero 2006 y julio 2006 hacia enero 2007 parten en realidad de octubre 2006, y las de enero 2007 hacia 2006 usan códigos de julio 2007; tienen filas "suprimido" y "eliminado". No se usaron.'),
 ]

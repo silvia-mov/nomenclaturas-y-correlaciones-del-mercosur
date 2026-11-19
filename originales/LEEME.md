@@ -24,6 +24,21 @@ hacia la versión siguiente: la cadena está completa de enero 2002 a octubre 20
 carpeta no coinciden con la fecha: "49. 2022" es la versión `NCM_2022` (SAREM `NCM_201760`) y
 "62. FEBRERO 2023" es en realidad **febrero 2026** (`NCM_2026_2`, SAREM `NCM_202250`).
 
+## Tabla de correlación de la OMA
+
+Para el paso a enero 2017 (VI Enmienda del SA) se usa la tabla oficial de la Organización Mundial de
+Aduanas, **SA 2012 → SA 2017** (Tabla II de octubre 2016 y su anexo del capítulo 44). No se publica
+aquí: se baja de la página de la OMA (*Correlation Tables HS 2012 – 2017*) y se guarda en
+`originales/oma/`:
+
+```
+originales/oma/
+├── table_ii_trp1217_en_rev1.pdf
+└── table_ii_a_trp1217_en.pdf
+```
+
+Según la propia OMA, estas tablas son una guía y no tienen valor legal.
+
 ## Formato
 
 - **Versiones** (`NCM_AAAA_M.xlsx`): título, fecha de generación, y una fila por código (capítulo,
@@ -55,3 +70,10 @@ originales/
 - La tabla `NCM_200758_NCM_201201` (octubre 2011 → enero 2012) está **incompleta**: le faltan 19
   vínculos hacia `96190000` (capítulos 39, 61, 62 y 63) que sí están en `NCM_200749_NCM_201201`
   (enero 2011 → enero 2012) y en las tablas largas. Se agregan desde esa tabla.
+- Las tablas largas entre enero 2002 y julio 2018 (`NCM_200201_NCM_201719` y la inversa) dicen
+  `01012101`, que no existe, en lugar de `01012100`. Se corrige al leerlas.
+- Las tablas largas desde julio 2007 (`NCM_200707_NCM_201249` y `NCM_200707_NCM_201701`) unen entre sí
+  códigos hermanos creados en julio 2007 (por ejemplo 8431.49.21 "Cabinas" con 8431.49.22 "Orugas").
+  No se usan como control.
+- Para la VI Enmienda (setiembre 2016 → enero 2017), la tabla corta y las tablas largas no coinciden
+  entre sí, y ninguna coincide del todo con la OMA. Ver el README, decisión 5.

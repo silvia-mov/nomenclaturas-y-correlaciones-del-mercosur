@@ -20,16 +20,16 @@ FIN = C['fin']
 RANGO = f"{V[orden[0]]['anio']}_{V[FIN]['anio']}"
 with open(os.path.join(carpeta, f'mapeo_{RANGO}.csv'), 'w', newline='', encoding='utf-8') as f:
     w = csv.writer(f)
-    w.writerow(['codigo', 'valido_desde', 'valido_hasta', 'descripcion', 'tipo_cambio', 'codigo_final', 'descripcion_final', 'version_final', 'n_destinos', 'camino'])
+    w.writerow(['codigo', 'valido_desde', 'valido_hasta', 'descripcion', 'tipo_cambio', 'codigo_final', 'descripcion_final', 'version_final', 'n_destinos', 'camino', 'notas'])
     for g in sorted(C['agrupado'], key=lambda g: (g['codigo'], orden.index(g['desde']))):
         for d in g['destino']:
             w.writerow([g['codigo'], g['desde'], g['hasta'], desc(g['desde'], g['codigo']), g['tipo'], d,
-                        desc(FIN, d), FIN, len(g['destino']), ' | '.join(g['camino'])])
+                        desc(FIN, d), FIN, len(g['destino']), ' | '.join(g['camino']), ' | '.join(g.get('notas', []))])
 
 with open(os.path.join(carpeta, f'cambios_por_paso_{RANGO}.csv'), 'w', newline='', encoding='utf-8') as f:
     w = csv.writer(f)
-    w.writerow(['version_vieja', 'version_nueva', 'codigo_viejo', 'marca_sarem', 'codigo_nuevo', 'tipo_cambio'])
+    w.writerow(['version_vieja', 'version_nueva', 'codigo_viejo', 'marca_sarem', 'codigo_nuevo', 'tipo_cambio', 'nota'])
     for p in C['pasos']:
-        for o, d, ex, t in p['filas']:
-            w.writerow([p['de'], p['a'], o, 'ex' if ex else '', d, t])
+        for o, d, ex, t, *nota in p['filas']:
+            w.writerow([p['de'], p['a'], o, 'ex' if ex else '', d, t, nota[0] if nota else ''])
 print('ok')

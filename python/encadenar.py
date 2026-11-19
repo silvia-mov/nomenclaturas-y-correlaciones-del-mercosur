@@ -1,6 +1,6 @@
 """Encadena las correlaciones de SAREM entre versiones seguidas de la NCM.
 
-Uso: python python/encadenar.py datos/versiones.json originales/correlaciones datos/cadena.json
+Uso: python python/encadenar.py datos/versiones.json originales/correlaciones datos/cadena.json datos/oma_2012_2017.json
 
 La cadena va de la primera a la última versión de ORDEN. Cada paso usa la tabla de SAREM de una
 versión a la siguiente. Como control, se compara la cadena con todas las tablas directas de SAREM
@@ -9,8 +9,9 @@ versión a la siguiente. Como control, se compara la cadena con todas las tablas
 import json, sys, os, re, collections
 import openpyxl
 
-vers_path, carpeta, salida = sys.argv[1:4]
+vers_path, carpeta, salida, oma_path = sys.argv[1:5]
 V = json.load(open(vers_path, encoding='utf-8'))
+OMA = json.load(open(oma_path, encoding='utf-8'))
 
 # versión de la NCM -> número interno de SAREM (comprobado código por código).
 # Tramo 1: enero 2002 - octubre 2006. Tramo 2: noviembre 2006 - enero 2010. Tramo 3: octubre 2010 - enero 2015.
@@ -108,6 +109,23 @@ REEMPLAZO = {('NCM_2006_11', 'NCM_2007_1'): ('NCM_200258', 'NCM_200701')}
 # desde enero 2002 y enero 2007. Se agregan desde NCM_200749_NCM_201201.
 AGREGAR = {('NCM_2011_10', 'NCM_2012_1'): {'tabla': ('NCM_200749', 'NCM_201201'), 'destino': '96190000'}}
 
+# Pasos que se revisan contra la tabla de correlación de la OMA (6 dígitos). Septiembre 2016 -> enero
+# 2017 (VI Enmienda del SA): la tabla corta de SAREM no tiene 70 cambios que la OMA registra (sobre
+# todo despojos de pescado hacia 0302.99 y 0303.99) y tiene 42 vínculos entre subpartidas que la OMA
+# no registra (29.33/29.34 -> 2939.80, 29.22 -> 2922.19, 03.05 -> 0305.32). Regla:
+#  - cambios dentro de la misma subpartida de 6 dígitos: tal cual vienen de SAREM;
+#  - cambios de la OMA que faltan: se agregan con los códigos de 8 dígitos de la tabla larga de SAREM
+#    indicada; si no hay ninguno, con todos los códigos de 8 dígitos de las dos subpartidas;
+#  - vínculos de SAREM que la OMA no registra: se mantienen, marcados.
+VERIFICAR_OMA = {('NCM_2016_9', 'NCM_2017_1'): {'larga': ('NCM_201249', 'NCM_201701')}}
+W_OMA = collections.defaultdict(set)
+for a6, b6, _ in OMA['tabla'] + OMA['anexo44']:
+    W_OMA[a6].add(b6)
+
+# Tablas que no sirven como control.
+_HERMANOS = 'une códigos hermanos creados en julio 2007 (por ejemplo 8431.49.21 "Cabinas" -> 8431.49.22 "Orugas")'
+NO_CONTROL = {('NCM_200707', 'NCM_201249'): _HERMANOS, ('NCM_200707', 'NCM_201701'): _HERMANOS}
+
 # ---------- pasos entre versiones seguidas ----------
 pasos = []
 for (va, sa), (vb, sb) in zip(ORDEN, ORDEN[1:]):
@@ -116,18 +134,57 @@ for (va, sa), (vb, sb) in zip(ORDEN, ORDEN[1:]):
         assert S[VERSION[ta]] == S[va]
     a, b, pares, ex = leer(TABLAS[(ta, tb)])
     assert (a, b) == (ta, tb)
-    agregados = []
+    agregados, notas = [], {}
     if (va, vb) in AGREGAR:
         cfg = AGREGAR[(va, vb)]
         _, _, otros, _ = leer(TABLAS[cfg['tabla']])
         ya = set(pares)
         agregados = sorted({(o, d) for o, d in otros if d == cfg['destino'] and o in S[va] and (o, d) not in ya})
+        base = {o for o, _ in pares}
+        agregados += [(o, o) for o, _ in agregados if o not in base and o in S[vb]]
         pares = pares + agregados
         ex = ex | set(agregados)
+        for par in agregados:
+            notas[par] = f'agregado desde la tabla SAREM {cfg["tabla"][0]}_{cfg["tabla"][1]}'
         print(f'{va} -> {vb}: se agregan {len(agregados)} vínculos a {cfg["destino"]} desde {cfg["tabla"][0]}_{cfg["tabla"][1]}')
+    if (va, vb) in VERIFICAR_OMA:
+        cfg = VERIFICAR_OMA[(va, vb)]
+        r6 = collections.defaultdict(set)
+        for o, d in pares:
+            r6[o[:6]].add(d[:6])
+        for o, d in pares:
+            if o[:6] != d[:6] and d[:6] not in W_OMA.get(o[:6], {o[:6]}):
+                notas[(o, d)] = 'sin respaldo de la OMA (se mantiene)'
+        _, _, larga, _ = leer(TABLAS[cfg['larga']])
+        ya = set(pares)
+        nota_l = f'agregado: lo registra la OMA (8 dígitos de la tabla SAREM {cfg["larga"][0]}_{cfg["larga"][1]})'
+        nota_s = 'agregado: lo registra la OMA (todos los códigos de las dos subpartidas)'
+        # 1) vínculos de la tabla larga que la OMA confirma a 6 dígitos y faltan en la tabla corta
+        nuevos = sorted({(o, d) for o, d in larga if o in S[va] and d in S[vb] and o[:6] != d[:6]
+                         and d[:6] in W_OMA.get(o[:6], set()) and (o, d) not in ya})
+        for par in nuevos:
+            notas[par] = nota_l
+            r6[par[0][:6]].add(par[1][:6])
+        # 2) cambios de la OMA (6 dígitos) que siguen sin ningún vínculo: toda la subpartida
+        for a6 in sorted({c[:6] for c in S[va]}):
+            for b6 in sorted(W_OMA.get(a6, set())):
+                if b6 != a6 and b6 not in r6.get(a6, set()):
+                    cand = [(o, d) for o in sorted(S[va]) if o[:6] == a6 for d in sorted(S[vb]) if d[:6] == b6]
+                    for par in cand:
+                        notas[par] = nota_s
+                    nuevos += cand
+        # un código que en la tabla corta seguía igual conserva su destino propio
+        base = {o for o, _ in pares}
+        nuevos += [(o, o) for o, _ in nuevos if o not in base and o in S[vb]]
+        nuevos = sorted(set(nuevos) - set(pares))
+        pares = pares + nuevos
+        ex = ex | set(nuevos)
+        agregados += nuevos
+        print(f'{va} -> {vb}: OMA: se agregan {len(nuevos)} vínculos y se marcan '
+              f'{sum(1 for n in notas.values() if n.startswith("sin respaldo"))} sin respaldo')
     rel = relacion(va, vb, pares)
     assert set(rel) == S[va] and set().union(*rel.values()) == S[vb], (va, vb)
-    pasos.append({'de': va, 'a': vb, 'rel': rel, 'ex': ex, 'tipo': tipo(rel), 'agregados': agregados})
+    pasos.append({'de': va, 'a': vb, 'rel': rel, 'ex': ex, 'tipo': tipo(rel), 'agregados': agregados, 'notas': notas})
 
 
 def cadena(desde, hasta):
@@ -143,6 +200,9 @@ for (sa, sb), path in sorted(TABLAS.items()):
     va, vb = VERSION[sa], VERSION[sb]
     if IDX[vb] <= IDX[va] + 1 or (sa, sb) in REEMPLAZO.values():
         continue  # hacia atrás, o la misma tabla usada en un paso
+    if (sa, sb) in NO_CONTROL:
+        descartadas.append({'tabla': f'{sa}_{sb}', 'de': va, 'a': vb, 'motivo': NO_CONTROL[(sa, sb)]})
+        continue
     _, _, pares, _ = leer(path)
     origen = {o for o, _ in pares}
     destino = {d for _, d in pares}
@@ -157,17 +217,34 @@ for (sa, sb), path in sorted(TABLAS.items()):
     controles.append({'de': va, 'a': vb, 'tabla': f'{sa}_{sb}', 'pares_cadena': len(calc), 'pares_sarem': len(directa),
                       'solo_cadena': sorted(calc - directa), 'solo_sarem': sorted(directa - calc)})
 
+# Diferencias de los controles que se explican por las decisiones de VERIFICAR_OMA: vínculos de la
+# cadena que llegan a un destino agregado o marcado, y vínculos de SAREM hacia un destino al que la
+# OMA no manda nada desde esa subpartida.
+destinos_nota = {d for p in pasos for (_, d) in p['notas']}
+for k in controles:
+    cruza = any(IDX[k['de']] <= IDX[va] and IDX[vb] <= IDX[k['a']] for va, vb in VERIFICAR_OMA)
+    def sin_oma(o, d):
+        return o[:6] != d[:6] and d[:6] not in W_OMA.get(o[:6], {o[:6]})
+    def con_oma(o, d):
+        return o[:6] != d[:6] and d[:6] in W_OMA.get(o[:6], set())
+    # en la cadena: destino agregado o marcado, o un cambio que la OMA registra y le falta a la tabla larga
+    k['solo_cadena_sin_explicar'] = [par for par in k['solo_cadena'] if not (cruza and (par[1] in destinos_nota or con_oma(*par)))]
+    k['solo_sarem_sin_explicar'] = [par for par in k['solo_sarem'] if not (cruza and sin_oma(*par))]
+
 # ---------- camino de cada (código, versión) hasta la última versión ----------
 filas = []
 for i, (v, _) in enumerate(ORDEN):
     for c in sorted(S[v]):
-        dest, camino = {c}, []
+        dest, camino, nts = {c}, [], []
         for p in pasos[i:]:
             for d in sorted(dest):
                 if p['tipo'][d] != 'igual':
                     camino.append(f"{p['a'][4:].replace('_', '-')}: {d} {p['tipo'][d]} -> {', '.join(sorted(p['rel'][d]))}")
+                for x in sorted(p['rel'][d]):
+                    if (d, x) in p['notas']:
+                        nts.append(f"{p['a'][4:].replace('_', '-')}: {d} -> {x}: {p['notas'][(d, x)]}")
             dest = set().union(*(p['rel'][d] for d in dest))
-        filas.append({'codigo': c, 'version': v, 'destino': sorted(dest), 'camino': camino})
+        filas.append({'codigo': c, 'version': v, 'destino': sorted(dest), 'camino': camino, 'notas': nts})
 
 compuesta = {}
 for v, _ in ORDEN:
@@ -186,19 +263,19 @@ for c, fs in por_codigo.items():
     fs.sort(key=lambda f: IDX[f['version']])
     g = None
     for f in fs:
-        clave = (tuple(f['destino']), f['tipo'], tuple(f['camino']))
+        clave = (tuple(f['destino']), f['tipo'], tuple(f['camino']), tuple(f['notas']))
         if g and g['clave'] == clave and IDX[f['version']] == IDX[g['hasta']] + 1:
             g['hasta'] = f['version']
         else:
             g = {'codigo': c, 'desde': f['version'], 'hasta': f['version'], 'destino': f['destino'],
-                 'tipo': f['tipo'], 'camino': f['camino'], 'clave': clave}
+                 'tipo': f['tipo'], 'camino': f['camino'], 'notas': f['notas'], 'clave': clave}
             agrup.append(g)
 for g in agrup:
     g.pop('clave')
 
 json.dump({'orden': ORDEN, 'fin': FIN, 'controles': controles, 'descartadas': descartadas, 'agrupado': agrup,
            'pasos': [{'de': p['de'], 'a': p['a'],
-                      'filas': [(o, d, (o, d) in p['ex'], p['tipo'][o]) for o in sorted(p['rel'])
+                      'filas': [(o, d, (o, d) in p['ex'], p['tipo'][o], p['notas'].get((o, d), '')) for o in sorted(p['rel'])
                                 for d in sorted(p['rel'][o]) if p['tipo'][o] != 'igual'],
                       'agregados': p['agregados']}
                      for p in pasos]},
@@ -206,7 +283,8 @@ json.dump({'orden': ORDEN, 'fin': FIN, 'controles': controles, 'descartadas': de
 
 for k in controles:
     print(f"Control {k['de']} -> {k['a']}: cadena {k['pares_cadena']}, SAREM {k['pares_sarem']} | "
-          f"solo cadena {len(k['solo_cadena'])} {k['solo_cadena'][:3]} | solo SAREM {len(k['solo_sarem'])} {k['solo_sarem'][:3]}")
+          f"solo cadena {len(k['solo_cadena'])} (sin explicar {len(k['solo_cadena_sin_explicar'])} {k['solo_cadena_sin_explicar'][:3]}) | "
+          f"solo SAREM {len(k['solo_sarem'])} (sin explicar {len(k['solo_sarem_sin_explicar'])} {k['solo_sarem_sin_explicar'][:3]})")
 for k in descartadas:
     print(f"No usada como control: {k['tabla']} ({k['de']} -> {k['a']}): {k['motivo']}")
 print('filas agrupadas', len(agrup), collections.Counter(g['tipo'] for g in agrup))

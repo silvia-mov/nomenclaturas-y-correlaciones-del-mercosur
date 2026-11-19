@@ -2,6 +2,11 @@
 
 ## Sin publicar
 
+- **Tramo 4, julio 2015 – enero 2019** (incluye la VI Enmienda del SA): la cadena llega a enero 2019
+  (`datos/mapeo_2002_2019.csv`, `salidas/Mapeo_NCM_2002-2019.xlsx`). El paso a enero 2017 se revisa
+  contra la tabla de correlación de la OMA (`python/leer_oma.py`): se agregan los cambios que la OMA
+  registra y faltaban, y se marcan los vínculos de SAREM que la OMA no respalda. Nueva columna de
+  notas. Los controles separan las diferencias explicadas de las sin explicar (0 sin explicar).
 - **Tramo 3, octubre 2010 – enero 2015** (incluye la V Enmienda del SA): la cadena llega a enero 2015
   (`datos/mapeo_2002_2015.csv`, `salidas/Mapeo_NCM_2002-2015.xlsx`). A octubre 2011 → enero 2012 se
   le agregan 19 vínculos hacia 9619.00.00 que faltan en SAREM. 21 controles, 0 diferencias.
