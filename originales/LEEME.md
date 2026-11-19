@@ -47,3 +47,8 @@ originales/
   de **enero 2005**. No se usan.
 - Las tablas de enero 2006 y de julio 2006 hacia enero 2007 parten en realidad de **octubre 2006** y
   tienen filas `suprimido` y `eliminado`.
+- Las tablas de enero 2007 hacia enero 2006 y julio 2006 usan del lado de 2007 los códigos de
+  **julio 2007** (11 códigos que no existían en enero 2007) y tienen filas `suprimido` y `eliminado`.
+- La tabla `NCM_200259_NCM_200701` (noviembre 2006 → enero 2007) está **incompleta**: le faltan 9
+  vínculos que sí están en `NCM_200258_NCM_200701` (octubre 2006 → enero 2007) y en las tablas desde
+  enero 2002. Se usa la de octubre.

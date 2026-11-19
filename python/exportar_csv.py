@@ -1,6 +1,6 @@
 """Exporta a CSV el resumen de versiones, el mapeo y los cambios por paso.
 
-Uso: python python/exportar_csv.py datos/versiones.json datos/cadena_2002_2006.json datos
+Uso: python python/exportar_csv.py datos/versiones.json datos/cadena.json datos
 """
 import csv, json, os, sys
 
@@ -16,15 +16,17 @@ with open(os.path.join(carpeta, 'versiones.csv'), 'w', newline='', encoding='utf
         w.writerow([v, V[v]['anio'], V[v]['mes'], len(V[v]['codigos']), V[v]['titulo']])
 
 orden = [v for v, _ in C['orden']]
-with open(os.path.join(carpeta, 'mapeo_2002_2006.csv'), 'w', newline='', encoding='utf-8') as f:
+FIN = C['fin']
+RANGO = f"{V[orden[0]]['anio']}_{V[FIN]['anio']}"
+with open(os.path.join(carpeta, f'mapeo_{RANGO}.csv'), 'w', newline='', encoding='utf-8') as f:
     w = csv.writer(f)
-    w.writerow(['codigo', 'valido_desde', 'valido_hasta', 'descripcion', 'tipo_cambio', 'codigo_oct2006', 'descripcion_oct2006', 'n_destinos', 'camino'])
+    w.writerow(['codigo', 'valido_desde', 'valido_hasta', 'descripcion', 'tipo_cambio', 'codigo_final', 'descripcion_final', 'version_final', 'n_destinos', 'camino'])
     for g in sorted(C['agrupado'], key=lambda g: (g['codigo'], orden.index(g['desde']))):
         for d in g['destino']:
             w.writerow([g['codigo'], g['desde'], g['hasta'], desc(g['desde'], g['codigo']), g['tipo'], d,
-                        desc('NCM_2006_10', d), len(g['destino']), ' | '.join(g['camino'])])
+                        desc(FIN, d), FIN, len(g['destino']), ' | '.join(g['camino'])])
 
-with open(os.path.join(carpeta, 'cambios_por_paso_2002_2006.csv'), 'w', newline='', encoding='utf-8') as f:
+with open(os.path.join(carpeta, f'cambios_por_paso_{RANGO}.csv'), 'w', newline='', encoding='utf-8') as f:
     w = csv.writer(f)
     w.writerow(['version_vieja', 'version_nueva', 'codigo_viejo', 'marca_sarem', 'codigo_nuevo', 'tipo_cambio'])
     for p in C['pasos']:
