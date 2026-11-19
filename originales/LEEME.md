@@ -87,6 +87,7 @@ originales/
 - Para la VI Enmienda (setiembre 2016 → enero 2017), la tabla corta y las tablas largas no coinciden
   entre sí, y ninguna coincide del todo con la OMA. Ver el README, decisión 5.
 - Marzo 2019 (`NCM_201727`) tiene tablas de correlación pero no tiene versión descargada.
+- Noviembre 2026 tiene versión descargada pero no tabla de correlación (mismos códigos que octubre 2026).
 - Las tablas de enero 2021 a julio 2021 (`NCM_201749_NCM_201755` y la inversa) traen 3923.30.00, que
   dejó de existir en julio 2020. No se usan.
 - Las tablas largas no coinciden entre sí en qué códigos de 29.33 van a 2939.80 y qué partes de

@@ -25,7 +25,10 @@ encadenadas versión por versión, con el tipo de cambio de cada código y contr
 | 3. Octubre 2010 – enero 2015 (incluye la V Enmienda del SA) | 10 | 10 tablas entre versiones seguidas | **Listo y controlado** |
 | 4. Julio 2015 – enero 2019 (incluye la VI Enmienda del SA) | 10 | 10 tablas entre versiones seguidas, revisadas con la OMA | **Listo y controlado** |
 | 5. Marzo 2019 – enero 2022 (incluye la VII Enmienda del SA) | 10 (marzo 2019 sin archivo) | 10 tablas entre versiones seguidas, revisadas con la OMA | **Listo y controlado** |
-| 6. Julio 2022 – 2026 | 13 versiones ya leídas | Tablas ya subidas | Pendiente |
+| 6. Julio 2022 – noviembre 2026 | 14 | 13 tablas entre versiones seguidas (noviembre 2026 no tiene tabla: mismos códigos que octubre) | **Listo y controlado** |
+
+**El mapeo está completo: cualquier código NCM de enero 2002 a noviembre 2026 llega a la NCM de
+noviembre 2026.**
 
 ## Para qué sirve
 
@@ -48,7 +51,7 @@ encadenadas versión por versión, con el tipo de cambio de cada código y contr
   descripción para saber a cuál de los destinos va cada producto. Las tablas de correlación ayudan,
   pero no tienen valor legal.
 
-## Enero 2002 – enero 2022
+## Enero 2002 – noviembre 2026
 
 Cantidad de códigos viejos según el tipo de cambio en cada paso.
 
@@ -103,6 +106,20 @@ Cantidad de códigos viejos según el tipo de cambio en cada paso.
 | jul 2021 → set 2021 | 10.325 | 0 | 5 | 7 | 0 |
 | set 2021 → "2022" | 10.337 | 0 | 0 | 0 | 0 |
 | **"2022" → ene 2022** | **7.353** | **125** | **56** | **82** | **2.721** |
+| ene 2022 → jul 2022 | 10.426 | 0 | 3 | 0 | 4 |
+| jul 2022 → set 2022 | 10.434 | 0 | 3 | 0 | 0 |
+| set 2022 → ene 2023 | 10.430 | 1 | 9 | 0 | 0 |
+| ene 2023 → abr 2023 | 10.447 | 0 | 4 | 0 | 0 |
+| abr 2023 → jul 2023 | 10.455 | 0 | 0 | 0 | 0 |
+| jul 2023 → nov 2023 | 10.451 | 0 | 2 | 1 | 1 |
+| nov 2023 → abr 2024 | 10.431 | 1 | 20 | 3 | 3 |
+| abr 2024 → jul 2024 | 10.480 | 8 | 4 | 0 | 6 |
+| jul 2024 → ene 2025 | 10.502 | 0 | 0 | 1 | 1 |
+| ene 2025 → oct 2025 | 10.501 | 0 | 3 | 0 | 0 |
+| oct 2025 → ene 2026 | 10.507 | 0 | 0 | 0 | 0 |
+| ene 2026 → feb 2026 | 10.488 | 0 | 8 | 6 | 5 |
+| feb 2026 → oct 2026 | 10.514 | 0 | 1 | 0 | 0 |
+| oct 2026 → nov 2026 | 10.516 | 0 | 0 | 0 | 0 |
 
 Los pasos a enero 2007, enero 2012, enero 2017 y enero 2022 son la IV, la V, la VI y la VII Enmienda
 del Sistema Armonizado (cambian 1.621, 676, 737 y 2.984 códigos, ya revisados con la OMA). En 2022 hay tantos complejos porque
@@ -113,9 +130,10 @@ SAREM (mismos códigos que setiembre 2021). Agosto 2016 abre 14 códigos que set
 a juntar: julio y setiembre 2016 tienen los mismos códigos.
 
 **Controles.**
-1. En las 49 tablas, cada código que desaparece tiene destino y cada código que aparece tiene origen.
-2. La cadena armada paso a paso se compara con las 28 tablas directas de SAREM que cuadran con sus
-   versiones. Las diferencias vienen todas de la decisión 5: vínculos agregados por la OMA, vínculos de
+1. En las 62 tablas, cada código que desaparece tiene destino y cada código que aparece tiene origen.
+2. La cadena armada paso a paso se compara con 38 tablas directas de SAREM que cuadran con sus
+   versiones: 28 completas y 10 que solo traen los códigos que cambian (control parcial; son las únicas
+   que hay para 2019 – 2026). Las diferencias vienen todas de la decisión 5: vínculos agregados por la OMA, vínculos de
    SAREM que la OMA no registra, o tablas de SAREM que no coinciden entre sí en casos que la OMA admite
    en general. 0 diferencias sin explicar (ver la hoja *Resumen* del Excel).
 3. **Decisión 2007:** la tabla de SAREM de noviembre 2006 a enero 2007 está incompleta (le faltan 9
@@ -153,7 +171,7 @@ python python/leer_versiones.py originales/nomenclaturas datos/versiones.json
 python python/leer_oma.py originales/oma datos
 python python/encadenar.py datos/versiones.json originales/correlaciones datos/cadena.json datos
 python python/exportar_csv.py datos/versiones.json datos/cadena.json datos
-python python/excel_mapeo.py datos/versiones.json datos/cadena.json salidas/Mapeo_NCM_2002-2022.xlsx
+python python/excel_mapeo.py datos/versiones.json datos/cadena.json salidas/Mapeo_NCM_2002-2026.xlsx
 ```
 
 | Carpeta | Contenido |

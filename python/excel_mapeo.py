@@ -1,6 +1,6 @@
 """Arma el Excel del mapeo de la NCM a partir de versiones.json y cadena.json.
 
-Uso: python python/excel_mapeo.py datos/versiones.json datos/cadena.json salidas/Mapeo_NCM_2002-2019.xlsx
+Uso: python python/excel_mapeo.py datos/versiones.json datos/cadena.json salidas/Mapeo_NCM_2002-2026.xlsx
 """
 import json, sys
 import openpyxl
@@ -134,7 +134,8 @@ for j, h in enumerate(['Desde', 'Hasta', 'Pares en la cadena', 'Pares en SAREM',
     c = wr.cell(r0 + 1, j, h); c.font = HF; c.fill = HFILL; c.alignment = Alignment(wrap_text=True)
 for i, k in enumerate(C['controles']):
     rr = r0 + 2 + i
-    for j, v in enumerate([fecha(k['de']), fecha(k['a']), k['pares_cadena'], k['pares_sarem'],
+    for j, v in enumerate([fecha(k['de']), fecha(k['a']) + (' (parcial: solo los códigos que cambian)' if k.get('parcial') else ''),
+                           k['pares_cadena'], k['pares_sarem'],
                            len(k['solo_cadena']), len(k['solo_sarem']),
                            len(k.get('solo_cadena_sin_explicar', k['solo_cadena'])),
                            len(k.get('solo_sarem_sin_explicar', k['solo_sarem']))], 1):
@@ -175,6 +176,8 @@ notas = [
     ('Octubre 2011 → enero 2012 (OMA)', 'V Enmienda del SA (OMA SA 2007 → 2012). Misma regla: se agregaron 930 vínculos y se marcaron 36 sin respaldo.'),
     ('Setiembre 2016 → enero 2017', 'VI Enmienda del SA (OMA SA 2012 → 2017). Cambios dentro de una subpartida: de SAREM. Cambios que la OMA registra y faltaban en la tabla corta: se agregaron 547 (desde la tabla SAREM enero 2016 → enero 2017: despojos de pescado hacia 0302.99 y 0303.99, y circuitos integrados 85.42 desde los capítulos 84, 85, 90, 93 y 95; y para toda la subpartida 2939.99 → 2939.80 y 3808.92 → 3808.59). Vínculos que la OMA no registra: se mantienen marcados (6).'),
     ('"2022" → enero 2022', 'VII Enmienda del SA (OMA SA 2017 → 2022). Igual que en 2017, pero los vínculos que la OMA no registra NO se usan (8, en la hoja SAREM_no_usados), salvo que un código quede sin destino o un destino sin origen (18, marcados). Se agregaron 320 que la OMA registra y faltaban. Los residuos electrónicos (85.49) y los módulos de pantallas (85.24) desde muchos capítulos sí están en la OMA.'),
+    ('Noviembre 2026', 'No tiene tabla de correlación en SAREM: tiene exactamente los mismos códigos que octubre 2026, así que el paso no cambia nada.'),
+    ('Controles parciales', 'En los tramos 2019 – 2026 SAREM no tiene tablas largas completas. Se usan como control parcial las tablas largas que solo traen los códigos que cambian: para esos códigos, la cadena tiene que dar lo mismo.'),
     ('Marzo 2019', 'No tiene versión descargada en SAREM: sus códigos se armaron desde enero 2019 con la tabla de correlación.'),
     ('Enero 2002 ↔ julio 2018', 'Las tablas largas dicen 0101.21.01 (no existe) en lugar de 0101.21.00. Se corrigió al leerlas.'),
     ('Julio 2007 → enero 2016 y enero 2017', 'Las tablas largas desde julio 2007 unen entre sí códigos hermanos creados en julio 2007 (por ejemplo 8431.49.21 "Cabinas" con 8431.49.22 "Orugas"). No se usaron como control.'),

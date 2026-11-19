@@ -2,6 +2,11 @@
 
 ## Sin publicar
 
+- **Tramo 6, julio 2022 – noviembre 2026: el mapeo queda completo.** Cualquier código de enero 2002 a
+  noviembre 2026 llega a la NCM de noviembre 2026 (`datos/mapeo_2002_2026.csv`,
+  `salidas/Mapeo_NCM_2002-2026.xlsx`). Noviembre 2026 no tiene tabla: mismos códigos que octubre.
+- **Controles parciales:** las tablas largas de SAREM que solo traen los códigos que cambian se usan
+  como control para esos códigos. 38 controles (28 completos y 10 parciales), 0 sin explicar.
 - **Enmiendas 2007 y 2012 revisadas con la OMA:** `leer_oma.py` lee también las tablas SA 2002 → 2007
   y 2007 → 2012, y el texto "subpartidas aplicables de..." del lado del destino. Se aplica la misma
   regla que en 2017: se agregan los cambios que la OMA registra y le faltan a SAREM (1.088 en 2007,

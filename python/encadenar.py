@@ -39,6 +39,8 @@ def soporta(ed, o, d):
 # Tramo 5: marzo 2019 - enero 2022. Marzo 2019 no tiene versión descargada: sus códigos se arman con la
 # tabla de SAREM desde enero 2019 (ver DERIVADAS). "NCM_2022" es la carpeta "49. 2022" (mismos códigos
 # que setiembre 2021).
+# Tramo 6: julio 2022 - noviembre 2026. La carpeta "62. FEBRERO 2023" es febrero 2026 (NCM_202250).
+# Noviembre 2026 no tiene tabla de correlación: tiene los mismos códigos que octubre 2026 (ver SIN_TABLA).
 ORDEN = [('NCM_2002_1', 'NCM_200201'), ('NCM_2002_7', 'NCM_200207'), ('NCM_2003_1', 'NCM_200213'),
          ('NCM_2003_7', 'NCM_200219'), ('NCM_2004_1', 'NCM_200225'), ('NCM_2004_7', 'NCM_200231'),
          ('NCM_2005_1', 'NCM_200237'), ('NCM_2005_4', 'NCM_200240'), ('NCM_2006_1', 'NCM_200249'),
@@ -56,7 +58,11 @@ ORDEN = [('NCM_2002_1', 'NCM_200201'), ('NCM_2002_7', 'NCM_200207'), ('NCM_2003_
          ('NCM_2019_3', 'NCM_201727'), ('NCM_2019_7', 'NCM_201731'), ('NCM_2020_1', 'NCM_201737'),
          ('NCM_2020_7', 'NCM_201743'), ('NCM_2021_1', 'NCM_201749'), ('NCM_2021_4', 'NCM_201752'),
          ('NCM_2021_7', 'NCM_201755'), ('NCM_2021_9', 'NCM_201757'), ('NCM_2022', 'NCM_201760'),
-         ('NCM_2022_1', 'NCM_202201')]
+         ('NCM_2022_1', 'NCM_202201'), ('NCM_2022_7', 'NCM_202207'), ('NCM_2022_9', 'NCM_202209'),
+         ('NCM_2023_1', 'NCM_202213'), ('NCM_2023_4', 'NCM_202216'), ('NCM_2023_7', 'NCM_202219'),
+         ('NCM_2023_11', 'NCM_202223'), ('NCM_2024_4', 'NCM_202228'), ('NCM_2024_7', 'NCM_202231'),
+         ('NCM_2025_1', 'NCM_202237'), ('NCM_2025_10', 'NCM_202246'), ('NCM_2026_1', 'NCM_202249'),
+         ('NCM_2026_2', 'NCM_202250'), ('NCM_2026_10', 'NCM_202258'), ('NCM_2026_11', 'SIN_TABLA_202611')]
 SAREM = dict(ORDEN)
 VERSION = {s: v for v, s in ORDEN}
 IDX = {v: i for i, (v, _) in enumerate(ORDEN)}
@@ -177,14 +183,21 @@ NO_CONTROL = {('NCM_200707', 'NCM_201249'): _HERMANOS, ('NCM_200707', 'NCM_20170
 # Pasos que solo se cruzan con la OMA, sin cambiar la cadena (para revisar antes de decidir).
 INFORME_OMA = {}
 
+# Pasos sin tabla de SAREM entre dos versiones con exactamente los mismos códigos: nada cambia.
+SIN_TABLA = {('NCM_2026_10', 'NCM_2026_11')}
+
 # ---------- pasos entre versiones seguidas ----------
 pasos, descartes, informes = [], [], []
 for (va, sa), (vb, sb) in zip(ORDEN, ORDEN[1:]):
     ta, tb = REEMPLAZO.get((va, vb), (sa, sb))
     if (ta, tb) != (sa, sb):
         assert S[VERSION[ta]] == S[va]
-    a, b, pares, ex = leer(TABLAS[(ta, tb)])
-    assert (a, b) == (ta, tb)
+    if (va, vb) in SIN_TABLA:
+        assert S[va] == S[vb], (va, vb)
+        pares, ex = [], set()
+    else:
+        a, b, pares, ex = leer(TABLAS[(ta, tb)])
+        assert (a, b) == (ta, tb)
     agregados, notas = [], {}
     if (va, vb) in AGREGAR:
         cfg = AGREGAR[(va, vb)]
@@ -295,14 +308,16 @@ for (sa, sb), path in sorted(TABLAS.items()):
     origen = {o for o, _ in pares}
     destino = {d for _, d in pares}
     completa = origen == S[va]
-    if not completa or not destino <= S[vb]:
-        descartadas.append({'tabla': f'{sa}_{sb}', 'de': va, 'a': vb, 'motivo':
-                            'solo trae cambios' if len(origen) < len(S[va]) and origen <= S[va] and destino <= S[vb]
-                            else 'sus códigos no coinciden con las versiones'})
+    validos = origen <= S[va] and destino <= S[vb]
+    parcial = validos and not completa
+    if not validos:
+        descartadas.append({'tabla': f'{sa}_{sb}', 'de': va, 'a': vb, 'motivo': 'sus códigos no coinciden con las versiones'})
         continue
     directa = {(o, d) for o, d in pares}
-    calc = {(o, d) for o, ds in cadena(va, vb).items() for d in ds}
-    controles.append({'de': va, 'a': vb, 'tabla': f'{sa}_{sb}', 'pares_cadena': len(calc), 'pares_sarem': len(directa),
+    # control parcial: la tabla solo trae los códigos que cambian; se comparan solo esos códigos de origen
+    calc = {(o, d) for o, ds in cadena(va, vb).items() for d in ds if completa or o in origen}
+    controles.append({'de': va, 'a': vb, 'tabla': f'{sa}_{sb}', 'parcial': parcial,
+                      'pares_cadena': len(calc), 'pares_sarem': len(directa),
                       'solo_cadena': sorted(calc - directa), 'solo_sarem': sorted(directa - calc)})
 
 # Diferencias de los controles que se explican por las decisiones de VERIFICAR_OMA: vínculos de la
