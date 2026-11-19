@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "Si usás este repositorio o sus datos, citalo así y citá también la fuente original (SAREM, MERCOSUR)."
+title: "Nomenclatura Común del MERCOSUR: versiones y correlaciones 2002–2026"
+abstract: "Versiones de la Nomenclatura Común del MERCOSUR (NCM) descargadas del sistema SAREM y sus tablas de correlación, encadenadas para llevar cualquier código de una versión a otra, con el tipo de cambio (igual, se divide, se fusiona, complejo) y controles contra las tablas directas de SAREM."
+type: software
+authors:
+  - alias: silvia-mov
+repository-code: "https://github.com/silvia-mov/nomenclaturas"
+url: "https://silvia-mov.github.io/nomenclaturas/"
+license: MIT
+date-released: "2026-11-19"
+keywords:
+  - Nomenclatura Común del MERCOSUR
+  - NCM
+  - Harmonized System
+  - correlation tables
+  - concordance
+  - MERCOSUR
+  - Paraguay

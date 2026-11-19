@@ -1,0 +1,11 @@
+# Originales de SAREM: se publican como releases del repositorio (zip), no en el código
+originales/*
+!originales/LEEME.md
+
+# Datos intermedios grandes (se regeneran con los programas)
+datos/*.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
