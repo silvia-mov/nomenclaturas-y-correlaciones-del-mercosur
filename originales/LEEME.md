@@ -26,16 +26,21 @@ carpeta no coinciden con la fecha: "49. 2022" es la versión `NCM_2022` (SAREM `
 
 ## Tabla de correlación de la OMA
 
-Para el paso a enero 2017 (VI Enmienda del SA) se usa la tabla oficial de la Organización Mundial de
-Aduanas, **SA 2012 → SA 2017** (Tabla II de octubre 2016 y su anexo del capítulo 44). No se publica
-aquí: se baja de la página de la OMA (*Correlation Tables HS 2012 – 2017*) y se guarda en
+Para los pasos a enero 2017 y enero 2022 (VI y VII Enmienda del SA) se usan las tablas oficiales de
+la Organización Mundial de Aduanas: **SA 2012 → SA 2017** (Tabla II de octubre 2016 y su anexo del
+capítulo 44) y **SA 2017 → SA 2022** (Tabla II de noviembre 2020). No se publican aquí: se bajan de
+la página de la OMA (*Correlation Tables HS 2012 – 2017* y *HS 2017 – 2022*) y se guardan en
 `originales/oma/`:
 
 ```
 originales/oma/
-├── table_ii_trp1217_en_rev1.pdf
-└── table_ii_a_trp1217_en.pdf
+├── table_ii_trp1217_en_rev1.pdf   SA 2012 -> 2017
+├── table_ii_a_trp1217_en.pdf      SA 2012 -> 2017, anexo del capítulo 44
+└── table-ii_en.pdf                SA 2017 -> 2022
 ```
+
+En el PDF de 2017 → 2022 hay dos erratas que el lector corrige: "28933.34" (2933.34 con la nota 2
+pegada) y "8549,29" (con coma).
 
 Según la propia OMA, estas tablas son una guía y no tienen valor legal.
 
@@ -77,3 +82,9 @@ originales/
   No se usan como control.
 - Para la VI Enmienda (setiembre 2016 → enero 2017), la tabla corta y las tablas largas no coinciden
   entre sí, y ninguna coincide del todo con la OMA. Ver el README, decisión 5.
+- Marzo 2019 (`NCM_201727`) tiene tablas de correlación pero no tiene versión descargada.
+- Las tablas de enero 2021 a julio 2021 (`NCM_201749_NCM_201755` y la inversa) traen 3923.30.00, que
+  dejó de existir en julio 2020. No se usan.
+- Las tablas largas no coinciden entre sí en qué códigos de 29.33 van a 2939.80 y qué partes de
+  máquinas van a 85.42: la tabla enero 2002 → julio 2018 trae 40 vínculos más que la de enero 2002 →
+  enero 2017. La OMA los admite en general ("subpartidas aplicables"), sin decir qué códigos.

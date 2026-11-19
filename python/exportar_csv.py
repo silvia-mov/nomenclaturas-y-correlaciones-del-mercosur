@@ -7,6 +7,7 @@ import csv, json, os, sys
 vers_path, cad_path, carpeta = sys.argv[1:4]
 V = json.load(open(vers_path, encoding='utf-8'))
 C = json.load(open(cad_path, encoding='utf-8'))
+V.update(C.get('versiones_extra', {}))   # versiones sin archivo de SAREM (armadas con las tablas)
 desc = lambda v, c: V[v]['codigos'].get(c, [''])[0]
 
 with open(os.path.join(carpeta, 'versiones.csv'), 'w', newline='', encoding='utf-8') as f:
@@ -32,4 +33,9 @@ with open(os.path.join(carpeta, f'cambios_por_paso_{RANGO}.csv'), 'w', newline='
     for p in C['pasos']:
         for o, d, ex, t, *nota in p['filas']:
             w.writerow([p['de'], p['a'], o, 'ex' if ex else '', d, t, nota[0] if nota else ''])
+with open(os.path.join(carpeta, 'vinculos_sarem_no_usados.csv'), 'w', newline='', encoding='utf-8') as f:
+    w = csv.writer(f)
+    w.writerow(['version_vieja', 'version_nueva', 'codigo_viejo', 'marca_sarem', 'codigo_nuevo', 'motivo'])
+    for x in C.get('descartes', []):
+        w.writerow([x['de'], x['a'], x['origen'], 'ex' if x['ex'] else '', x['destino'], x['motivo']])
 print('ok')

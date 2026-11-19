@@ -24,7 +24,8 @@ encadenadas versión por versión, con el tipo de cambio de cada código y contr
 | 2. Noviembre 2006 – enero 2010 (incluye la IV Enmienda del SA) | 9 | 9 tablas entre versiones seguidas | **Listo y controlado** |
 | 3. Octubre 2010 – enero 2015 (incluye la V Enmienda del SA) | 10 | 10 tablas entre versiones seguidas | **Listo y controlado** |
 | 4. Julio 2015 – enero 2019 (incluye la VI Enmienda del SA) | 10 | 10 tablas entre versiones seguidas, revisadas con la OMA | **Listo y controlado** |
-| 5. Marzo 2019 – 2026 | 23 versiones ya leídas | Tablas ya subidas | Pendiente |
+| 5. Marzo 2019 – enero 2022 (incluye la VII Enmienda del SA) | 10 (marzo 2019 sin archivo) | 10 tablas entre versiones seguidas, revisadas con la OMA | **Listo y controlado** |
+| 6. Julio 2022 – 2026 | 13 versiones ya leídas | Tablas ya subidas | Pendiente |
 
 ## Para qué sirve
 
@@ -41,13 +42,13 @@ encadenadas versión por versión, con el tipo de cambio de cada código y contr
   *Se fusiona*: varios viejos van a uno nuevo. *Complejo*: las dos cosas a la vez.
 - **Marca "ex" de SAREM.** Aparece solo cuando el código nuevo recibe mercadería de más de un código
   viejo. Las divisiones no llevan "ex" (comprobado en todas las tablas de versiones seguidas
-  2002–2019, sin excepciones).
+  2002–2022, sin excepciones).
   Por eso el tipo de cambio se calcula con los datos y no con la marca.
 - Si un código *se divide* o es *complejo*, la correspondencia es parcial: hay que mirar la
   descripción para saber a cuál de los destinos va cada producto. Las tablas de correlación ayudan,
   pero no tienen valor legal.
 
-## Enero 2002 – enero 2019
+## Enero 2002 – enero 2022
 
 Cantidad de códigos viejos según el tipo de cambio en cada paso.
 
@@ -87,19 +88,33 @@ Cantidad de códigos viejos según el tipo de cambio en cada paso.
 | ene 2016 → jul 2016 | 10.018 | 0 | 1 | 5 | 5 |
 | jul 2016 → ago 2016 | 10.020 | 1 | 14 | 0 | 0 |
 | ago 2016 → set 2016 | 10.020 | 1 | 0 | 55 | 0 |
-| **set 2016 → ene 2017** | **9.365** | **202** | **88** | **71** | **309** |
+| **set 2016 → ene 2017** | **9.298** | **209** | **88** | **81** | **359** |
 | ene 2017 → jul 2017 | 10.216 | 0 | 6 | 4 | 0 |
 | jul 2017 → ene 2018 | 10.227 | 0 | 10 | 1 | 1 |
 | ene 2018 → jul 2018 | 10.246 | 0 | 7 | 1 | 1 |
 | jul 2018 → ene 2019 | 10.257 | 0 | 5 | 3 | 1 |
+| ene 2019 → mar 2019 | 10.270 | 0 | 0 | 0 | 0 |
+| mar 2019 → jul 2019 | 10.267 | 0 | 3 | 0 | 0 |
+| jul 2019 → ene 2020 | 10.241 | 2 | 14 | 7 | 9 |
+| ene 2020 → jul 2020 | 10.297 | 3 | 0 | 0 | 0 |
+| jul 2020 → ene 2021 | 10.299 | 0 | 1 | 0 | 0 |
+| ene 2021 → abr 2021 | 10.300 | 0 | 1 | 0 | 0 |
+| abr 2021 → jul 2021 | 10.277 | 0 | 23 | 1 | 1 |
+| jul 2021 → set 2021 | 10.325 | 0 | 5 | 7 | 0 |
+| set 2021 → "2022" | 10.337 | 0 | 0 | 0 | 0 |
+| **"2022" → ene 2022** | **7.353** | **125** | **56** | **82** | **2.721** |
 
-Los pasos a enero 2007, enero 2012 y enero 2017 son la IV, la V y la VI Enmienda del Sistema
-Armonizado (cambian 1.414, 613 y 670 códigos). Agosto 2016 abre 14 códigos que setiembre 2016 vuelve
+Los pasos a enero 2007, enero 2012, enero 2017 y enero 2022 son la IV, la V, la VI y la VII Enmienda
+del Sistema Armonizado (cambian 1.414, 613, 737 y 2.984 códigos). En 2022 hay tantos complejos porque
+los residuos electrónicos (85.49) y los módulos de pantallas (85.24) pueden venir de casi cualquier
+máquina o aparato, y la OMA lo registra así. Marzo 2019 no tiene versión descargada en SAREM: sus
+códigos se arman desde enero 2019 con la tabla de correlación. "2022" es la carpeta "49. 2022" de
+SAREM (mismos códigos que setiembre 2021). Agosto 2016 abre 14 códigos que setiembre 2016 vuelve
 a juntar: julio y setiembre 2016 tienen los mismos códigos.
 
 **Controles.**
-1. En las 39 tablas, cada código que desaparece tiene destino y cada código que aparece tiene origen.
-2. La cadena armada paso a paso se compara con las 29 tablas directas de SAREM que cuadran con sus
+1. En las 49 tablas, cada código que desaparece tiene destino y cada código que aparece tiene origen.
+2. La cadena armada paso a paso se compara con las 28 tablas directas de SAREM que cuadran con sus
    versiones. Hasta enero 2016 coincide exactamente. En las que cruzan enero 2017, todas las
    diferencias se explican por la decisión 5 (ver la hoja *Resumen* del Excel): 0 sin explicar.
 3. **Decisión 2007:** la tabla de SAREM de noviembre 2006 a enero 2007 está incompleta (le faltan 9
@@ -108,16 +123,18 @@ a juntar: julio y setiembre 2016 tienen los mismos códigos.
 4. **Decisión 2012:** a la tabla de octubre 2011 a enero 2012 le faltan 19 vínculos hacia la partida
    nueva 96.19 (compresas, tampones y pañales de cualquier materia), desde los capítulos 39, 61, 62 y
    63. Se agregan desde la tabla enero 2011 → enero 2012, y coinciden con las tablas largas.
-5. **Decisión 2017 (con la OMA):** las tablas de SAREM para la VI Enmienda no coinciden entre sí, y se
-   revisaron contra la tabla de correlación oficial de la OMA (SA 2012 → 2017, 6 dígitos). Regla:
+5. **Enmiendas 2017 y 2022 (con la OMA):** las tablas de SAREM para la VI y la VII Enmienda no
+   coinciden entre sí, y se revisaron contra las tablas de correlación oficiales de la OMA (SA 2012 →
+   2017 y SA 2017 → 2022, 6 dígitos). La OMA da el origen por subpartida, por partida o por capítulo
+   ("subpartidas aplicables, en particular de las partidas o capítulos..."); en esos casos cualquier
+   subpartida de la partida o capítulo puede ir a esos destinos. Regla:
    - cambios dentro de una misma subpartida de 6 dígitos: tal cual vienen de SAREM;
-   - cambios entre subpartidas que la OMA registra y le faltan a la tabla corta: se agregan (116 desde
-     la tabla SAREM enero 2016 → enero 2017, sobre todo despojos de pescado hacia 0302.99 y 0303.99;
-     62 para toda la subpartida: 2939.99 → 2939.80 y 3808.92 → 3808.59);
-   - vínculos de SAREM que la OMA no registra: se mantienen, marcados (42: 29.33/29.34 → 2939.80,
-     29.22 → 2922.19, 03.05 → 0305.32);
-   - los vínculos de las tablas largas hacia circuitos integrados (85.42) y 3004.60 no se usan: la OMA
-     no los registra.
+   - cambios entre subpartidas que la OMA registra y le faltan a la tabla corta: se agregan desde la
+     tabla larga de SAREM, o para toda la subpartida si ninguna tabla los trae (2017: 547, sobre todo
+     despojos de pescado hacia 0302.99/0303.99 y circuitos integrados 85.42; 2022: 320);
+   - vínculos de SAREM que la OMA no registra: en 2017 se mantienen marcados (6); en 2022 no se usan
+     (8, en `datos/vinculos_sarem_no_usados.csv`), salvo que un código quede sin destino o un destino
+     sin origen (18, marcados).
    Cada vínculo agregado o marcado tiene su nota en el Excel y en los CSV.
 
 ## Inicio rápido
@@ -128,10 +145,10 @@ se bajan los zip de las releases y los PDF de la OMA, y se guardan en `originale
 
 ```bash
 python python/leer_versiones.py originales/nomenclaturas datos/versiones.json
-python python/leer_oma.py originales/oma datos/oma_2012_2017.json
-python python/encadenar.py datos/versiones.json originales/correlaciones datos/cadena.json datos/oma_2012_2017.json
+python python/leer_oma.py originales/oma datos
+python python/encadenar.py datos/versiones.json originales/correlaciones datos/cadena.json datos
 python python/exportar_csv.py datos/versiones.json datos/cadena.json datos
-python python/excel_mapeo.py datos/versiones.json datos/cadena.json salidas/Mapeo_NCM_2002-2019.xlsx
+python python/excel_mapeo.py datos/versiones.json datos/cadena.json salidas/Mapeo_NCM_2002-2022.xlsx
 ```
 
 | Carpeta | Contenido |

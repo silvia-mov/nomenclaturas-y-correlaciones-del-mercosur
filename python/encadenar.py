@@ -1,6 +1,6 @@
 """Encadena las correlaciones de SAREM entre versiones seguidas de la NCM.
 
-Uso: python python/encadenar.py datos/versiones.json originales/correlaciones datos/cadena.json datos/oma_2012_2017.json
+Uso: python python/encadenar.py datos/versiones.json originales/correlaciones datos/cadena.json datos
 
 La cadena va de la primera a la última versión de ORDEN. Cada paso usa la tabla de SAREM de una
 versión a la siguiente. Como control, se compara la cadena con todas las tablas directas de SAREM
@@ -9,13 +9,30 @@ versión a la siguiente. Como control, se compara la cadena con todas las tablas
 import json, sys, os, re, collections
 import openpyxl
 
-vers_path, carpeta, salida, oma_path = sys.argv[1:5]
+vers_path, carpeta, salida, oma_dir = sys.argv[1:5]
 V = json.load(open(vers_path, encoding='utf-8'))
-OMA = json.load(open(oma_path, encoding='utf-8'))
+# tablas de la OMA leídas por leer_oma.py: datos/oma_2012_2017.json y datos/oma_2017_2022.json
+# El origen de la OMA puede ser una subpartida (6 dígitos), una partida (4) o un capítulo (2).
+W_ED = {}
+for ed in ('2012_2017', '2017_2022'):
+    oma = json.load(open(os.path.join(oma_dir, f'oma_{ed}.json'), encoding='utf-8'))
+    W_ED[ed] = collections.defaultdict(set)
+    for a, b6, _ in oma['tabla'] + oma['anexo44']:
+        W_ED[ed][a].add(b6)
+
+
+def oma_dest(ed, o6):
+    """Subpartidas de destino que la OMA admite para la subpartida o6 (incluye seguir en o6 si no cambia)."""
+    W = W_ED[ed]
+    base = set(W[o6]) if o6 in W else {o6}
+    return base | W.get(o6[:4], set()) | W.get(o6[:2], set())
 
 # versión de la NCM -> número interno de SAREM (comprobado código por código).
 # Tramo 1: enero 2002 - octubre 2006. Tramo 2: noviembre 2006 - enero 2010. Tramo 3: octubre 2010 - enero 2015.
 # Tramo 4: julio 2015 - enero 2019 (agosto 2016 abre 14 códigos que setiembre 2016 vuelve a juntar).
+# Tramo 5: marzo 2019 - enero 2022. Marzo 2019 no tiene versión descargada: sus códigos se arman con la
+# tabla de SAREM desde enero 2019 (ver DERIVADAS). "NCM_2022" es la carpeta "49. 2022" (mismos códigos
+# que setiembre 2021).
 ORDEN = [('NCM_2002_1', 'NCM_200201'), ('NCM_2002_7', 'NCM_200207'), ('NCM_2003_1', 'NCM_200213'),
          ('NCM_2003_7', 'NCM_200219'), ('NCM_2004_1', 'NCM_200225'), ('NCM_2004_7', 'NCM_200231'),
          ('NCM_2005_1', 'NCM_200237'), ('NCM_2005_4', 'NCM_200240'), ('NCM_2006_1', 'NCM_200249'),
@@ -29,11 +46,17 @@ ORDEN = [('NCM_2002_1', 'NCM_200201'), ('NCM_2002_7', 'NCM_200207'), ('NCM_2003_
          ('NCM_2015_1', 'NCM_201237'), ('NCM_2015_7', 'NCM_201243'), ('NCM_2016_1', 'NCM_201249'),
          ('NCM_2016_7', 'NCM_201255'), ('NCM_2016_8', 'NCM_201256'), ('NCM_2016_9', 'NCM_201257'),
          ('NCM_2017_1', 'NCM_201701'), ('NCM_2017_7', 'NCM_201707'), ('NCM_2018_1', 'NCM_201713'),
-         ('NCM_2018_7', 'NCM_201719'), ('NCM_2019_1', 'NCM_201725')]
+         ('NCM_2018_7', 'NCM_201719'), ('NCM_2019_1', 'NCM_201725'),
+         ('NCM_2019_3', 'NCM_201727'), ('NCM_2019_7', 'NCM_201731'), ('NCM_2020_1', 'NCM_201737'),
+         ('NCM_2020_7', 'NCM_201743'), ('NCM_2021_1', 'NCM_201749'), ('NCM_2021_4', 'NCM_201752'),
+         ('NCM_2021_7', 'NCM_201755'), ('NCM_2021_9', 'NCM_201757'), ('NCM_2022', 'NCM_201760'),
+         ('NCM_2022_1', 'NCM_202201')]
 SAREM = dict(ORDEN)
 VERSION = {s: v for v, s in ORDEN}
 IDX = {v: i for i, (v, _) in enumerate(ORDEN)}
-S = {v: set(V[v]['codigos']) for v, _ in ORDEN}
+S = {v: set(V[v]['codigos']) for v, _ in ORDEN if v in V}
+# versiones sin archivo de SAREM: se arman desde la versión anterior con la tabla de correlación
+DERIVADAS = {'NCM_2019_3': {'desde': 'NCM_2019_1', 'anio': 2019, 'mes': 3}}
 FIN = ORDEN[-1][0]
 
 TABLAS = {}
@@ -62,6 +85,17 @@ def leer(path):
             if r[1] == 'ex':
                 ex.add((o, d))
     return rows[2][0], rows[2][2], pares, ex
+
+
+VERSIONES_EXTRA = {}
+for v, cfg in DERIVADAS.items():
+    _, _, pares0, _ = leer(TABLAS[(SAREM[cfg['desde']], SAREM[v])])
+    m0 = collections.defaultdict(set)
+    for o, d in pares0:
+        m0[o].add(d)
+    S[v] = set().union(*(m0.get(c, {c}) for c in S[cfg['desde']]))
+    VERSIONES_EXTRA[v] = {'anio': cfg['anio'], 'mes': cfg['mes'], 'codigos': {c: V[cfg['desde']]['codigos'].get(c, ['']) for c in S[v]},
+                          'titulo': f'Sin archivo en SAREM: armada desde {cfg["desde"]} con la tabla de correlación'}
 
 
 def relacion(va, vb, pares):
@@ -116,18 +150,21 @@ AGREGAR = {('NCM_2011_10', 'NCM_2012_1'): {'tabla': ('NCM_200749', 'NCM_201201')
 #  - cambios dentro de la misma subpartida de 6 dígitos: tal cual vienen de SAREM;
 #  - cambios de la OMA que faltan: se agregan con los códigos de 8 dígitos de la tabla larga de SAREM
 #    indicada; si no hay ninguno, con todos los códigos de 8 dígitos de las dos subpartidas;
-#  - vínculos de SAREM que la OMA no registra: se mantienen, marcados.
-VERIFICAR_OMA = {('NCM_2016_9', 'NCM_2017_1'): {'larga': ('NCM_201249', 'NCM_201701')}}
-W_OMA = collections.defaultdict(set)
-for a6, b6, _ in OMA['tabla'] + OMA['anexo44']:
-    W_OMA[a6].add(b6)
+#  - vínculos de SAREM que la OMA no registra: se mantienen, marcados (modo 'marcar').
+# "NCM_2022" -> enero 2022 (VII Enmienda del SA): de 24.028 vínculos entre subpartidas, 23.066 no los
+# registra la OMA (sobre todo 85.49 residuos electrónicos y 85.24 módulos de pantallas, desde miles de
+# códigos de máquinas y aparatos). Dejarlos daría destinos falsos a 1 de cada 4 códigos, así que en
+# este paso NO se usan (modo 'descartar'): van a la lista de vínculos de SAREM no usados, con su motivo.
+# Si un código se quedara sin destino, o un destino sin origen, sus vínculos se mantienen marcados.
+VERIFICAR_OMA = {('NCM_2016_9', 'NCM_2017_1'): {'larga': ('NCM_201249', 'NCM_201701'), 'edicion': '2012_2017', 'modo': 'marcar'},
+                 ('NCM_2022', 'NCM_2022_1'): {'larga': ('NCM_201757', 'NCM_202201'), 'edicion': '2017_2022', 'modo': 'descartar'}}
 
 # Tablas que no sirven como control.
 _HERMANOS = 'une códigos hermanos creados en julio 2007 (por ejemplo 8431.49.21 "Cabinas" -> 8431.49.22 "Orugas")'
 NO_CONTROL = {('NCM_200707', 'NCM_201249'): _HERMANOS, ('NCM_200707', 'NCM_201701'): _HERMANOS}
 
 # ---------- pasos entre versiones seguidas ----------
-pasos = []
+pasos, descartes = [], []
 for (va, sa), (vb, sb) in zip(ORDEN, ORDEN[1:]):
     ta, tb = REEMPLAZO.get((va, vb), (sa, sb))
     if (ta, tb) != (sa, sb):
@@ -149,25 +186,40 @@ for (va, sa), (vb, sb) in zip(ORDEN, ORDEN[1:]):
         print(f'{va} -> {vb}: se agregan {len(agregados)} vínculos a {cfg["destino"]} desde {cfg["tabla"][0]}_{cfg["tabla"][1]}')
     if (va, vb) in VERIFICAR_OMA:
         cfg = VERIFICAR_OMA[(va, vb)]
+        ed = cfg['edicion']; W_OMA = W_ED[ed]
+        sin = [(o, d) for o, d in pares if o[:6] != d[:6] and d[:6] not in oma_dest(ed, o[:6])]
+        if cfg['modo'] == 'descartar':
+            quedan = [par for par in pares if par not in set(sin)]
+            orig_ok = {o for o, _ in quedan}; dest_ok = {d for _, d in quedan}
+            # se mantienen (marcados) los vínculos sin respaldo que dejarían un código sin destino o un destino sin origen
+            necesarios = {(o, d) for o, d in sin if (o not in orig_ok and o not in S[vb]) or (d not in dest_ok and d not in S[va])}
+            for o, d in sin:
+                if (o, d) in necesarios:
+                    notas[(o, d)] = 'sin respaldo de la OMA (se mantiene: si no, el código queda sin destino o el destino sin origen)'
+                else:
+                    descartes.append({'de': va, 'a': vb, 'origen': o, 'destino': d, 'ex': (o, d) in ex,
+                                      'motivo': f'la OMA (SA {cfg["edicion"].replace("_", " -> ")}) no registra {o[:4]}.{o[4:6]} -> {d[:4]}.{d[4:6]}'})
+            pares = [par for par in pares if par not in set(sin) or par in necesarios]
+        else:
+            for o, d in sin:
+                notas[(o, d)] = 'sin respaldo de la OMA (se mantiene)'
         r6 = collections.defaultdict(set)
         for o, d in pares:
             r6[o[:6]].add(d[:6])
-        for o, d in pares:
-            if o[:6] != d[:6] and d[:6] not in W_OMA.get(o[:6], {o[:6]}):
-                notas[(o, d)] = 'sin respaldo de la OMA (se mantiene)'
         _, _, larga, _ = leer(TABLAS[cfg['larga']])
         ya = set(pares)
         nota_l = f'agregado: lo registra la OMA (8 dígitos de la tabla SAREM {cfg["larga"][0]}_{cfg["larga"][1]})'
         nota_s = 'agregado: lo registra la OMA (todos los códigos de las dos subpartidas)'
         # 1) vínculos de la tabla larga que la OMA confirma a 6 dígitos y faltan en la tabla corta
         nuevos = sorted({(o, d) for o, d in larga if o in S[va] and d in S[vb] and o[:6] != d[:6]
-                         and d[:6] in W_OMA.get(o[:6], set()) and (o, d) not in ya})
+                         and d[:6] in oma_dest(ed, o[:6]) and (o, d) not in ya})
         for par in nuevos:
             notas[par] = nota_l
             r6[par[0][:6]].add(par[1][:6])
-        # 2) cambios de la OMA (6 dígitos) que siguen sin ningún vínculo: toda la subpartida
+        # 2) cambios de la OMA dados por subpartida (6 dígitos) que siguen sin ningún vínculo: toda la
+        #    subpartida. Los dados por partida o capítulo ("subpartidas aplicables...") no se completan así.
         for a6 in sorted({c[:6] for c in S[va]}):
-            for b6 in sorted(W_OMA.get(a6, set())):
+            for b6 in sorted(W_OMA.get(a6, set()) if a6 in W_OMA else set()):
                 if b6 != a6 and b6 not in r6.get(a6, set()):
                     cand = [(o, d) for o in sorted(S[va]) if o[:6] == a6 for d in sorted(S[vb]) if d[:6] == b6]
                     for par in cand:
@@ -176,12 +228,18 @@ for (va, sa), (vb, sb) in zip(ORDEN, ORDEN[1:]):
         # un código que en la tabla corta seguía igual conserva su destino propio
         base = {o for o, _ in pares}
         nuevos += [(o, o) for o, _ in nuevos if o not in base and o in S[vb]]
+        if cfg['modo'] == 'descartar':
+            # un código que quedó sin vínculos al descartar y existe en la versión nueva sigue igual
+            base = {o for o, _ in pares} | {o for o, _ in nuevos}
+            con_descarte = {x['origen'] for x in descartes if x['de'] == va}
+            nuevos += [(o, o) for o in S[va] if o not in base and o in S[vb] and o in con_descarte]
         nuevos = sorted(set(nuevos) - set(pares))
         pares = pares + nuevos
         ex = ex | set(nuevos)
         agregados += nuevos
-        print(f'{va} -> {vb}: OMA: se agregan {len(nuevos)} vínculos y se marcan '
-              f'{sum(1 for n in notas.values() if n.startswith("sin respaldo"))} sin respaldo')
+        print(f'{va} -> {vb}: OMA ({cfg["modo"]}): se agregan {len(nuevos)} vínculos, se marcan '
+              f'{sum(1 for n in notas.values() if n.startswith("sin respaldo"))} sin respaldo y se descartan '
+              f'{sum(1 for x in descartes if x["de"] == va)}')
     rel = relacion(va, vb, pares)
     assert set(rel) == S[va] and set().union(*rel.values()) == S[vb], (va, vb)
     pasos.append({'de': va, 'a': vb, 'rel': rel, 'ex': ex, 'tipo': tipo(rel), 'agregados': agregados, 'notas': notas})
@@ -222,14 +280,19 @@ for (sa, sb), path in sorted(TABLAS.items()):
 # OMA no manda nada desde esa subpartida.
 destinos_nota = {d for p in pasos for (_, d) in p['notas']}
 for k in controles:
-    cruza = any(IDX[k['de']] <= IDX[va] and IDX[vb] <= IDX[k['a']] for va, vb in VERIFICAR_OMA)
+    eds = [cfg['edicion'] for (va, vb), cfg in VERIFICAR_OMA.items() if IDX[k['de']] <= IDX[va] and IDX[vb] <= IDX[k['a']]]
+    cruza = bool(eds)
     def sin_oma(o, d):
-        return o[:6] != d[:6] and d[:6] not in W_OMA.get(o[:6], {o[:6]})
+        return o[:6] != d[:6] and all(d[:6] not in oma_dest(e, o[:6]) for e in eds)
     def con_oma(o, d):
-        return o[:6] != d[:6] and d[:6] in W_OMA.get(o[:6], set())
+        return o[:6] != d[:6] and any(d[:6] in oma_dest(e, o[:6]) for e in eds)
     # en la cadena: destino agregado o marcado, o un cambio que la OMA registra y le falta a la tabla larga
     k['solo_cadena_sin_explicar'] = [par for par in k['solo_cadena'] if not (cruza and (par[1] in destinos_nota or con_oma(*par)))]
-    k['solo_sarem_sin_explicar'] = [par for par in k['solo_sarem'] if not (cruza and sin_oma(*par))]
+    def por_texto(o, d):
+        # la OMA lo admite solo en general ("subpartidas aplicables de las partidas o capítulos..."), sin decir
+        # qué códigos: las tablas de SAREM pueden no coincidir entre sí en cuáles códigos de 8 dígitos entran
+        return o[:6] != d[:6] and any(d[:6] in (W_ED[e].get(o[:4], set()) | W_ED[e].get(o[:2], set())) for e in eds)
+    k['solo_sarem_sin_explicar'] = [par for par in k['solo_sarem'] if not (cruza and (sin_oma(*par) or por_texto(*par)))]
 
 # ---------- camino de cada (código, versión) hasta la última versión ----------
 filas = []
@@ -274,6 +337,7 @@ for g in agrup:
     g.pop('clave')
 
 json.dump({'orden': ORDEN, 'fin': FIN, 'controles': controles, 'descartadas': descartadas, 'agrupado': agrup,
+           'versiones_extra': VERSIONES_EXTRA, 'descartes': descartes,
            'pasos': [{'de': p['de'], 'a': p['a'],
                       'filas': [(o, d, (o, d) in p['ex'], p['tipo'][o], p['notas'].get((o, d), '')) for o in sorted(p['rel'])
                                 for d in sorted(p['rel'][o]) if p['tipo'][o] != 'igual'],

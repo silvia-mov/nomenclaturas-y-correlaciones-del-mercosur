@@ -11,9 +11,11 @@ from openpyxl.utils import get_column_letter
 vers_path, cad_path, out = sys.argv[1:4]
 V = json.load(open(vers_path, encoding='utf-8'))
 C = json.load(open(cad_path, encoding='utf-8'))
+V.update(C.get('versiones_extra', {}))   # versiones sin archivo de SAREM (armadas con las tablas)
 ORDEN = C['orden']; FIN = C['fin']; INI = ORDEN[0][0]
 MESES = {1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril', 7: 'Julio', 8: 'Agosto', 9: 'Setiembre', 10: 'Octubre', 11: 'Noviembre'}
-def fecha(v): return f"{MESES[V[v]['mes']]} {V[v]['anio']}" if V[v]['mes'] else str(V[v]['anio'])
+NOMBRES = {'NCM_2022': '"2022" (setiembre 2021)'}
+def fecha(v): return NOMBRES.get(v) or (f"{MESES[V[v]['mes']]} {V[v]['anio']}" if V[v]['mes'] else str(V[v]['anio']))
 def corto(v): return fecha(v)[:3].lower() + '-' + str(V[v]['anio'])
 def fmt(c): return f'{c[:4]}.{c[4:6]}.{c[6:]}'
 def desc(v, c): return V[v]['codigos'].get(c, [''])[0]
@@ -63,17 +65,31 @@ body(wm, 2)
 
 # ---------- Cambios por paso ----------
 wc = wb.create_sheet('Cambios_por_paso')
-header(wc, 1, ['Paso', 'Código viejo', 'Descripción vieja', 'Marca SAREM', 'Código nuevo', 'Descripción nueva', 'Tipo de cambio', 'Nota'],
-       [26, 11, 50, 9, 11, 50, 14, 60])
+header(wc, 1, ['Paso', 'Código viejo', 'Descripción vieja', 'Marca SAREM', 'Código nuevo', 'Descripción nueva', 'Tipo de cambio', 'Nota',
+               'Primera fila del código viejo en el paso (1 = sí)'],
+       [26, 11, 50, 9, 11, 50, 14, 60, 12])
 for p in C['pasos']:
     nombre = f"{fecha(p['de'])} → {fecha(p['a'])}"
+    vistos = set()
     for o, d, ex, t, *nota in p['filas']:
-        wc.append([nombre, o, desc(p['de'], o), 'ex' if ex else '', d, desc(p['a'], d), t, nota[0] if nota else ''])
+        wc.append([nombre, o, desc(p['de'], o), 'ex' if ex else '', d, desc(p['a'], d), t, nota[0] if nota else '',
+                   0 if o in vistos else 1])
+        vistos.add(o)
 NC = wc.max_row
 for k, col in COLOR.items():
     wc.conditional_formatting.add(f'G2:G{NC}', FormulaRule(formula=[f'$G2="{k}"'], fill=PatternFill('solid', fgColor=col)))
-wc.freeze_panes = 'B2'; wc.auto_filter.ref = f'A1:H{NC}'
+wc.freeze_panes = 'B2'; wc.auto_filter.ref = f'A1:I{NC}'
 body(wc, 2)
+
+# ---------- Vínculos de SAREM no usados ----------
+wd = wb.create_sheet('SAREM_no_usados')
+header(wd, 1, ['Paso', 'Código viejo', 'Descripción vieja', 'Marca SAREM', 'Código nuevo', 'Descripción nueva', 'Motivo'],
+       [26, 11, 45, 9, 11, 45, 70])
+for x in C.get('descartes', []):
+    wd.append([f"{fecha(x['de'])} → {fecha(x['a'])}", x['origen'], desc(x['de'], x['origen']), 'ex' if x['ex'] else '',
+               x['destino'], desc(x['a'], x['destino']), x['motivo']])
+wd.freeze_panes = 'B2'; wd.auto_filter.ref = f'A1:G{max(wd.max_row, 2)}'
+body(wd, 2)
 
 # ---------- Versiones ----------
 wv = wb.create_sheet('Versiones')
@@ -94,14 +110,14 @@ wr['A2'].font = Font(name=A, size=10, italic=True)
 cols = ['Paso', 'Códigos en la versión vieja', 'Igual', 'Renumerado', 'Se divide', 'Se fusiona', 'Complejo']
 for j, h in enumerate(cols, 1):
     c = wr.cell(4, j, h); c.font = HF; c.fill = HFILL; c.alignment = Alignment(wrap_text=True)
-rng = f'Cambios_por_paso!$A$2:$A${NC}'; rngt = f'Cambios_por_paso!$G$2:$G${NC}'; rngo = f'Cambios_por_paso!$B$2:$B${NC}'
+rng = f'Cambios_por_paso!$A$2:$A${NC}'; rngt = f'Cambios_por_paso!$G$2:$G${NC}'; rngp = f'Cambios_por_paso!$I$2:$I${NC}'
 for i, p in enumerate(C['pasos']):
     rr = 5 + i
     wr.cell(rr, 1, f"{fecha(p['de'])} → {fecha(p['a'])}")
     wr.cell(rr, 2, len(V[p['de']]['codigos']))
     for j, t in zip(range(4, 8), ['renumerado', 'se divide', 'se fusiona', 'complejo']):
-        # cada fila de Cambios_por_paso es un par: se cuentan códigos viejos distintos
-        wr.cell(rr, j, f'=SUMPRODUCT(({rng}=$A{rr})*({rngt}="{t}")/COUNTIFS({rng},{rng}&"",{rngo},{rngo}&""))')
+        # cada fila de Cambios_por_paso es un par: se cuenta cada código viejo una vez (columna I = 1)
+        wr.cell(rr, j, f'=COUNTIFS({rng},$A{rr},{rngt},"{t}",{rngp},1)')
     wr.cell(rr, 3, f'=B{rr}-SUM(D{rr}:G{rr})')
 last = 4 + len(C['pasos'])
 for row in wr.iter_rows(min_row=5, max_row=last):
@@ -126,7 +142,7 @@ for i, k in enumerate(C['controles']):
         if j >= 3: c.number_format = '#,##0'
 rn = r0 + 3 + len(C['controles'])
 wr.cell(rn, 1, 'Las diferencias "explicadas" vienen de las decisiones del paso a enero 2017 (ver Leeme): vínculos agregados o marcados '
-               'en la cadena, y vínculos de SAREM que la OMA no registra (circuitos integrados 85.42 y 3004.60).').font = Font(name=A, size=9, italic=True)
+               'en la cadena; vínculos de SAREM que la OMA no registra; y vínculos que la OMA admite solo en general ("subpartidas aplicables de...") en los que las tablas de SAREM no coinciden entre sí.').font = Font(name=A, size=9, italic=True)
 for k2, dsc in enumerate(C.get('descartadas', [])):
     if 'hermanos' in dsc['motivo']:
         wr.cell(rn + 1 + k2, 1, f"No usada como control: {dsc['tabla']} ({fecha(dsc['de'])} → {fecha(dsc['a'])}): {dsc['motivo']}.").font = Font(name=A, size=9, italic=True)
@@ -154,7 +170,10 @@ notas = [
     ('Decisiones y problemas de SAREM', None),
     ('Noviembre 2006 → enero 2007', 'La tabla de SAREM está incompleta: le faltan 9 vínculos (pelo fino en los capítulos 61 y 62, y 8517.62.59). Se usó la tabla directa de octubre 2006 a enero 2007, que tiene los mismos códigos de origen.'),
     ('Octubre 2011 → enero 2012', 'A la tabla de SAREM le faltan 19 vínculos hacia la partida nueva 96.19 (compresas, tampones y pañales de cualquier materia), desde los capítulos 39, 61, 62 y 63. Se agregaron desde la tabla enero 2011 → enero 2012, y coinciden con las tablas largas desde 2002 y 2007.'),
-    ('Setiembre 2016 → enero 2017', 'VI Enmienda del SA. Se revisó contra la tabla de la OMA (SA 2012 → 2017). Cambios dentro de la misma subpartida de 6 dígitos: de SAREM. Cambios entre subpartidas que la OMA registra y faltaban: se agregaron (116 desde la tabla SAREM enero 2016 → enero 2017, sobre todo despojos de pescado hacia 0302.99 y 0303.99; 62 para toda la subpartida: 2939.99 → 2939.80 y 3808.92 → 3808.59). Vínculos de SAREM que la OMA no registra: se mantienen marcados (42: 29.33/29.34 → 2939.80, 29.22 → 2922.19, 03.05 → 0305.32). Los vínculos de las tablas largas hacia circuitos integrados (85.42) y 3004.60 no se usaron: la OMA no los registra.'),
+    ('Cómo se usa la tabla de la OMA', 'Los cambios entre subpartidas de 6 dígitos se comparan con la tabla de correlación de la OMA. La OMA da el origen por subpartida, por partida o por capítulo ("subpartidas aplicables, en particular de las partidas o capítulos..."): en esos casos cualquier subpartida de la partida o capítulo puede ir a esos destinos.'),
+    ('Setiembre 2016 → enero 2017', 'VI Enmienda del SA (OMA SA 2012 → 2017). Cambios dentro de una subpartida: de SAREM. Cambios que la OMA registra y faltaban en la tabla corta: se agregaron 547 (desde la tabla SAREM enero 2016 → enero 2017: despojos de pescado hacia 0302.99 y 0303.99, y circuitos integrados 85.42 desde los capítulos 84, 85, 90, 93 y 95; y para toda la subpartida 2939.99 → 2939.80 y 3808.92 → 3808.59). Vínculos que la OMA no registra: se mantienen marcados (6).'),
+    ('"2022" → enero 2022', 'VII Enmienda del SA (OMA SA 2017 → 2022). Igual que en 2017, pero los vínculos que la OMA no registra NO se usan (8, en la hoja SAREM_no_usados), salvo que un código quede sin destino o un destino sin origen (18, marcados). Se agregaron 320 que la OMA registra y faltaban. Los residuos electrónicos (85.49) y los módulos de pantallas (85.24) desde muchos capítulos sí están en la OMA.'),
+    ('Marzo 2019', 'No tiene versión descargada en SAREM: sus códigos se armaron desde enero 2019 con la tabla de correlación.'),
     ('Enero 2002 ↔ julio 2018', 'Las tablas largas dicen 0101.21.01 (no existe) en lugar de 0101.21.00. Se corrigió al leerlas.'),
     ('Julio 2007 → enero 2016 y enero 2017', 'Las tablas largas desde julio 2007 unen entre sí códigos hermanos creados en julio 2007 (por ejemplo 8431.49.21 "Cabinas" con 8431.49.22 "Orugas"). No se usaron como control.'),
     ('Agosto 2016', 'Abre 14 códigos en 55 que setiembre 2016 vuelve a juntar: julio y setiembre 2016 tienen los mismos códigos.'),
@@ -173,7 +192,7 @@ for k, v in notas:
     r += 1
 wl.column_dimensions['A'].width = 30; wl.column_dimensions['B'].width = 110
 
-wb._sheets = [wb[n] for n in ['Leeme', 'Resumen', 'Mapeo', 'Cambios_por_paso', 'Versiones']]
+wb._sheets = [wb[n] for n in ['Leeme', 'Resumen', 'Mapeo', 'Cambios_por_paso', 'SAREM_no_usados', 'Versiones']]
 wb.active = 0
 wb.save(out)
 print('ok', NM - 1, 'filas de mapeo', NC - 1, 'filas de cambios')

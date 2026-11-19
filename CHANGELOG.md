@@ -2,6 +2,14 @@
 
 ## Sin publicar
 
+- **Tramo 5, marzo 2019 – enero 2022** (incluye la VII Enmienda del SA): la cadena llega a enero 2022
+  (`datos/mapeo_2002_2022.csv`, `salidas/Mapeo_NCM_2002-2022.xlsx`). Marzo 2019 se arma con la tabla de
+  SAREM porque no tiene versión descargada. El paso a enero 2022 se revisa con la OMA (SA 2017 → 2022):
+  los vínculos que la OMA no registra no se usan y van a `datos/vinculos_sarem_no_usados.csv`.
+- **Corrección:** `leer_oma.py` ahora lee las entradas de la OMA escritas en texto ("subpartidas
+  aplicables, en particular de las partidas o capítulos..."). Con eso cambia el paso a enero 2017: los
+  vínculos hacia circuitos integrados (85.42) y desde 29.33/29.34 hacia 2939.80 sí tienen respaldo de
+  la OMA (sin respaldo quedan 6, antes 42).
 - **Tramo 4, julio 2015 – enero 2019** (incluye la VI Enmienda del SA): la cadena llega a enero 2019
   (`datos/mapeo_2002_2019.csv`, `salidas/Mapeo_NCM_2002-2019.xlsx`). El paso a enero 2017 se revisa
   contra la tabla de correlación de la OMA (`python/leer_oma.py`): se agregan los cambios que la OMA
