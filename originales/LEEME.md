@@ -11,10 +11,18 @@ MERCOSUR ni cuenta con su participación o apoyo.
 | Release | Zip | Contenido |
 |---|---|---|
 | `nomenclaturas` | `Sistema.de.descarga.de.nomenclaturas.zip` | Las versiones de la NCM, 2002–2026 (63 archivos `NCM_AAAA_M.xlsx`) |
-| `correlaciones` | `1.ENERO.2002.-.JULIO.2006.zip` | Tablas de correlación de enero 2002 a julio 2006 |
+| `correlaciones` | `1.ENERO.2002.-.JULIO.2006.zip` | Tablas de enero 2002 a julio 2006 (36 tablas) |
+| `correlaciones` | `2.OCTUBRE.2006.-.ENERO.2010.zip` | Octubre 2006 a enero 2010 (57 tablas) |
+| `correlaciones` | `3.OCTUBRE.2010.-.ENERO.2015.zip` | Octubre 2010 a enero 2015 (38 tablas) |
+| `correlaciones` | `4.JULIO.2015.-.ENERO.2019.zip` | Julio 2015 a enero 2019 (33 tablas) |
+| `correlaciones` | `5.MARZO.2019.-.ENERO.2022.zip` | Marzo 2019 a enero 2022 (24 tablas) |
+| `correlaciones` | `6.JULIO.2022.-.OCTUBRE.2025.zip` | Julio 2022 a octubre 2025 (21 tablas) |
+| `correlaciones` | `7.ENERO.2026.-.OCTUBRE.2026.zip` | Enero 2026 a octubre 2026 (6 tablas) |
 
-Los tramos siguientes de correlaciones (desde 2007) se agregan como zip nuevos en la release
-`correlaciones`.
+Las correlaciones vienen en 63 carpetas, una por versión de la NCM. En cada carpeta hay una tabla
+hacia la versión siguiente: la cadena está completa de enero 2002 a octubre 2026. Dos nombres de
+carpeta no coinciden con la fecha: "49. 2022" es la versión `NCM_2022` (SAREM `NCM_201760`) y
+"62. FEBRERO 2023" es en realidad **febrero 2026** (`NCM_2026_2`, SAREM `NCM_202250`).
 
 ## Formato
 
