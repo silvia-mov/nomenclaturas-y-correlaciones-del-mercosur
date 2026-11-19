@@ -14,6 +14,7 @@ V = json.load(open(vers_path, encoding='utf-8'))
 
 # versión de la NCM -> número interno de SAREM (comprobado código por código).
 # Tramo 1: enero 2002 - octubre 2006. Tramo 2: noviembre 2006 - enero 2010. Tramo 3: octubre 2010 - enero 2015.
+# Tramo 4: julio 2015 - enero 2019 (agosto 2016 abre 14 códigos que setiembre 2016 vuelve a juntar).
 ORDEN = [('NCM_2002_1', 'NCM_200201'), ('NCM_2002_7', 'NCM_200207'), ('NCM_2003_1', 'NCM_200213'),
          ('NCM_2003_7', 'NCM_200219'), ('NCM_2004_1', 'NCM_200225'), ('NCM_2004_7', 'NCM_200231'),
          ('NCM_2005_1', 'NCM_200237'), ('NCM_2005_4', 'NCM_200240'), ('NCM_2006_1', 'NCM_200249'),
@@ -24,7 +25,10 @@ ORDEN = [('NCM_2002_1', 'NCM_200201'), ('NCM_2002_7', 'NCM_200207'), ('NCM_2003_
          ('NCM_2010_10', 'NCM_200746'), ('NCM_2011_1', 'NCM_200749'), ('NCM_2011_4', 'NCM_200752'),
          ('NCM_2011_10', 'NCM_200758'), ('NCM_2012_1', 'NCM_201201'), ('NCM_2012_4', 'NCM_201204'),
          ('NCM_2012_7', 'NCM_201207'), ('NCM_2013_1', 'NCM_201213'), ('NCM_2014_1', 'NCM_201225'),
-         ('NCM_2015_1', 'NCM_201237')]
+         ('NCM_2015_1', 'NCM_201237'), ('NCM_2015_7', 'NCM_201243'), ('NCM_2016_1', 'NCM_201249'),
+         ('NCM_2016_7', 'NCM_201255'), ('NCM_2016_8', 'NCM_201256'), ('NCM_2016_9', 'NCM_201257'),
+         ('NCM_2017_1', 'NCM_201701'), ('NCM_2017_7', 'NCM_201707'), ('NCM_2018_1', 'NCM_201713'),
+         ('NCM_2018_7', 'NCM_201719'), ('NCM_2019_1', 'NCM_201725')]
 SAREM = dict(ORDEN)
 VERSION = {s: v for v, s in ORDEN}
 IDX = {v: i for i, (v, _) in enumerate(ORDEN)}
@@ -39,12 +43,20 @@ for root, _, fs in os.walk(carpeta):
             TABLAS.setdefault((m.group(1), m.group(2)), os.path.join(root, f))
 
 
+# Errores de tipeo en tablas de SAREM: las tablas largas entre enero 2002 y julio 2018 dicen
+# 01012101 (no existe en ninguna versión) en lugar de 01012100 (caballos reproductores de raza pura).
+CORREGIR = {'NCM_200201_NCM_201719.xlsx': {'01012101': '01012100'},
+            'NCM_201719_NCM_200201.xlsx': {'01012101': '01012100'}}
+
+
 def leer(path):
     rows = list(openpyxl.load_workbook(path, read_only=True).active.iter_rows(values_only=True))
+    fix = CORREGIR.get(os.path.basename(path), {})
     pares, ex = [], set()
     for r in rows[3:]:
         if r and r[0]:
             o, d = str(r[0]).strip(), str(r[2]).strip()
+            o, d = fix.get(o, o), fix.get(d, d)
             pares.append((o, d))
             if r[1] == 'ex':
                 ex.add((o, d))
