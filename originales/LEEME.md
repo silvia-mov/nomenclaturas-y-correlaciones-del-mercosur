@@ -26,18 +26,22 @@ carpeta no coinciden con la fecha: "49. 2022" es la versión `NCM_2022` (SAREM `
 
 ## Tabla de correlación de la OMA
 
-Para los pasos a enero 2017 y enero 2022 (VI y VII Enmienda del SA) se usan las tablas oficiales de
-la Organización Mundial de Aduanas: **SA 2012 → SA 2017** (Tabla II de octubre 2016 y su anexo del
-capítulo 44) y **SA 2017 → SA 2022** (Tabla II de noviembre 2020). No se publican aquí: se bajan de
-la página de la OMA (*Correlation Tables HS 2012 – 2017* y *HS 2017 – 2022*) y se guardan en
-`originales/oma/`:
+Para los pasos de las cuatro enmiendas (enero 2007, 2012, 2017 y 2022) se usan las tablas oficiales
+de la Organización Mundial de Aduanas (Tabla II, de la edición vieja a la nueva). No se publican aquí:
+se bajan de la página de la OMA (ediciones actuales y anteriores) o de la release "OMA" del
+repositorio `varios`, y se guardan en `originales/oma/`:
 
 ```
 originales/oma/
-├── table_ii_trp1217_en_rev1.pdf   SA 2012 -> 2017
-├── table_ii_a_trp1217_en.pdf      SA 2012 -> 2017, anexo del capítulo 44
-└── table-ii_en.pdf                SA 2017 -> 2022
+├── hs_correlation2007_table_ii_e_rev4cor.pdf   SA 2002 -> 2007 (correcciones 1, 2, 3 y 5)
+├── ii_trp0712rev3eng_fr.pdf                    SA 2007 -> 2012 (correcciones 1 y 2)
+├── table_ii_trp1217_en_rev1.pdf                SA 2012 -> 2017
+├── table_ii_a_trp1217_en.pdf                   SA 2012 -> 2017, anexo del capítulo 44
+└── table-ii_en.pdf                             SA 2017 -> 2022
 ```
+
+La corrección 4 de 2002 → 2007 solo cambia la Tabla I (de la edición nueva a la vieja), que no se usa.
+La release "OMA" también trae la tabla 2022 → 2028, para cuando rija la NCM 2028.
 
 En el PDF de 2017 → 2022 hay dos erratas que el lector corrige: "28933.34" (2933.34 con la nota 2
 pegada) y "8549,29" (con coma).

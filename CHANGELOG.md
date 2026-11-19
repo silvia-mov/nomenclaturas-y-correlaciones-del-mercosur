@@ -2,6 +2,12 @@
 
 ## Sin publicar
 
+- **Enmiendas 2007 y 2012 revisadas con la OMA:** `leer_oma.py` lee también las tablas SA 2002 → 2007
+  y 2007 → 2012, y el texto "subpartidas aplicables de..." del lado del destino. Se aplica la misma
+  regla que en 2017: se agregan los cambios que la OMA registra y le faltan a SAREM (1.088 en 2007,
+  930 en 2012) y se marcan los vínculos de SAREM sin respaldo (134 y 36).
+- Los controles explican cada diferencia con la cadena armada solo con SAREM (0 sin explicar).
+- `mapeo_2002_2022.csv` se divide en dos archivos (`mapeo_` y `caminos_`) para que no pese 47 MB.
 - **Tramo 5, marzo 2019 – enero 2022** (incluye la VII Enmienda del SA): la cadena llega a enero 2022
   (`datos/mapeo_2002_2022.csv`, `salidas/Mapeo_NCM_2002-2022.xlsx`). Marzo 2019 se arma con la tabla de
   SAREM porque no tiene versión descargada. El paso a enero 2022 se revisa con la OMA (SA 2017 → 2022):

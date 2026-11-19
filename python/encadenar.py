@@ -162,7 +162,12 @@ AGREGAR = {('NCM_2011_10', 'NCM_2012_1'): {'tabla': ('NCM_200749', 'NCM_201201')
 # códigos de máquinas y aparatos). Dejarlos daría destinos falsos a 1 de cada 4 códigos, así que en
 # este paso NO se usan (modo 'descartar'): van a la lista de vínculos de SAREM no usados, con su motivo.
 # Si un código se quedara sin destino, o un destino sin origen, sus vínculos se mantienen marcados.
-VERIFICAR_OMA = {('NCM_2016_9', 'NCM_2017_1'): {'larga': ('NCM_201249', 'NCM_201701'), 'edicion': '2012_2017', 'modo': 'marcar'},
+# Noviembre 2006 -> enero 2007 (IV Enmienda) y octubre 2011 -> enero 2012 (V Enmienda): misma regla que
+# 2017 (modo 'marcar'). En 2007 SAREM no tiene, por ejemplo, ningún vínculo hacia 84.86 (máquinas para
+# fabricar semiconductores) desde las máquinas herramienta que indica la OMA.
+VERIFICAR_OMA = {('NCM_2006_11', 'NCM_2007_1'): {'larga': ('NCM_200201', 'NCM_200701'), 'edicion': '2002_2007', 'modo': 'marcar'},
+                 ('NCM_2011_10', 'NCM_2012_1'): {'larga': ('NCM_200749', 'NCM_201201'), 'edicion': '2007_2012', 'modo': 'marcar'},
+                 ('NCM_2016_9', 'NCM_2017_1'): {'larga': ('NCM_201249', 'NCM_201701'), 'edicion': '2012_2017', 'modo': 'marcar'},
                  ('NCM_2022', 'NCM_2022_1'): {'larga': ('NCM_201757', 'NCM_202201'), 'edicion': '2017_2022', 'modo': 'descartar'}}
 
 # Tablas que no sirven como control.
@@ -170,7 +175,7 @@ _HERMANOS = 'une códigos hermanos creados en julio 2007 (por ejemplo 8431.49.21
 NO_CONTROL = {('NCM_200707', 'NCM_201249'): _HERMANOS, ('NCM_200707', 'NCM_201701'): _HERMANOS}
 
 # Pasos que solo se cruzan con la OMA, sin cambiar la cadena (para revisar antes de decidir).
-INFORME_OMA = {('NCM_2006_11', 'NCM_2007_1'): '2002_2007', ('NCM_2011_10', 'NCM_2012_1'): '2007_2012'}
+INFORME_OMA = {}
 
 # ---------- pasos entre versiones seguidas ----------
 pasos, descartes, informes = [], [], []
@@ -264,13 +269,16 @@ for (va, sa), (vb, sb) in zip(ORDEN, ORDEN[1:]):
               f'{len(faltan)} cambios de la OMA (6 díg) sin ningún vínculo en SAREM')
     rel = relacion(va, vb, pares)
     assert set(rel) == S[va] and set().union(*rel.values()) == S[vb], (va, vb)
-    pasos.append({'de': va, 'a': vb, 'rel': rel, 'ex': ex, 'tipo': tipo(rel), 'agregados': agregados, 'notas': notas})
+    # relación solo con SAREM (sin los vínculos agregados), para explicar las diferencias de los controles
+    quitar = set(agregados)
+    rel_sarem = relacion(va, vb, [par for par in pares if par not in quitar])
+    pasos.append({'de': va, 'a': vb, 'rel': rel, 'rel_sarem': rel_sarem, 'ex': ex, 'tipo': tipo(rel), 'agregados': agregados, 'notas': notas})
 
 
-def cadena(desde, hasta):
+def cadena(desde, hasta, clave='rel'):
     acum = {c: {c} for c in S[desde]}
     for p in pasos[IDX[desde]:IDX[hasta]]:
-        acum = {o: set().union(*(p['rel'][d] for d in ds)) for o, ds in acum.items()}
+        acum = {o: set().union(*(p[clave].get(d, set()) for d in ds)) for o, ds in acum.items()}
     return acum
 
 
@@ -300,7 +308,6 @@ for (sa, sb), path in sorted(TABLAS.items()):
 # Diferencias de los controles que se explican por las decisiones de VERIFICAR_OMA: vínculos de la
 # cadena que llegan a un destino agregado o marcado, y vínculos de SAREM hacia un destino al que la
 # OMA no manda nada desde esa subpartida.
-destinos_nota = {d for p in pasos for (_, d) in p['notas']}
 for k in controles:
     eds = [cfg['edicion'] for (va, vb), cfg in VERIFICAR_OMA.items() if IDX[k['de']] <= IDX[va] and IDX[vb] <= IDX[k['a']]]
     cruza = bool(eds)
@@ -308,14 +315,17 @@ for k in controles:
         return o[:6] != d[:6] and not any(soporta(e, o, d) for e in eds)
     def con_oma(o, d):
         return o[:6] != d[:6] and any(soporta(e, o, d) for e in eds)
-    # en la cadena: destino agregado o marcado, o un cambio que la OMA registra y le falta a la tabla larga
-    k['solo_cadena_sin_explicar'] = [par for par in k['solo_cadena'] if not (cruza and (par[1] in destinos_nota or con_oma(*par)))]
     def por_texto(o, d):
         # la OMA lo admite solo en general ("subpartidas aplicables de las partidas o capítulos..."), sin decir
         # qué códigos: las tablas de SAREM pueden no coincidir entre sí en cuáles códigos de 8 dígitos entran
         return o[:6] != d[:6] and any(any(d.startswith(x) for x in (W_ED[e].get(o[:4], set()) | W_ED[e].get(o[:2], set())
                                                                          | {y for y in W_ED[e].get(o[:6], set()) if len(y) < 6}))
                                       for e in eds)
+    # en la cadena: solo existe gracias a un vínculo agregado (no aparece al encadenar solo con SAREM)
+    solo_sarem_cadena = {(o, d) for o, ds in cadena(k['de'], k['a'], 'rel_sarem').items() for d in ds}
+    # o la OMA lo registra (por subpartida o en general) y la tabla larga de SAREM no lo tiene
+    k['solo_cadena_sin_explicar'] = [par for par in k['solo_cadena'] if par in solo_sarem_cadena
+                                   and not (cruza and (por_texto(*par) or con_oma(*par)))]
     k['solo_sarem_sin_explicar'] = [par for par in k['solo_sarem'] if not (cruza and (sin_oma(*par) or por_texto(*par)))]
 
 # ---------- camino de cada (código, versión) hasta la última versión ----------

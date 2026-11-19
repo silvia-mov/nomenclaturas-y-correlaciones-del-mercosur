@@ -19,13 +19,23 @@ with open(os.path.join(carpeta, 'versiones.csv'), 'w', newline='', encoding='utf
 orden = [v for v, _ in C['orden']]
 FIN = C['fin']
 RANGO = f"{V[orden[0]]['anio']}_{V[FIN]['anio']}"
+# una fila por código, período y destino (sin textos largos, para que el archivo no pese demasiado)
 with open(os.path.join(carpeta, f'mapeo_{RANGO}.csv'), 'w', newline='', encoding='utf-8') as f:
     w = csv.writer(f)
-    w.writerow(['codigo', 'valido_desde', 'valido_hasta', 'descripcion', 'tipo_cambio', 'codigo_final', 'descripcion_final', 'version_final', 'n_destinos', 'camino', 'notas'])
+    w.writerow(['codigo', 'valido_desde', 'valido_hasta', 'tipo_cambio', 'codigo_final', 'version_final', 'n_destinos', 'con_notas'])
     for g in sorted(C['agrupado'], key=lambda g: (g['codigo'], orden.index(g['desde']))):
         for d in g['destino']:
-            w.writerow([g['codigo'], g['desde'], g['hasta'], desc(g['desde'], g['codigo']), g['tipo'], d,
-                        desc(FIN, d), FIN, len(g['destino']), ' | '.join(g['camino']), ' | '.join(g.get('notas', []))])
+            w.writerow([g['codigo'], g['desde'], g['hasta'], g['tipo'], d, FIN, len(g['destino']), 'sí' if g.get('notas') else ''])
+
+# una fila por código y período: descripción, camino y notas
+with open(os.path.join(carpeta, f'caminos_{RANGO}.csv'), 'w', newline='', encoding='utf-8') as f:
+    w = csv.writer(f)
+    w.writerow(['codigo', 'valido_desde', 'valido_hasta', 'descripcion', 'tipo_cambio', 'destinos', 'camino', 'notas'])
+    for g in sorted(C['agrupado'], key=lambda g: (g['codigo'], orden.index(g['desde']))):
+        if g['tipo'] == 'igual':
+            continue
+        w.writerow([g['codigo'], g['desde'], g['hasta'], desc(g['desde'], g['codigo']), g['tipo'], ' '.join(g['destino']),
+                    ' | '.join(g['camino']), ' | '.join(g.get('notas', []))])
 
 with open(os.path.join(carpeta, f'cambios_por_paso_{RANGO}.csv'), 'w', newline='', encoding='utf-8') as f:
     w = csv.writer(f)

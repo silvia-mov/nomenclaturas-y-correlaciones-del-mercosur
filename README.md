@@ -65,7 +65,7 @@ Cantidad de códigos viejos según el tipo de cambio en cada paso.
 | ene 2006 → jul 2006 | 9.786 | 0 | 7 | 0 | 0 |
 | jul 2006 → oct 2006 | 9.792 | 0 | 8 | 1 | 1 |
 | oct 2006 → nov 2006 | 9.811 | 0 | 0 | 0 | 0 |
-| **nov 2006 → ene 2007** | **8.397** | **498** | **73** | **515** | **328** |
+| **nov 2006 → ene 2007** | **8.190** | **373** | **66** | **552** | **630** |
 | ene 2007 → jul 2007 | 9.705 | 0 | 7 | 1 | 1 |
 | jul 2007 → ene 2008 | 9.654 | 8 | 21 | 5 | 33 |
 | ene 2008 → jul 2008 | 9.757 | 1 | 3 | 3 | 1 |
@@ -77,7 +77,7 @@ Cantidad de códigos viejos según el tipo de cambio en cada paso.
 | oct 2010 → ene 2011 | 9.868 | 0 | 1 | 0 | 0 |
 | ene 2011 → abr 2011 | 9.869 | 0 | 1 | 0 | 0 |
 | abr 2011 → oct 2011 | 9.855 | 3 | 9 | 4 | 0 |
-| **oct 2011 → ene 2012** | **9.284** | **276** | **72** | **137** | **128** |
+| **oct 2011 → ene 2012** | **9.221** | **243** | **70** | **142** | **221** |
 | ene 2012 → abr 2012 | 10.015 | 0 | 0 | 12 | 4 |
 | abr 2012 → jul 2012 | 10.006 | 0 | 7 | 13 | 1 |
 | jul 2012 → ene 2013 | 10.024 | 0 | 1 | 2 | 1 |
@@ -105,7 +105,7 @@ Cantidad de códigos viejos según el tipo de cambio en cada paso.
 | **"2022" → ene 2022** | **7.353** | **125** | **56** | **82** | **2.721** |
 
 Los pasos a enero 2007, enero 2012, enero 2017 y enero 2022 son la IV, la V, la VI y la VII Enmienda
-del Sistema Armonizado (cambian 1.414, 613, 737 y 2.984 códigos). En 2022 hay tantos complejos porque
+del Sistema Armonizado (cambian 1.621, 676, 737 y 2.984 códigos, ya revisados con la OMA). En 2022 hay tantos complejos porque
 los residuos electrónicos (85.49) y los módulos de pantallas (85.24) pueden venir de casi cualquier
 máquina o aparato, y la OMA lo registra así. Marzo 2019 no tiene versión descargada en SAREM: sus
 códigos se arman desde enero 2019 con la tabla de correlación. "2022" es la carpeta "49. 2022" de
@@ -115,27 +115,32 @@ a juntar: julio y setiembre 2016 tienen los mismos códigos.
 **Controles.**
 1. En las 49 tablas, cada código que desaparece tiene destino y cada código que aparece tiene origen.
 2. La cadena armada paso a paso se compara con las 28 tablas directas de SAREM que cuadran con sus
-   versiones. Hasta enero 2016 coincide exactamente. En las que cruzan enero 2017, todas las
-   diferencias se explican por la decisión 5 (ver la hoja *Resumen* del Excel): 0 sin explicar.
+   versiones. Las diferencias vienen todas de la decisión 5: vínculos agregados por la OMA, vínculos de
+   SAREM que la OMA no registra, o tablas de SAREM que no coinciden entre sí en casos que la OMA admite
+   en general. 0 diferencias sin explicar (ver la hoja *Resumen* del Excel).
 3. **Decisión 2007:** la tabla de SAREM de noviembre 2006 a enero 2007 está incompleta (le faltan 9
    vínculos: pelo fino en los capítulos 61 y 62, y 8517.62.59). Se usa la tabla directa de octubre
    2006 a enero 2007, que tiene los mismos códigos de origen y coincide con las tablas largas.
 4. **Decisión 2012:** a la tabla de octubre 2011 a enero 2012 le faltan 19 vínculos hacia la partida
    nueva 96.19 (compresas, tampones y pañales de cualquier materia), desde los capítulos 39, 61, 62 y
    63. Se agregan desde la tabla enero 2011 → enero 2012, y coinciden con las tablas largas.
-5. **Enmiendas 2017 y 2022 (con la OMA):** las tablas de SAREM para la VI y la VII Enmienda no
-   coinciden entre sí, y se revisaron contra las tablas de correlación oficiales de la OMA (SA 2012 →
-   2017 y SA 2017 → 2022, 6 dígitos). La OMA da el origen por subpartida, por partida o por capítulo
-   ("subpartidas aplicables, en particular de las partidas o capítulos..."); en esos casos cualquier
-   subpartida de la partida o capítulo puede ir a esos destinos. Regla:
+5. **Las cuatro enmiendas, revisadas con la OMA:** los pasos de enero 2007, 2012, 2017 y 2022 se
+   cruzaron con las tablas de correlación oficiales de la OMA (SA 2002 → 2007, 2007 → 2012, 2012 → 2017
+   y 2017 → 2022, a 6 dígitos). La OMA da el origen y el destino por subpartida, o por partida o
+   capítulo cuando escribe "subpartidas aplicables, en particular de las partidas o capítulos...". Regla:
    - cambios dentro de una misma subpartida de 6 dígitos: tal cual vienen de SAREM;
-   - cambios entre subpartidas que la OMA registra y le faltan a la tabla corta: se agregan desde la
-     tabla larga de SAREM, o para toda la subpartida si ninguna tabla los trae (2017: 547, sobre todo
-     despojos de pescado hacia 0302.99/0303.99 y circuitos integrados 85.42; 2022: 320);
-   - vínculos de SAREM que la OMA no registra: en 2017 se mantienen marcados (6); en 2022 no se usan
-     (8, en `datos/vinculos_sarem_no_usados.csv`), salvo que un código quede sin destino o un destino
-     sin origen (18, marcados).
-   Cada vínculo agregado o marcado tiene su nota en el Excel y en los CSV.
+   - cambios entre subpartidas que la OMA registra y le faltan a SAREM: se agregan desde una tabla
+     larga de SAREM, o para toda la subpartida si ninguna tabla los trae. Agregados: 2007, 1.088 (por
+     ejemplo 84.86, máquinas para fabricar semiconductores, desde máquinas herramienta); 2012, 930;
+     2017, 547 (despojos de pescado hacia 0302.99/0303.99 y circuitos integrados 85.42); 2022, 320;
+   - vínculos de SAREM que la OMA no registra: en 2007, 2012 y 2017 se mantienen marcados (134, 36 y
+     6); en 2022 no se usan (8, en `datos/vinculos_sarem_no_usados.csv`), salvo que un código quede sin
+     destino o un destino sin origen (18, marcados).
+   Cada vínculo agregado o marcado tiene su nota. "Para toda la subpartida" es lo menos preciso: el
+   código puede quedar con varios destinos posibles y hay que mirar la descripción.
+
+   Las diferencias entre SAREM y la OMA pueden ser decisiones del MERCOSUR (Comité Técnico N.° 1) y no
+   errores. Si se consiguen las actas, las notas de esos vínculos se pueden ajustar.
 
 ## Inicio rápido
 
