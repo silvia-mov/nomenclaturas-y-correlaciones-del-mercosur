@@ -10,7 +10,7 @@ encadenadas versión por versión, con el tipo de cambio de cada código y contr
 ![Datos](https://img.shields.io/badge/datos-SAREM%20·%20MERCOSUR-0b6e4f)
 ![Licencia](https://img.shields.io/badge/licencia-MIT-green)
 
-[Estado](#estado) · [Para qué sirve](#para-qué-sirve) · [Cómo leer el mapeo](#cómo-leer-el-mapeo) · [Inicio rápido](#inicio-rápido) · [Originales](originales/LEEME.md) · [Datos](datos/LEEME.md)
+[Listas de la nomenclatura (página)](https://silvia-mov.github.io/nomenclaturas-y-correlaciones-del-mercosur/listas.html) · [Estado](#estado) · [Para qué sirve](#para-qué-sirve) · [Cómo leer el mapeo](#cómo-leer-el-mapeo) · [Inicio rápido](#inicio-rápido) · [Originales](originales/LEEME.md) · [Datos](datos/LEEME.md)
 
 </div>
 
@@ -29,6 +29,24 @@ encadenadas versión por versión, con el tipo de cambio de cada código y contr
 
 **El mapeo está completo: cualquier código NCM de enero 2002 a noviembre 2026 llega a la NCM de
 noviembre 2026.**
+
+## Listas de la nomenclatura
+
+Las listas de Paraguay notificadas al MERCOSUR: **bienes de capital (BK)**, **bienes de informática y
+telecomunicaciones (BIT)**, **lista nacional de excepciones (LNE)** y **régimen de materias primas
+(RMP)**, de 2018 a 2026, con el arancel nacional vigente de cada código y cada código traducido a la
+NCM de hoy con el mapeo de este repositorio.
+
+- Página con explicaciones, buscador y descargas: [`docs/listas.html`](docs/listas.html)
+  (<https://silvia-mov.github.io/nomenclaturas-y-correlaciones-del-mercosur/listas.html>).
+- Datos: [`datos/listas/`](datos/LEEME.md) y `salidas/Listas_BK_BIT_LNE_RMP.xlsx`.
+
+```bash
+python python/listas_notificadas.py <carpeta con los zip de las notificaciones> datos/versiones.json datos/cadena.json datos/listas salidas/Listas_BK_BIT_LNE_RMP.xlsx
+python python/web_listas.py datos/listas/listas_notificadas.csv datos/versiones.json datos/cadena.json docs/datos datos/listas
+```
+
+Las notificaciones vienen de las releases `mercosur_listas` del repositorio `varios` (privado).
 
 ## Para qué sirve
 
@@ -180,7 +198,7 @@ python python/excel_mapeo.py datos/versiones.json datos/cadena.json salidas/Mape
 | [`python/`](python/) | Programas |
 | [`datos/`](datos/LEEME.md) | Resultados en CSV |
 | [`salidas/`](salidas/) | Excel del mapeo |
-| [`docs/`](docs/LEEME.md) | Futura página web |
+| [`docs/`](docs/LEEME.md) | Páginas web (por ahora, la de listas de la nomenclatura) |
 
 ## Fuente y aviso
 

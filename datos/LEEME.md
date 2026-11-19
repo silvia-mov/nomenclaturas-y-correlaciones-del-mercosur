@@ -10,6 +10,19 @@ Resultados generados con los programas de [`python/`](../python/). Fuente: SAREM
 | `cambios_por_paso_2002_2026.csv` | Solo los códigos que cambiaron en cada paso entre versiones seguidas |
 | `vinculos_sarem_no_usados.csv` | Vínculos de las tablas de SAREM que no se usan en la cadena, con su motivo |
 
+## Listas de la nomenclatura (`datos/listas/`)
+
+| Archivo | Contenido |
+|---|---|
+| `listas_notificadas.csv` | Una fila por lista (BK, BIT, LNE, RMP), notificación y código: arancel nacional vigente, versión de la NCM de esa fecha, tipo de cambio y códigos en la NCM vigente |
+| `listas_resumen.csv` | Cantidad de códigos de cada lista en cada notificación |
+| `ncm_2026_11.csv` | La NCM vigente (noviembre 2026): código, descripción y AEC |
+
+En `listas_notificadas.csv`, la columna `aviso` indica cuando el código no existe en la versión de la NCM
+de la fecha de la notificación (por ejemplo, la de enero 2022 todavía usa códigos de la NCM 2017): en
+ese caso se tradujo desde la versión más cercana en la que existe. En el régimen de materias primas el
+arancel es 0 % dentro del régimen.
+
 ## Columnas de `mapeo_2002_2026.csv`
 
 | Columna | Qué es |

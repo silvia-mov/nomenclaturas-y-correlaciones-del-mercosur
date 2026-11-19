@@ -2,6 +2,12 @@
 
 ## Sin publicar
 
+- **Página "Listas de la nomenclatura"** (`docs/listas.html`): qué son las listas BK, BIT, LNE y
+  materias primas de Paraguay, cuántos códigos tuvo cada una de 2018 a 2026, un buscador por código
+  (en qué listas estuvo, con qué arancel y a qué código de hoy corresponde) y descargas.
+- `python/listas_notificadas.py`: lee las notificaciones de Paraguay al MERCOSUR y traduce cada código
+  a la NCM vigente con el mapeo. `datos/listas/` y `salidas/Listas_BK_BIT_LNE_RMP.xlsx`.
+- `python/web_listas.py`: datos del buscador (`docs/datos/listas.json`) y la NCM vigente en CSV.
 - **Tramo 6, julio 2022 – noviembre 2026: el mapeo queda completo.** Cualquier código de enero 2002 a
   noviembre 2026 llega a la NCM de noviembre 2026 (`datos/mapeo_2002_2026.csv`,
   `salidas/Mapeo_NCM_2002-2026.xlsx`). Noviembre 2026 no tiene tabla: mismos códigos que octubre.

@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Listas de la nomenclatura | BK, BIT, LNE y materias primas de Paraguay</title>
+<meta name="description" content="Listas de Paraguay notificadas al MERCOSUR: bienes de capital (BK), bienes de informática y telecomunicaciones (BIT), lista nacional de excepciones (LNE) y régimen de materias primas, 2018-2026, con cada código traducido a la NCM vigente.">
+<link rel="canonical" href="https://silvia-mov.github.io/nomenclaturas-y-correlaciones-del-mercosur/listas.html">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_PY">
+<meta property="og:title" content="Listas de la nomenclatura">
+<meta property="og:description" content="Qué productos tienen un arancel especial en Paraguay: bienes de capital, informática y telecomunicaciones, excepciones y materias primas, 2018-2026.">
+<meta property="og:url" content="https://silvia-mov.github.io/nomenclaturas-y-correlaciones-del-mercosur/listas.html">
+<style>
+:root {
+  --bg: #fffafb; --panel: #ffffff; --text: #1d1a1c; --text2: #5c5459; --line: #f3dde4;
+  --s1: #39b89a; --s2: #fec9d7; --s3: #ff5883; --s4: #79d3be; --accent: #1f7f68; --code: #fdf0f4; --link: #1f7f68; --btn: #39b89a; --btntext: #08261f; --hero1: #b9eee1; --hero2: #fec9d7;
+  --tag: #fec9d7; --tagtext: #7a2440;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161314; --panel: #201b1d; --text: #f5eef1; --text2: #bfb3b8; --line: #3a2f33;
+    --s1: #39b89a; --s2: #6b3a4a; --s3: #ff91ad; --s4: #b9eee1; --accent: #79d3be; --code: #2a2225; --link: #79d3be; --btn: #39b89a; --btntext: #08261f; --hero1: #123a31; --hero2: #3d1a26;
+    --tag: #3d1a26; --tagtext: #ffc2d2;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161314; --panel: #201b1d; --text: #f5eef1; --text2: #bfb3b8; --line: #3a2f33;
+  --s1: #39b89a; --s2: #6b3a4a; --s3: #ff91ad; --s4: #b9eee1; --accent: #79d3be; --code: #2a2225; --link: #79d3be; --btn: #39b89a; --btntext: #08261f; --hero1: #123a31; --hero2: #3d1a26;
+  --tag: #3d1a26; --tagtext: #ffc2d2;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+header { padding: 56px 0 36px; background: linear-gradient(120deg, var(--hero1), var(--hero2)); }
+.eyebrow { color: var(--accent); font-weight: 600; font-size: 14px; letter-spacing: .04em; text-transform: uppercase; margin: 0 0 8px; }
+h1 { font-size: clamp(28px, 5vw, 42px); line-height: 1.15; margin: 0 0 16px; letter-spacing: -.01em; }
+.lead { font-size: 19px; color: var(--text2); max-width: 720px; margin: 0 0 24px; }
+.btns { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn { display: inline-block; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 15px; border: 1px solid var(--line); color: var(--text); background: var(--panel); }
+.btn.primary { background: var(--btn); border-color: var(--btn); color: var(--btntext); }
+nav.toc { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 14px 0; font-size: 15px; border-bottom: 1px solid var(--line); }
+nav.toc a { color: var(--text2); text-decoration: none; }
+nav.toc a:hover { color: var(--text); }
+section { padding: 40px 0 8px; }
+h2 { font-size: 26px; margin: 0 0 12px; letter-spacing: -.005em; }
+h3 { font-size: 18px; margin: 28px 0 8px; }
+p, li { max-width: 760px; }
+a { color: var(--link); }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 20px 0; }
+.kpi { background: var(--panel); border: 1px solid var(--line); border-top: 4px solid var(--s3); border-radius: 10px; padding: 16px; }
+.kpi .v { font-size: 30px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.kpi .l { color: var(--text2); font-size: 14px; margin-top: 6px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px; margin: 16px 0; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.grid2 .card { margin: 0; }
+.grid2 h3 { margin-top: 0; }
+.tag { display: inline-block; padding: 2px 10px; border-radius: 99px; background: var(--tag); color: var(--tagtext); font-size: 13px; font-weight: 600; margin-right: 6px; }
+.tw { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; font-variant-numeric: tabular-nums; }
+th, td { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+th { color: var(--text2); font-weight: 600; }
+.note { font-size: 14px; color: var(--text2); }
+.consulta { background: linear-gradient(120deg, var(--hero1), var(--hero2)); border-radius: 14px; padding: 22px; margin: 28px 0 8px; }
+.consulta h2 { margin-top: 0; }
+.consulta .elegir { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 6px 0 14px; }
+.consulta input { font: inherit; font-size: 18px; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: var(--text); width: 14ch; font-variant-numeric: tabular-nums; }
+.consulta button { font: inherit; font-weight: 600; padding: 9px 16px; border-radius: 8px; border: 0; background: var(--btn); color: var(--btntext); cursor: pointer; }
+.ejemplos { font-size: 14px; color: var(--text2); }
+.ejemplos a { cursor: pointer; }
+.respuesta { background: var(--panel); border-radius: 12px; padding: 18px 20px; font-size: 17px; line-height: 1.55; }
+.respuesta p { margin: 0 0 10px; max-width: none; }
+.respuesta .chica { font-size: 14.5px; color: var(--text2); }
+.respuesta b.v { color: var(--accent); }
+.respuesta table { font-size: 14px; margin: 6px 0 14px; }
+.dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
+.dl .card { margin: 0; display: flex; flex-direction: column; }
+.dl .card h3 { margin-top: 0; }
+.dl .card p { flex: 1; font-size: 15px; color: var(--text2); }
+.dl .btns { gap: 8px; }
+.dl .btn { font-size: 14px; padding: 8px 14px; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; background: var(--code); padding: 1px 5px; border-radius: 4px; }
+details { border-bottom: 1px solid var(--line); padding: 10px 0; max-width: 760px; }
+summary { cursor: pointer; font-weight: 600; }
+footer { margin-top: 48px; padding: 28px 0 48px; border-top: 1px solid var(--line); font-size: 14px; color: var(--text2); }
+.comentar { margin: 40px auto 0; max-width: 960px; padding: 0 16px; }
+.comentar .caja { border: 1.5px dashed #79d3be; border-radius: 12px; padding: 18px 20px; }
+.comentar h2 { margin: 0 0 8px; }
+.comentar p { margin: 0 0 14px; }
+.comentar a.boton { display: inline-block; padding: 9px 16px; border-radius: 8px; background: #39b89a; color: #08261f; font-weight: 600; text-decoration: none; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media print { nav.toc, .btns, .consulta, .comentar { display: none !important; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Nomenclatura Común del MERCOSUR</p>
+    <h1>Listas de la nomenclatura</h1>
+    <p class="lead">Qué productos tienen un arancel especial en Paraguay: bienes de capital, bienes de informática y telecomunicaciones, excepciones al arancel común y materias primas. Con su historia de 2018 a 2026 y cada código traducido a la NCM de hoy.</p>
+    <div class="btns">
+      <a class="btn primary" href="#buscar">Buscar un código</a>
+      <a class="btn" href="#descargas">Descargas</a>
+      <a class="btn" href="https://github.com/silvia-mov/nomenclaturas-y-correlaciones-del-mercosur">Ver el proyecto</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+<nav class="toc" aria-label="Contenido">
+  <a href="#que-son">Qué son</a>
+  <a href="#cuantos">Cuántos códigos</a>
+  <a href="#buscar">Buscar un código</a>
+  <a href="#descargas">Descargas</a>
+  <a href="#como">Cómo se armó</a>
+</nav>
+
+<section id="que-son">
+  <h2>Qué son estas listas</h2>
+  <p>En el MERCOSUR los cuatro países cobran, en principio, el mismo arancel a lo que viene de afuera: el <b>Arancel Externo Común (AEC)</b>. Pero hay productos en los que cada país puede cobrar otra cosa. Paraguay avisa al MERCOSUR, dos veces por año, qué productos están en cada una de estas listas.</p>
+  <div class="kpis">
+    <div class="kpi"><div class="v">1.257</div><div class="l">bienes de capital (BK), enero 2026</div></div>
+    <div class="kpi"><div class="v">361</div><div class="l">bienes de informática y telecomunicaciones (BIT), enero 2026</div></div>
+    <div class="kpi"><div class="v">715</div><div class="l">códigos en la lista de excepciones (LNE), enero 2026</div></div>
+    <div class="kpi"><div class="v">683</div><div class="l">materias primas con arancel 0 % (lista 2025)</div></div>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <h3><span class="tag">BK</span>Bienes de capital</h3>
+      <p>Máquinas y equipos que se usan para producir: tractores, maquinaria industrial, grúas, partes de máquinas. Paraguay les cobra un arancel más bajo que el común (muchas veces 0 %) para que producir sea más barato.</p>
+    </div>
+    <div class="card">
+      <h3><span class="tag">BIT</span>Bienes de informática y telecomunicaciones</h3>
+      <p>Computadoras, equipos de comunicación, componentes electrónicos y sus partes. Igual que los bienes de capital, tienen un régimen propio, vigente hasta 2030.</p>
+    </div>
+    <div class="card">
+      <h3><span class="tag">LNE</span>Lista nacional de excepciones</h3>
+      <p>Productos en los que Paraguay cobra un arancel distinto del común, más alto o más bajo. Cada país tiene una cantidad máxima de códigos que puede exceptuar.</p>
+    </div>
+    <div class="card">
+      <h3><span class="tag">RMP</span>Régimen de materias primas</h3>
+      <p>Insumos que las industrias pueden importar con arancel 0 % para fabricar en Paraguay. La lista cambia cada año. Fuera del régimen, el producto paga su arancel normal.</p>
+    </div>
+  </div>
+  <p class="note">Las listas BK, BIT y la cantidad de excepciones están autorizadas por el MERCOSUR hasta 2030 (Decisión CMC 08/21 y siguientes). El detalle normativo está en el repositorio de normativa del MERCOSUR.</p>
+</section>
+
+<section id="cuantos">
+  <h2>Cuántos códigos tuvo cada lista</h2>
+  <p>Cantidad de códigos NCM de 8 dígitos en cada notificación de Paraguay al MERCOSUR.</p>
+  <div class="card tw">
+    <table>
+      <thead><tr><th>Notificación</th><th>BK</th><th>BIT</th><th>LNE</th></tr></thead>
+      <tbody>
+        <tr><td>Primer semestre 2018</td><td>933</td><td>265</td><td>736</td></tr>
+        <tr><td>Enero 2020</td><td>1.225</td><td>397</td><td>731</td></tr>
+        <tr><td>Julio 2020</td><td>1.227</td><td>401</td><td>738</td></tr>
+        <tr><td>Enero 2021</td><td>1.228</td><td>400</td><td>740</td></tr>
+        <tr><td>Julio 2021</td><td>1.227</td><td>400</td><td>741</td></tr>
+        <tr><td>Enero 2022</td><td>1.227</td><td>402</td><td>731</td></tr>
+        <tr><td>Julio 2022</td><td>1.256</td><td>360</td><td>725</td></tr>
+        <tr><td>Julio 2023</td><td>1.257</td><td>360</td><td>716</td></tr>
+        <tr><td>Diciembre 2023</td><td>1.257</td><td>360</td><td>722</td></tr>
+        <tr><td>Enero 2025</td><td>1.257</td><td>360</td><td>715</td></tr>
+        <tr><td>Julio 2025</td><td>1.257</td><td>361</td><td>715</td></tr>
+        <tr><td>Enero 2026</td><td>1.257</td><td>361</td><td>715</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card tw">
+    <table>
+      <thead><tr><th>Régimen de materias primas</th><th>2018</th><th>2019</th><th>1.er sem. 2020</th><th>2023</th><th>2024</th><th>2025</th></tr></thead>
+      <tbody><tr><td>Códigos</td><td>830</td><td>830</td><td>771</td><td>708</td><td>663</td><td>683</td></tr></tbody>
+    </table>
+  </div>
+  <p class="note">El salto de 2022 coincide con la nueva versión de la nomenclatura (VII Enmienda del Sistema Armonizado). No hay archivos de las notificaciones de 2018 (segundo semestre), 2019 y 2024, ni de las listas de materias primas 2021 y 2022.</p>
+</section>
+
+<section id="buscar">
+  <div class="consulta">
+    <h2>Buscar un código</h2>
+    <p>Escribí un código NCM de 8 dígitos, con o sin puntos. Te muestro en qué listas estuvo, con qué arancel, y a qué código de hoy corresponde.</p>
+    <form class="elegir" id="f-buscar" autocomplete="off">
+      <label for="q" class="sr">Código NCM</label>
+      <input id="q" inputmode="numeric" placeholder="8471.30.12" aria-label="Código NCM de 8 dígitos">
+      <button type="submit">Buscar</button>
+    </form>
+    <p class="ejemplos">Ejemplos: <a data-ej="73082000">7308.20.00</a> · <a data-ej="84713012">8471.30.12</a> · <a data-ej="06031100">0603.11.00</a> · <a data-ej="84807900">8480.79.00</a></p>
+    <div class="respuesta" id="r" aria-live="polite"><p class="chica">Cargando los datos…</p></div>
+  </div>
+</section>
+
+<section id="descargas">
+  <h2>Descargas</h2>
+  <div class="dl">
+    <div class="card">
+      <h3>Listas en Excel</h3>
+      <p>Una hoja por lista (BK, BIT, LNE y materias primas): una fila por código, una columna por notificación con el arancel, y el código en la NCM de hoy. Con hoja de explicación.</p>
+      <div class="btns"><a class="btn primary" href="https://raw.githubusercontent.com/silvia-mov/nomenclaturas-y-correlaciones-del-mercosur/main/salidas/Listas_BK_BIT_LNE_RMP.xlsx">Excel</a></div>
+    </div>
+    <div class="card">
+      <h3>Listas en CSV</h3>
+      <p>Una fila por lista, notificación y código, con el arancel nacional vigente, la versión de la NCM de esa fecha y el código traducido. Y un resumen con la cantidad de códigos.</p>
+      <div class="btns">
+        <a class="btn" href="https://raw.githubusercontent.com/silvia-mov/nomenclaturas-y-correlaciones-del-mercosur/main/datos/listas/listas_notificadas.csv">Listas (CSV)</a>
+        <a class="btn" href="https://raw.githubusercontent.com/silvia-mov/nomenclaturas-y-correlaciones-del-mercosur/main/datos/listas/listas_resumen.csv">Resumen (CSV)</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>NCM vigente</h3>
+      <p>La Nomenclatura Común del MERCOSUR de noviembre 2026: código, descripción y arancel externo común.</p>
+      <div class="btns"><a class="btn" href="https://raw.githubusercontent.com/silvia-mov/nomenclaturas-y-correlaciones-del-mercosur/main/datos/listas/ncm_2026_11.csv">NCM noviembre 2026 (CSV)</a></div>
+    </div>
+    <div class="card">
+      <h3>Traductor de códigos 2002 – 2026</h3>
+      <p>A qué código de hoy corresponde cada código NCM desde enero 2002, con el tipo de cambio y el camino.</p>
+      <div class="btns">
+        <a class="btn" href="https://raw.githubusercontent.com/silvia-mov/nomenclaturas-y-correlaciones-del-mercosur/main/salidas/Mapeo_NCM_2002-2026.xlsx">Excel</a>
+        <a class="btn" href="https://raw.githubusercontent.com/silvia-mov/nomenclaturas-y-correlaciones-del-mercosur/main/datos/mapeo_2002_2026.csv">CSV</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Todas las versiones de la NCM</h3>
+      <p>Las 63 versiones de la nomenclatura de 2002 a 2026, tal como las da el sistema SAREM del MERCOSUR (zip de 41 MB).</p>
+      <div class="btns"><a class="btn" href="https://github.com/silvia-mov/nomenclaturas-y-correlaciones-del-mercosur/releases/tag/nomenclaturas">Versiones (zip)</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="como">
+  <h2>Cómo se armó</h2>
+  <details open>
+    <summary>De dónde salen los datos</summary>
+    <p>De las notificaciones de Paraguay a la Comisión de Comercio del MERCOSUR, desde el primer semestre 2018 hasta enero 2026. La fecha de cada notificación se tomó del encabezado de cada archivo. La NCM y sus versiones salen del sistema SAREM del MERCOSUR.</p>
+  </details>
+  <details>
+    <summary>Cómo se traduce un código viejo al de hoy</summary>
+    <p>Cada notificación usa la nomenclatura de su fecha: hasta 2022, la NCM 2017. Para comparar con hoy, cada código se traduce con el mapeo de este proyecto, que encadena las tablas de correlación de 2002 a 2026.</p>
+    <p>Si el código <b>sigue igual</b> o fue <b>renumerado</b>, hay un solo código de hoy. Si <b>se divide</b> o es <b>complejo</b>, puede corresponder a varios: hay que mirar la descripción.</p>
+  </details>
+  <details>
+    <summary>Por qué tantas máquinas aparecen con varios códigos de hoy</summary>
+    <p>En 2022 se crearon dos partidas que juntan productos de muchos lugares: <b>85.49</b> (residuos y chatarra de aparatos eléctricos y electrónicos) y <b>85.24</b> (módulos de pantallas). Una máquina o una parte de máquina vieja también puede terminar ahí, por ejemplo cuando se importa como chatarra. Por eso muchos bienes de capital e informática tienen, además de su código, los códigos de 85.49. En la práctica, casi siempre el que corresponde es el que tiene el mismo número o uno muy parecido.</p>
+  </details>
+  <details>
+    <summary>Qué no se usó</summary>
+    <p>El archivo "al 31.07.2026" (adentro dice 31/01/2026 y es idéntico al de enero 2026), la versión "copia" de julio 2022 (se usó el anexo original) y las listas de Uruguay que venían en los mismos archivos. En 205 códigos la notificación usa un código de una versión distinta a la de su fecha (por ejemplo, la de enero 2022 todavía usa la NCM 2017): ahí se usó la versión más cercana en la que existe el código, y queda anotado.</p>
+  </details>
+  <details>
+    <summary>Aviso</summary>
+    <p>Este trabajo no está asociado al MERCOSUR ni al Gobierno de Paraguay. Las correlaciones ayudan a comparar códigos de distintas versiones, pero no tienen valor legal: la clasificación de una mercadería se rige por la nomenclatura y las normas vigentes.</p>
+  </details>
+</section>
+</div>
+
+<section class="comentar" id="comentarios">
+  <div class="caja">
+    <h2>¿Una duda, un error o una sugerencia?</h2>
+    <p>Dejá tu comentario de forma anónima: no se pide nombre ni correo.</p>
+    <a class="boton" href="https://forms.gle/Vis1NdaswVxbDw446" target="_blank" rel="noopener">Dejar un comentario</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Proyecto: <a href="https://github.com/silvia-mov/nomenclaturas-y-correlaciones-del-mercosur">Nomenclatura Común del MERCOSUR: versiones y correlaciones</a> · <a href="https://silvia-mov.github.io/">Página principal</a></p>
+    <p>Fuentes: notificaciones de Paraguay al MERCOSUR y sistema SAREM de la Secretaría del MERCOSUR. Código bajo licencia MIT.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var r = document.getElementById('r'), q = document.getElementById('q'), D = null;
+  var NOMBRE = { BK: 'Bienes de capital (BK)', BIT: 'Bienes de informática y telecomunicaciones (BIT)', LNE: 'Lista nacional de excepciones (LNE)', RMP: 'Régimen de materias primas (RMP)' };
+  var MES = { '1': 'ene', '01': 'ene', '02': 'feb', '03': 'mar', '04': 'abr', '4': 'abr', '06': 'jun', '07': 'jul', '7': 'jul', '09': 'set', '9': 'set', '10': 'oct', '11': 'nov', '12': 'dic', 'S1': '1.er sem.' };
+  function fmt(c) { return c.slice(0, 4) + '.' + c.slice(4, 6) + '.' + c.slice(6); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (m) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]; }); }
+  function etiqueta(n) { var p = n.split('-'); return p.length > 1 ? (MES[p[1]] || p[1]) + ' ' + p[0] : p[0]; }
+  function num(v) { if (v === null || v === undefined || v === '') return ''; var x = parseFloat(v); return isNaN(x) ? esc(v) : (x.toLocaleString('es-PY', { maximumFractionDigits: 1 }) + ' %'); }
+  function mostrar(c) {
+    if (!D) return;
+    var e = D.codigos[c];
+    if (!e) {
+      r.innerHTML = '<p>El código <b>' + fmt(c) + '</b> no aparece en ninguna de las listas notificadas entre 2018 y 2026.</p>' +
+        '<p class="chica">Revisá que tenga 8 dígitos. Si es un código viejo, puede que en esa época tuviera otro número: buscalo en el traductor de códigos del proyecto.</p>';
+      return;
+    }
+    var h = '<p><b class="v">' + fmt(c) + '</b> ' + esc(D.desc[c] || '') + '</p>';
+    var listas = Object.keys(e.l);
+    h += '<p>Estuvo en: <b>' + listas.map(function (l) { return NOMBRE[l]; }).join(', ') + '</b>.</p>';
+    listas.forEach(function (l) {
+      var ns = D.notificaciones[l], fila1 = '', fila2 = '';
+      ns.forEach(function (n) {
+        fila1 += '<th>' + etiqueta(n) + '</th>';
+        var est = n in e.l[l];
+        fila2 += '<td>' + (est ? (l === 'RMP' ? 'sí' : num(e.l[l][n])) : '–') + '</td>';
+      });
+      h += '<p class="chica">' + NOMBRE[l] + (l === 'RMP' ? ' (dentro del régimen el arancel es 0 %)' : ': arancel nacional vigente en cada notificación') + '</p>' +
+        '<div class="tw"><table><thead><tr><th></th>' + fila1 + '</tr></thead><tbody><tr><td>' + l + '</td>' + fila2 + '</tr></tbody></table></div>';
+    });
+    var v = e.v || [];
+    if (v.length === 1 && v[0] === c) {
+      h += '<p>En la NCM de hoy (' + etiqueta(D.version.replace('NCM_', '').replace('_', '-')) + ') el código <b>sigue igual</b>.</p>';
+    } else {
+      var mismo = v.filter(function (d) { return d.slice(0, 6) === c.slice(0, 6); });
+      h += '<p>En la NCM de hoy corresponde a <b>' + v.length + (v.length === 1 ? ' código' : ' códigos') + '</b> (' + esc(e.t) + '):</p><ul>' +
+        v.map(function (d) { return '<li><b>' + fmt(d) + '</b> ' + esc(D.desc[d] || '') + (mismo.indexOf(d) >= 0 && v.length > 1 ? ' <span class="tag">mismo grupo</span>' : '') + '</li>'; }).join('') + '</ul>';
+      if (v.length > 1) h += '<p class="chica">Cuando hay varios, hay que mirar la descripción. Los marcados como "mismo grupo" comparten los primeros 6 dígitos con el código buscado y suelen ser los que corresponden. Los de 85.49 son residuos y chatarra electrónica.</p>';
+    }
+    r.innerHTML = h;
+  }
+  function buscar(txt) {
+    var c = String(txt).replace(/\D/g, '');
+    if (c.length !== 8) { r.innerHTML = '<p>Escribí un código de <b>8 dígitos</b>, por ejemplo 8471.30.12.</p>'; return; }
+    mostrar(c);
+  }
+  document.getElementById('f-buscar').addEventListener('submit', function (ev) { ev.preventDefault(); buscar(q.value); });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-ej]'), function (a) {
+    a.addEventListener('click', function () { q.value = fmt(a.getAttribute('data-ej')); buscar(q.value); });
+  });
+  fetch('datos/listas.json').then(function (x) { return x.json(); }).then(function (d) {
+    D = d;
+    r.innerHTML = '<p class="chica">Listo: ' + Object.keys(d.codigos).length.toLocaleString('es-PY') + ' códigos que estuvieron en alguna lista entre 2018 y 2026.</p>';
+  }).catch(function () { r.innerHTML = '<p class="chica">No se pudieron cargar los datos. Probá de nuevo más tarde.</p>'; });
+})();
+</script>
+</body>
+</html>
