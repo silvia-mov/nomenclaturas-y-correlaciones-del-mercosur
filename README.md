@@ -22,7 +22,8 @@ encadenadas versión por versión, con el tipo de cambio de cada código y contr
 |---|---|---|---|
 | 1. Enero 2002 – octubre 2006 | 11 | 10 tablas entre versiones seguidas | **Listo y controlado** |
 | 2. Noviembre 2006 – enero 2010 (incluye la IV Enmienda del SA) | 9 | 9 tablas entre versiones seguidas | **Listo y controlado** |
-| 3. 2010 – 2026 | 43 versiones ya leídas | Tablas ya subidas | Pendiente |
+| 3. Octubre 2010 – enero 2015 (incluye la V Enmienda del SA) | 10 | 10 tablas entre versiones seguidas | **Listo y controlado** |
+| 4. Julio 2015 – 2026 | 33 versiones ya leídas | Tablas ya subidas | Pendiente |
 
 ## Para qué sirve
 
@@ -39,13 +40,13 @@ encadenadas versión por versión, con el tipo de cambio de cada código y contr
   *Se fusiona*: varios viejos van a uno nuevo. *Complejo*: las dos cosas a la vez.
 - **Marca "ex" de SAREM.** Aparece solo cuando el código nuevo recibe mercadería de más de un código
   viejo. Las divisiones no llevan "ex" (comprobado en todas las tablas de versiones seguidas
-  2002–2010, sin excepciones).
+  2002–2015, sin excepciones).
   Por eso el tipo de cambio se calcula con los datos y no con la marca.
 - Si un código *se divide* o es *complejo*, la correspondencia es parcial: hay que mirar la
   descripción para saber a cuál de los destinos va cada producto. Las tablas de correlación ayudan,
   pero no tienen valor legal.
 
-## Enero 2002 – enero 2010
+## Enero 2002 – enero 2015
 
 Cantidad de códigos viejos según el tipo de cambio en cada paso.
 
@@ -70,18 +71,32 @@ Cantidad de códigos viejos según el tipo de cambio en cada paso.
 | ene 2009 → abr 2009 | 9.758 | 1 | 18 | 4 | 4 |
 | abr 2009 → oct 2009 | 9.805 | 0 | 4 | 0 | 0 |
 | oct 2009 → ene 2010 | 9.796 | 0 | 10 | 4 | 4 |
+| ene 2010 → oct 2010 | 9.816 | 0 | 17 | 0 | 2 |
+| oct 2010 → ene 2011 | 9.868 | 0 | 1 | 0 | 0 |
+| ene 2011 → abr 2011 | 9.869 | 0 | 1 | 0 | 0 |
+| abr 2011 → oct 2011 | 9.855 | 3 | 9 | 4 | 0 |
+| **oct 2011 → ene 2012** | **9.284** | **276** | **72** | **137** | **128** |
+| ene 2012 → abr 2012 | 10.015 | 0 | 0 | 12 | 4 |
+| abr 2012 → jul 2012 | 10.006 | 0 | 7 | 13 | 1 |
+| jul 2012 → ene 2013 | 10.024 | 0 | 1 | 2 | 1 |
+| ene 2013 → ene 2014 | 10.027 | 0 | 2 | 0 | 0 |
+| ene 2014 → ene 2015 | 10.021 | 0 | 1 | 9 | 0 |
 
-El paso a enero 2007 es la IV Enmienda del Sistema Armonizado: cambian 1.414 códigos.
+El paso a enero 2007 es la IV Enmienda del Sistema Armonizado (cambian 1.414 códigos) y el paso a
+enero 2012, la V Enmienda (cambian 613).
 
 **Controles.**
-1. En las 19 tablas, cada código que desaparece tiene destino y cada código que aparece tiene origen.
-2. La cadena armada paso a paso coincide exactamente con las 12 tablas directas de SAREM que cuadran
-   con sus versiones: desde enero 2002 hasta enero 2003, julio 2003, enero 2004, julio 2004, enero
-   2007 y julio 2008, y desde enero 2007 hasta enero 2008, julio 2008, enero 2009, abril 2009,
-   octubre 2009 y enero 2010 (0 diferencias en las 12).
-3. **Decisión:** la tabla de SAREM de noviembre 2006 a enero 2007 está incompleta (le faltan 9
+1. En las 29 tablas, cada código que desaparece tiene destino y cada código que aparece tiene origen.
+2. La cadena armada paso a paso coincide exactamente con las 21 tablas directas de SAREM que cuadran
+   con sus versiones: 7 desde enero 2002 (hasta enero 2003, julio 2003, enero 2004, julio 2004,
+   enero 2007, julio 2008 y enero 2012) y 14 desde enero 2007 (hasta cada versión de enero 2008 a
+   enero 2015). 0 diferencias en las 21.
+3. **Decisión 2007:** la tabla de SAREM de noviembre 2006 a enero 2007 está incompleta (le faltan 9
    vínculos: pelo fino en los capítulos 61 y 62, y 8517.62.59). Se usa la tabla directa de octubre
    2006 a enero 2007, que tiene los mismos códigos de origen y coincide con las tablas largas.
+4. **Decisión 2012:** a la tabla de octubre 2011 a enero 2012 le faltan 19 vínculos hacia la partida
+   nueva 96.19 (compresas, tampones y pañales de cualquier materia), desde los capítulos 39, 61, 62 y
+   63. Se agregan desde la tabla enero 2011 → enero 2012, y coinciden con las tablas largas.
 
 ## Inicio rápido
 
@@ -92,7 +107,7 @@ descomprimen en `originales/` (ver [originales/LEEME.md](originales/LEEME.md)).
 python python/leer_versiones.py originales/nomenclaturas datos/versiones.json
 python python/encadenar.py datos/versiones.json originales/correlaciones datos/cadena.json
 python python/exportar_csv.py datos/versiones.json datos/cadena.json datos
-python python/excel_mapeo.py datos/versiones.json datos/cadena.json salidas/Mapeo_NCM_2002-2010.xlsx
+python python/excel_mapeo.py datos/versiones.json datos/cadena.json salidas/Mapeo_NCM_2002-2015.xlsx
 ```
 
 | Carpeta | Contenido |

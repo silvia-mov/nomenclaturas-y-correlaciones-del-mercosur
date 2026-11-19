@@ -52,3 +52,6 @@ originales/
 - La tabla `NCM_200259_NCM_200701` (noviembre 2006 → enero 2007) está **incompleta**: le faltan 9
   vínculos que sí están en `NCM_200258_NCM_200701` (octubre 2006 → enero 2007) y en las tablas desde
   enero 2002. Se usa la de octubre.
+- La tabla `NCM_200758_NCM_201201` (octubre 2011 → enero 2012) está **incompleta**: le faltan 19
+  vínculos hacia `96190000` (capítulos 39, 61, 62 y 63) que sí están en `NCM_200749_NCM_201201`
+  (enero 2011 → enero 2012) y en las tablas largas. Se agregan desde esa tabla.

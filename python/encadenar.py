@@ -13,14 +13,18 @@ vers_path, carpeta, salida = sys.argv[1:4]
 V = json.load(open(vers_path, encoding='utf-8'))
 
 # versión de la NCM -> número interno de SAREM (comprobado código por código).
-# Tramo 1: enero 2002 - octubre 2006. Tramo 2: noviembre 2006 - enero 2010.
+# Tramo 1: enero 2002 - octubre 2006. Tramo 2: noviembre 2006 - enero 2010. Tramo 3: octubre 2010 - enero 2015.
 ORDEN = [('NCM_2002_1', 'NCM_200201'), ('NCM_2002_7', 'NCM_200207'), ('NCM_2003_1', 'NCM_200213'),
          ('NCM_2003_7', 'NCM_200219'), ('NCM_2004_1', 'NCM_200225'), ('NCM_2004_7', 'NCM_200231'),
          ('NCM_2005_1', 'NCM_200237'), ('NCM_2005_4', 'NCM_200240'), ('NCM_2006_1', 'NCM_200249'),
          ('NCM_2006_7', 'NCM_200255'), ('NCM_2006_10', 'NCM_200258'),
          ('NCM_2006_11', 'NCM_200259'), ('NCM_2007_1', 'NCM_200701'), ('NCM_2007_7', 'NCM_200707'),
          ('NCM_2008_1', 'NCM_200713'), ('NCM_2008_7', 'NCM_200719'), ('NCM_2009_1', 'NCM_200725'),
-         ('NCM_2009_4', 'NCM_200728'), ('NCM_2009_10', 'NCM_200734'), ('NCM_2010_1', 'NCM_200737')]
+         ('NCM_2009_4', 'NCM_200728'), ('NCM_2009_10', 'NCM_200734'), ('NCM_2010_1', 'NCM_200737'),
+         ('NCM_2010_10', 'NCM_200746'), ('NCM_2011_1', 'NCM_200749'), ('NCM_2011_4', 'NCM_200752'),
+         ('NCM_2011_10', 'NCM_200758'), ('NCM_2012_1', 'NCM_201201'), ('NCM_2012_4', 'NCM_201204'),
+         ('NCM_2012_7', 'NCM_201207'), ('NCM_2013_1', 'NCM_201213'), ('NCM_2014_1', 'NCM_201225'),
+         ('NCM_2015_1', 'NCM_201237')]
 SAREM = dict(ORDEN)
 VERSION = {s: v for v, s in ORDEN}
 IDX = {v: i for i, (v, _) in enumerate(ORDEN)}
@@ -85,6 +89,13 @@ def tipo(rel):
 # los mismos códigos, así que se usa la tabla de octubre.
 REEMPLAZO = {('NCM_2006_11', 'NCM_2007_1'): ('NCM_200258', 'NCM_200701')}
 
+# Vínculos que faltan en una tabla de versiones seguidas y se agregan desde otra tabla de SAREM.
+# Octubre 2011 -> enero 2012 (V Enmienda del SA): la partida nueva 96.19 (compresas, tampones y
+# pañales de cualquier materia) solo recibe de 48.18 y 56.01; faltan 19 códigos de los caps. 39, 61,
+# 62 y 63 que sí van "ex 9619.00.00" en la tabla enero 2011 -> enero 2012 y en las tablas largas
+# desde enero 2002 y enero 2007. Se agregan desde NCM_200749_NCM_201201.
+AGREGAR = {('NCM_2011_10', 'NCM_2012_1'): {'tabla': ('NCM_200749', 'NCM_201201'), 'destino': '96190000'}}
+
 # ---------- pasos entre versiones seguidas ----------
 pasos = []
 for (va, sa), (vb, sb) in zip(ORDEN, ORDEN[1:]):
@@ -93,9 +104,18 @@ for (va, sa), (vb, sb) in zip(ORDEN, ORDEN[1:]):
         assert S[VERSION[ta]] == S[va]
     a, b, pares, ex = leer(TABLAS[(ta, tb)])
     assert (a, b) == (ta, tb)
+    agregados = []
+    if (va, vb) in AGREGAR:
+        cfg = AGREGAR[(va, vb)]
+        _, _, otros, _ = leer(TABLAS[cfg['tabla']])
+        ya = set(pares)
+        agregados = sorted({(o, d) for o, d in otros if d == cfg['destino'] and o in S[va] and (o, d) not in ya})
+        pares = pares + agregados
+        ex = ex | set(agregados)
+        print(f'{va} -> {vb}: se agregan {len(agregados)} vínculos a {cfg["destino"]} desde {cfg["tabla"][0]}_{cfg["tabla"][1]}')
     rel = relacion(va, vb, pares)
     assert set(rel) == S[va] and set().union(*rel.values()) == S[vb], (va, vb)
-    pasos.append({'de': va, 'a': vb, 'rel': rel, 'ex': ex, 'tipo': tipo(rel)})
+    pasos.append({'de': va, 'a': vb, 'rel': rel, 'ex': ex, 'tipo': tipo(rel), 'agregados': agregados})
 
 
 def cadena(desde, hasta):
@@ -167,7 +187,8 @@ for g in agrup:
 json.dump({'orden': ORDEN, 'fin': FIN, 'controles': controles, 'descartadas': descartadas, 'agrupado': agrup,
            'pasos': [{'de': p['de'], 'a': p['a'],
                       'filas': [(o, d, (o, d) in p['ex'], p['tipo'][o]) for o in sorted(p['rel'])
-                                for d in sorted(p['rel'][o]) if p['tipo'][o] != 'igual']}
+                                for d in sorted(p['rel'][o]) if p['tipo'][o] != 'igual'],
+                      'agregados': p['agregados']}
                      for p in pasos]},
           open(salida, 'w'), ensure_ascii=False)
 

@@ -144,6 +144,7 @@ notas = [
     ('Contra SAREM', 'La cadena se compara con todas las tablas directas de SAREM entre versiones no seguidas cuyos códigos coinciden con sus versiones (ver Resumen).'),
     ('Decisiones y problemas de SAREM', None),
     ('Noviembre 2006 → enero 2007', 'La tabla de SAREM está incompleta: le faltan 9 vínculos (pelo fino en los capítulos 61 y 62, y 8517.62.59). Se usó la tabla directa de octubre 2006 a enero 2007, que tiene los mismos códigos de origen.'),
+    ('Octubre 2011 → enero 2012', 'A la tabla de SAREM le faltan 19 vínculos hacia la partida nueva 96.19 (compresas, tampones y pañales de cualquier materia), desde los capítulos 39, 61, 62 y 63. Se agregaron desde la tabla enero 2011 → enero 2012, y coinciden con las tablas largas desde 2002 y 2007.'),
     ('Enero 2003 ↔ enero 2004', 'Las tablas NCM_200213_NCM_200225 y la inversa dicen ser de enero 2004, pero sus códigos son los de enero 2005. No se usaron.'),
     ('Hacia y desde enero 2007', 'Las tablas de enero 2006 y julio 2006 hacia enero 2007 parten en realidad de octubre 2006, y las de enero 2007 hacia 2006 usan códigos de julio 2007; tienen filas "suprimido" y "eliminado". No se usaron.'),
 ]
