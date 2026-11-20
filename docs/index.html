@@ -121,6 +121,7 @@ footer { margin-top: 48px; padding: 28px 0 48px; border-top: 1px solid var(--lin
 <div class="wrap">
 <nav class="toc" aria-label="Contenido">
   <a href="#buscar">Buscar un código</a>
+  <a href="#lote">Muchos códigos</a>
   <a href="#cuanto">Cuánto cambia</a>
   <a href="#tipos">Tipos de cambio</a>
   <a href="#descargas">Descargas</a>
@@ -134,6 +135,17 @@ footer { margin-top: 48px; padding: 28px 0 48px; border-top: 1px solid var(--lin
   <p class="ejemplos">Ejemplos: <a data-c="85252022">8525.20.22</a> (celulares en 2002) · <a data-c="01011010">0101.10.10</a> · <a data-c="85171300">8517.13.00</a> · <a data-c="1201">1201</a></p>
   <div class="respuesta" id="r" aria-live="polite">Cargando los datos…</div>
 </div>
+
+<section id="lote">
+  <h2>Traducir muchos códigos a la vez</h2>
+  <p>Pegá una lista de códigos NCM de 8 dígitos (uno por línea, o separados por comas o espacios; con o sin puntos) y bajá el resultado en un archivo que se abre con Excel: una fila por cada código de noviembre de 2026 al que corresponde, con su descripción, su arancel externo común y el tipo de cambio.</p>
+  <div class="card">
+    <label class="sr" for="lote-txt">Códigos NCM</label>
+    <textarea id="lote-txt" rows="6" style="width:100%;font:inherit;font-size:15px;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--text)" placeholder="8525.20.22&#10;01011010&#10;8517.13.00"></textarea>
+    <div class="btns" style="margin-top:10px"><button class="btn primary" id="lote-ir" type="button">Traducir y descargar</button></div>
+    <p class="note" id="lote-res" aria-live="polite"></p>
+  </div>
+</section>
 
 <section id="cuanto">
   <h2>La mayoría de los cambios llega con las enmiendas del Sistema Armonizado</h2>
@@ -229,6 +241,30 @@ footer { margin-top: 48px; padding: 28px 0 48px; border-top: 1px solid var(--lin
     if (D.v[c]) h += "<p><b>" + pto(c) + "</b> está vigente en noviembre de 2026" + (h ? " (volvió a usarse)" : "") + ": " + esc(D.v[c][0]) + ". AEC: <b class='v'>" + esc(String(D.v[c][1]).replace('.', ',')) + " %</b>." + (h ? "" : " No cambió desde que aparece en la NCM.") + "</p>";
     r.innerHTML = h || "<p>El código <b>" + pto(c) + "</b> no figura en ninguna versión de la NCM de 2002 a 2026.</p>";
   }
+
+  // ---------- Traducción por lote: CSV con punto y coma (se abre directo con Excel en español)
+  document.getElementById("lote-ir").addEventListener("click", () => {
+    const out = document.getElementById("lote-res");
+    if (!D) { out.textContent = "Los datos todavía están cargando; probá en unos segundos."; return; }
+    const cods = [...new Set(document.getElementById("lote-txt").value.split(/[\s,;]+/).map(x => x.replace(/\D/g, "")).filter(x => x.length === 8))];
+    if (!cods.length) { out.textContent = "No encontré códigos de 8 dígitos."; return; }
+    const filas = [["codigo_ingresado", "situacion", "valido_desde", "valido_hasta", "tipo_cambio", "codigo_2026", "descripcion_2026", "aec_2026"]];
+    const cel = x => '"' + String(x ?? "").trim().replace(/"/g, '""') + '"';
+    let ok = 0, no = 0;
+    for (const c of cods) {
+      const ventanas = D.c[c] ? (Array.isArray(D.c[c][0]) ? D.c[c] : [D.c[c]]) : [];
+      for (const w of ventanas) for (const dst of (w[4] || "").split(" ").filter(Boolean)) {
+        const v = D.v[dst] || [];
+        filas.push([c, "cambió", ver(w[0]), ver(w[1]), w[3], dst, v[0], v[1]]);
+      }
+      if (D.v[c]) filas.push([c, "vigente en noviembre 2026", "", "", "sin cambio desde que aparece", c, D.v[c][0], D.v[c][1]]);
+      if (ventanas.length || D.v[c]) ok++; else { no++; filas.push([c, "no figura en la NCM 2002-2026", "", "", "", "", "", ""]); }
+    }
+    const csv = "\ufeff" + filas.map(f => f.map(cel).join(";")).join("\r\n");
+    const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" })), download: "traduccion_ncm_2026.csv" });
+    document.body.appendChild(a); a.click(); a.remove();
+    out.textContent = `Listo: ${cods.length} códigos (${ok} encontrados${no ? ", " + no + " no figuran en la NCM" : ""}), ${filas.length - 1} filas en el archivo. Si un código va a varios códigos de hoy, aparece una fila por cada uno: elegí con la descripción.`;
+  });
   document.getElementById("f").addEventListener("submit", e => { e.preventDefault(); buscar(q.value);
     const c = q.value.replace(/\D/g, ""); if (c) history.replaceState(null, "", "?codigo=" + c + "#buscar"); });
   document.querySelectorAll(".ejemplos a").forEach(a => a.addEventListener("click", () => { q.value = a.dataset.c; buscar(a.dataset.c); }));
