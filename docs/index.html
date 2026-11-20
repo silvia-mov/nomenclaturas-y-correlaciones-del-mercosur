@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Versiones y correlaciones de la NCM</title>
+<meta name="description" content="Buscador de códigos de la Nomenclatura Común del MERCOSUR (NCM): a qué código de noviembre 2026 corresponde un código de cualquier versión desde enero 2002, con el camino de cada cambio y su arancel externo común.">
+<link rel="canonical" href="https://silvia-mov.github.io/nomenclaturas-y-correlaciones-del-mercosur/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_PY">
+<meta property="og:title" content="Cada código NCM, de cualquier año a hoy">
+<meta property="og:description" content="Las 63 versiones de la NCM de 2002 a 2026 y sus tablas de correlación, encadenadas versión por versión.">
+<meta property="og:url" content="https://silvia-mov.github.io/nomenclaturas-y-correlaciones-del-mercosur/">
+<meta property="og:image" content="https://silvia-mov.github.io/nomenclaturas-y-correlaciones-del-mercosur/img/tarjeta_light.png">
+<style>
+:root {
+  --bg: #fffafb; --panel: #ffffff; --text: #1d1a1c; --text2: #5c5459; --line: #f3dde4;
+  --s1: #39b89a; --s2: #fec9d7; --s3: #ff5883; --s4: #79d3be; --accent: #1f7f68; --code: #fdf0f4; --link: #1f7f68; --btn: #39b89a; --btntext: #08261f; --hero1: #b9eee1; --hero2: #fec9d7;
+  --tag: #fec9d7; --tagtext: #7a2440;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161314; --panel: #201b1d; --text: #f5eef1; --text2: #bfb3b8; --line: #3a2f33;
+    --s1: #39b89a; --s2: #6b3a4a; --s3: #ff91ad; --s4: #b9eee1; --accent: #79d3be; --code: #2a2225; --link: #79d3be; --btn: #39b89a; --btntext: #08261f; --hero1: #123a31; --hero2: #3d1a26;
+    --tag: #3d1a26; --tagtext: #ffc2d2;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161314; --panel: #201b1d; --text: #f5eef1; --text2: #bfb3b8; --line: #3a2f33;
+  --s1: #39b89a; --s2: #6b3a4a; --s3: #ff91ad; --s4: #b9eee1; --accent: #79d3be; --code: #2a2225; --link: #79d3be; --btn: #39b89a; --btntext: #08261f; --hero1: #123a31; --hero2: #3d1a26;
+  --tag: #3d1a26; --tagtext: #ffc2d2;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+header { padding: 56px 0 36px; background: linear-gradient(120deg, var(--hero1), var(--hero2)); }
+.eyebrow { color: var(--accent); font-weight: 600; font-size: 14px; letter-spacing: .04em; text-transform: uppercase; margin: 0 0 8px; }
+h1 { font-size: clamp(28px, 5vw, 42px); line-height: 1.15; margin: 0 0 16px; letter-spacing: -.01em; }
+.lead { font-size: 19px; color: var(--text2); max-width: 720px; margin: 0 0 24px; }
+.btns { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn { display: inline-block; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 15px; border: 1px solid var(--line); color: var(--text); background: var(--panel); }
+.btn.primary { background: var(--btn); border-color: var(--btn); color: var(--btntext); }
+nav.toc { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 14px 0; font-size: 15px; border-bottom: 1px solid var(--line); }
+nav.toc a { color: var(--text2); text-decoration: none; }
+nav.toc a:hover { color: var(--text); }
+section { padding: 40px 0 8px; }
+h2 { font-size: 26px; margin: 0 0 12px; letter-spacing: -.005em; }
+h3 { font-size: 18px; margin: 28px 0 8px; }
+p, li { max-width: 760px; }
+a { color: var(--link); }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 20px 0; }
+.kpi { background: var(--panel); border: 1px solid var(--line); border-top: 4px solid var(--s3); border-radius: 10px; padding: 16px; }
+.kpi .v { font-size: 30px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.kpi .l { color: var(--text2); font-size: 14px; margin-top: 6px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px; margin: 16px 0; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.grid2 .card { margin: 0; }
+.grid2 h3 { margin-top: 0; }
+.tag { display: inline-block; padding: 2px 10px; border-radius: 99px; background: var(--tag); color: var(--tagtext); font-size: 13px; font-weight: 600; margin-right: 6px; }
+.tw { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; font-variant-numeric: tabular-nums; }
+th, td { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+th { color: var(--text2); font-weight: 600; }
+.note { font-size: 14px; color: var(--text2); }
+.consulta { background: linear-gradient(120deg, var(--hero1), var(--hero2)); border-radius: 14px; padding: 22px; margin: 28px 0 8px; }
+.consulta h2 { margin-top: 0; }
+.consulta .elegir { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 6px 0 14px; }
+.consulta input { font: inherit; font-size: 18px; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--panel); color: var(--text); width: 14ch; font-variant-numeric: tabular-nums; }
+.consulta button { font: inherit; font-weight: 600; padding: 9px 16px; border-radius: 8px; border: 0; background: var(--btn); color: var(--btntext); cursor: pointer; }
+.ejemplos { font-size: 14px; color: var(--text2); }
+.ejemplos a { cursor: pointer; }
+.respuesta { background: var(--panel); border-radius: 12px; padding: 18px 20px; font-size: 17px; line-height: 1.55; }
+.respuesta p { margin: 0 0 10px; max-width: none; }
+.respuesta .chica { font-size: 14.5px; color: var(--text2); }
+.respuesta b.v { color: var(--accent); }
+.respuesta table { font-size: 14px; margin: 6px 0 14px; }
+.dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
+.dl .card { margin: 0; display: flex; flex-direction: column; }
+.dl .card h3 { margin-top: 0; }
+.dl .card p { flex: 1; font-size: 15px; color: var(--text2); }
+.dl .btns { gap: 8px; }
+.dl .btn { font-size: 14px; padding: 8px 14px; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; background: var(--code); padding: 1px 5px; border-radius: 4px; }
+details { border-bottom: 1px solid var(--line); padding: 10px 0; max-width: 760px; }
+summary { cursor: pointer; font-weight: 600; }
+footer { margin-top: 48px; padding: 28px 0 48px; border-top: 1px solid var(--line); font-size: 14px; color: var(--text2); }
+.comentar { margin: 40px auto 0; max-width: 960px; padding: 0 16px; }
+.comentar .caja { border: 1.5px dashed #79d3be; border-radius: 12px; padding: 18px 20px; }
+.comentar h2 { margin: 0 0 8px; }
+.comentar p { margin: 0 0 14px; }
+.comentar a.boton { display: inline-block; padding: 9px 16px; border-radius: 8px; background: #39b89a; color: #08261f; font-weight: 600; text-decoration: none; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media print { nav.toc, .btns, .consulta, .comentar { display: none !important; } }
+
+.aviso-top { background: var(--panel); border-bottom: 1px solid var(--line); color: var(--text2); font-size: 13.5px; text-align: center; padding: 7px 16px; }
+.camino { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13.5px; color: var(--text2); white-space: normal; word-break: break-word; }
+.tipo { display: inline-block; padding: 1px 9px; border-radius: 99px; background: var(--tag); color: var(--tagtext); font-size: 13px; font-weight: 600; }
+.graf img { width: 100%; height: auto; display: block; border-radius: 8px; }
+</style>
+<script data-goatcounter="https://silvia-mov.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<div class="aviso-top">Proyecto independiente. No representa ni cuenta con el respaldo de la Secretaría del MERCOSUR, de la Organización Mundial de Aduanas ni de ningún gobierno.</div>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Nomenclatura Común del MERCOSUR</p>
+    <h1>Cada código NCM, de cualquier año a hoy</h1>
+    <p class="lead">Los códigos de la NCM cambian con el tiempo: se dividen, se juntan o cambian de número. Escribí un código de cualquier versión desde enero de 2002 y te decimos a qué código de noviembre de 2026 corresponde, y por qué.</p>
+    <div class="btns">
+      <a class="btn primary" href="#buscar">Buscar un código</a>
+      <a class="btn" href="listas.html">Listas de la nomenclatura</a>
+      <a class="btn" href="#descargas">Descargas</a>
+      <a class="btn" href="https://github.com/silvia-mov/nomenclaturas-y-correlaciones-del-mercosur">Ver el proyecto</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+<nav class="toc" aria-label="Contenido">
+  <a href="#buscar">Buscar un código</a>
+  <a href="#cuanto">Cuánto cambia</a>
+  <a href="#tipos">Tipos de cambio</a>
+  <a href="#descargas">Descargas</a>
+  <a href="#como">Cómo se armó</a>
+</nav>
+
+<div class="consulta" id="buscar">
+  <h2>Buscar un código</h2>
+  <p>Escribí un código de 8 dígitos (con o sin puntos). Con 4 o 6 dígitos te mostramos los códigos vigentes que empiezan así.</p>
+  <form class="elegir" id="f"><label class="sr" for="q">Código NCM</label><input id="q" inputmode="numeric" placeholder="8525.20.22" autocomplete="off"><button>Buscar</button></form>
+  <p class="ejemplos">Ejemplos: <a data-c="85252022">8525.20.22</a> (celulares en 2002) · <a data-c="01011010">0101.10.10</a> · <a data-c="85171300">8517.13.00</a> · <a data-c="1201">1201</a></p>
+  <div class="respuesta" id="r" aria-live="polite">Cargando los datos…</div>
+</div>
+
+<section id="cuanto">
+  <h2>La mayoría de los cambios llega con las enmiendas del Sistema Armonizado</h2>
+  <p>Cada cinco años la Organización Mundial de Aduanas revisa el Sistema Armonizado, la base de los primeros 6 dígitos de la NCM. En esas fechas (2007, 2012, 2017 y 2022) cambian cientos o miles de códigos; entre una enmienda y otra los cambios son pocos.</p>
+  <div class="kpis">
+    <div class="kpi"><div class="v">63</div><div class="l">versiones de la NCM, enero 2002 a noviembre 2026</div></div>
+    <div class="kpi"><div class="v">5.872</div><div class="l">códigos que cambiaron al menos una vez</div></div>
+    <div class="kpi"><div class="v">10.516</div><div class="l">códigos vigentes en noviembre de 2026</div></div>
+  </div>
+  <div class="card graf">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="img/cambios_ncm_dark.png">
+      <img src="img/cambios_ncm_light.png" alt="Gráfico de barras de los códigos NCM que cambian en cada versión, 2002 a 2026, con picos en las enmiendas de 2007, 2012, 2017 y 2022" loading="lazy">
+    </picture>
+  </div>
+</section>
+
+<section id="tipos">
+  <h2>Cuatro tipos de cambio</h2>
+  <div class="grid2">
+    <div class="card"><h3>Renumerado</h3><p>El mismo producto pasa a tener otro número. Un código viejo, un código nuevo.</p></div>
+    <div class="card"><h3>Se divide</h3><p>Un código se abre en varios más detallados. El comercio del código viejo se reparte entre los nuevos.</p></div>
+    <div class="card"><h3>Se fusiona</h3><p>Varios códigos se juntan en uno solo.</p></div>
+    <div class="card"><h3>Complejo</h3><p>Partes de varios códigos viejos van a varios códigos nuevos. Hay que mirar la descripción para saber cuál corresponde.</p></div>
+  </div>
+</section>
+
+<section id="descargas">
+  <h2>Descargas</h2>
+  <div class="dl">
+    <div class="card"><h3>Mapeo completo (Excel)</h3><p>Cada código de 2002 a 2026, su período de validez, el tipo de cambio y el código de noviembre 2026.</p><div class="btns"><a class="btn primary" href="https://github.com/silvia-mov/nomenclaturas-y-correlaciones-del-mercosur/raw/main/salidas/Mapeo_NCM_2002-2026.xlsx">Excel</a></div></div>
+    <div class="card"><h3>Mapeo y caminos (CSV)</h3><p>El mismo mapeo en CSV, y el camino de cada código que cambió, paso por paso.</p><div class="btns"><a class="btn" href="https://github.com/silvia-mov/nomenclaturas-y-correlaciones-del-mercosur/raw/main/datos/mapeo_2002_2026.csv">Mapeo</a><a class="btn" href="https://github.com/silvia-mov/nomenclaturas-y-correlaciones-del-mercosur/raw/main/datos/caminos_2002_2026.csv">Caminos</a></div></div>
+    <div class="card"><h3>Cambios por versión (CSV)</h3><p>Cada cambio entre dos versiones seguidas: código viejo, código nuevo y tipo de cambio.</p><div class="btns"><a class="btn" href="https://github.com/silvia-mov/nomenclaturas-y-correlaciones-del-mercosur/raw/main/datos/cambios_por_paso_2002_2026.csv">Cambios</a><a class="btn" href="https://github.com/silvia-mov/nomenclaturas-y-correlaciones-del-mercosur/raw/main/datos/versiones.csv">Versiones</a></div></div>
+  </div>
+</section>
+
+<section id="como">
+  <h2>Cómo se armó</h2>
+  <p>Se descargaron del sistema SAREM de la Secretaría del MERCOSUR las 63 versiones de la NCM y las tablas de correlación entre cada versión y la siguiente. Las tablas se encadenaron versión por versión, de enero de 2002 a noviembre de 2026, y cada tramo se controló contra SAREM. En los pasos de las enmiendas del Sistema Armonizado se revisaron además con las tablas de correlación de la Organización Mundial de Aduanas.</p>
+  <p>El arancel externo común (AEC) que muestra el buscador es el de la versión de noviembre de 2026. Cuando un código viejo va a varios códigos nuevos, el buscador los muestra todos: elegir el correcto depende del producto.</p>
+  <details><summary>¿Para qué sirve?</summary><p>Para comparar series de comercio de distintos años con la misma nomenclatura, por ejemplo despachos aduaneros de 2011 y de 2025, o para saber qué arancel corresponde hoy a un producto que se registró con un código viejo.</p></details>
+  <details><summary>¿Es oficial?</summary><p>No. Es una recopilación independiente hecha con los archivos públicos de SAREM. Para cualquier uso formal, consulte la fuente oficial.</p></details>
+</section>
+</div>
+
+<section class="comentar" id="comentarios">
+  <div class="caja">
+    <h2>¿Una duda, un error o una sugerencia?</h2>
+    <p>Dejá tu comentario de forma anónima: no se pide nombre ni correo.</p>
+    <a class="boton" href="https://forms.gle/Vis1NdaswVxbDw446" target="_blank" rel="noopener">Dejar un comentario</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>Proyecto: <a href="https://github.com/silvia-mov/nomenclaturas-y-correlaciones-del-mercosur">Nomenclatura Común del MERCOSUR: versiones y correlaciones</a> · <a href="listas.html">Listas de la nomenclatura</a> · <a href="https://silvia-mov.github.io/">Página principal</a></p>
+    <p>Fuente: sistema SAREM de la Secretaría del MERCOSUR; tablas de correlación de la Organización Mundial de Aduanas. Elaboración propia. Código bajo licencia MIT.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const MES = ["", "enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+  const ver = v => { const m = /NCM_(\d{4})(?:_(\d+))?/.exec(v || ""); return !m ? v : (m[2] ? MES[+m[2]] + " " + m[1] : m[1]); };
+  const pto = c => c.length === 8 ? c.slice(0,4) + "." + c.slice(4,6) + "." + c.slice(6) : c;
+  const esc = s => String(s ?? "").replace(/[&<>"]/g, x => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[x]));
+  const r = document.getElementById("r"), q = document.getElementById("q");
+  let D = null;
+  fetch("datos/buscador.json").then(x => x.json()).then(j => { D = j; r.textContent = "Escribí un código y tocá Buscar."; })
+    .catch(() => { r.textContent = "No se pudieron cargar los datos. Probá recargar la página."; });
+  const destino = c => { const v = D.v[c]; return "<tr><td><b>" + pto(c) + "</b></td><td style='text-align:left;white-space:normal'>" + (v ? esc(v[0]) : "–") + "</td><td>" + (v && v[1] != null ? esc(String(v[1]).replace('.', ',')) + " %" : "–") + "</td></tr>"; };
+  const tabla = cs => "<div class='tw'><table><thead><tr><th>Código 2026</th><th style='text-align:left'>Descripción</th><th>AEC</th></tr></thead><tbody>" + cs.map(destino).join("") + "</tbody></table></div>";
+  function buscar(txt) {
+    if (!D) return;
+    const c = (txt || "").replace(/\D/g, "");
+    if (![4,6,8].includes(c.length)) { r.innerHTML = "<p>Escribí 4, 6 u 8 dígitos.</p>"; return; }
+    if (c.length < 8) {
+      const l = Object.keys(D.v).filter(k => k.startsWith(c)).slice(0, 40);
+      r.innerHTML = l.length ? "<p>Códigos vigentes en noviembre de 2026 que empiezan con <b>" + c + "</b>" + (l.length === 40 ? " (primeros 40)" : "") + ":</p>" + tabla(l) : "<p>No hay códigos vigentes que empiecen con <b>" + c + "</b>.</p>";
+      return;
+    }
+    let h = "";
+    for (const w of (D.c[c] ? (Array.isArray(D.c[c][0]) ? D.c[c] : [D.c[c]]) : [])) {
+      const dest = (w[4] || "").split(" ").filter(Boolean);
+      h += "<p><b>" + pto(c) + "</b> (" + esc(w[2]) + ") fue válido de <b>" + ver(w[0]) + "</b> a <b>" + ver(w[1]) + "</b>. Tipo de cambio: <span class='tipo'>" + esc(w[3]) + "</span>. " +
+           (dest.length === 1 ? "Hoy corresponde a:" : "Hoy corresponde a uno de estos " + dest.length + " códigos (depende del producto):") + "</p>" + tabla(dest) +
+           "<p class='chica'>Camino: <span class='camino'>" + esc(w[5]) + "</span></p>" + (w[6] ? "<p class='chica'>Nota: " + esc(w[6]) + "</p>" : "");
+    }
+    if (D.v[c]) h += "<p><b>" + pto(c) + "</b> está vigente en noviembre de 2026" + (h ? " (volvió a usarse)" : "") + ": " + esc(D.v[c][0]) + ". AEC: <b class='v'>" + esc(String(D.v[c][1]).replace('.', ',')) + " %</b>." + (h ? "" : " No cambió desde que aparece en la NCM.") + "</p>";
+    r.innerHTML = h || "<p>El código <b>" + pto(c) + "</b> no figura en ninguna versión de la NCM de 2002 a 2026.</p>";
+  }
+  document.getElementById("f").addEventListener("submit", e => { e.preventDefault(); buscar(q.value); });
+  document.querySelectorAll(".ejemplos a").forEach(a => a.addEventListener("click", () => { q.value = a.dataset.c; buscar(a.dataset.c); }));
+})();
+</script>
+</body>
+</html>
