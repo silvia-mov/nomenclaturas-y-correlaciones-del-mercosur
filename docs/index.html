@@ -137,10 +137,10 @@ footer { margin-top: 48px; padding: 28px 0 48px; border-top: 1px solid var(--lin
 
 <section id="cuanto">
   <h2>La mayoría de los cambios llega con las enmiendas del Sistema Armonizado</h2>
-  <p>Cada cinco años la Organización Mundial de Aduanas revisa el Sistema Armonizado, la base de los primeros 6 dígitos de la NCM. En esas fechas (2007, 2012, 2017 y 2022) cambian cientos o miles de códigos; entre una enmienda y otra los cambios son pocos.</p>
+  <p>Cada cinco años la Organización Mundial de Aduanas revisa el Sistema Armonizado, la base de los primeros 6 dígitos de la NCM. En esas fechas (2007, 2012, 2017 y 2022) cambian cientos o miles de códigos; entre una enmienda y otra los cambios son pocos. La más grande fue la VII Enmienda (2022), que cambió el 28,9 % de los códigos; la IV (2007), el 16,5 %; la V (2012), el 6,8 %, y la VI (2017), el 7,3 %. La próxima, la VIII Enmienda (Sistema Armonizado 2027), rige desde el 1 de enero de 2027: el traductor se va a actualizar con esa versión.</p>
   <div class="kpis">
-    <div class="kpi"><div class="v">63</div><div class="l">versiones de la NCM, enero 2002 a noviembre 2026</div></div>
-    <div class="kpi"><div class="v">5.872</div><div class="l">códigos que cambiaron al menos una vez</div></div>
+    <div class="kpi"><div class="v">63</div><div class="l">versiones de la NCM descargadas de SAREM, enero 2002 a noviembre 2026 (más marzo 2019, reconstruida)</div></div>
+    <div class="kpi"><div class="v">5.872</div><div class="l">códigos distintos de 8 dígitos que cambiaron al menos una vez (cada código se cuenta una sola vez, aunque haya cambiado varias)</div></div>
     <div class="kpi"><div class="v">10.516</div><div class="l">códigos vigentes en noviembre de 2026</div></div>
   </div>
   <div class="card graf">
@@ -172,8 +172,9 @@ footer { margin-top: 48px; padding: 28px 0 48px; border-top: 1px solid var(--lin
 
 <section id="como">
   <h2>Cómo se armó</h2>
-  <p>Se descargaron del sistema SAREM de la Secretaría del MERCOSUR las 63 versiones de la NCM y las tablas de correlación entre cada versión y la siguiente. Las tablas se encadenaron versión por versión, de enero de 2002 a noviembre de 2026, y cada tramo se controló contra SAREM. En los pasos de las enmiendas del Sistema Armonizado se revisaron además con las tablas de correlación de la Organización Mundial de Aduanas.</p>
-  <p>El arancel externo común (AEC) que muestra el buscador es el de la versión de noviembre de 2026. Cuando un código viejo va a varios códigos nuevos, el buscador los muestra todos: elegir el correcto depende del producto.</p>
+  <p>Se descargaron del sistema SAREM de la Secretaría del MERCOSUR las 63 versiones de la NCM y las tablas de correlación entre cada versión y la siguiente. Las tablas se encadenaron versión por versión, de enero de 2002 a noviembre de 2026, y cada tramo se controló contra SAREM. En los pasos de las enmiendas del Sistema Armonizado se revisaron además con las tablas de correlación de la Organización Mundial de Aduanas. Marzo de 2019 no tiene archivo en SAREM: se armó desde enero de 2019 con la tabla de correlación (por eso el mapeo usa 64 versiones). Y uno de los 63 archivos, la carpeta "2022" de SAREM, repite los códigos de septiembre de 2021.</p>
+  <p>El arancel externo común (AEC) que muestra el buscador es el de la versión de noviembre de 2026. Cuando un código viejo va a varios códigos nuevos, el buscador los muestra todos: elegir el correcto depende del producto, y se decide con la descripción y las notas de la nomenclatura, no por el parecido del número.</p>
+  <p><b>Ojo al comparar series de comercio:</b> cuando un código se divide, se fusiona o tiene una correspondencia compleja, la tabla dice a qué códigos nuevos puede ir, pero no cuánto del comercio del código viejo corresponde a cada uno. Para repartir valores hace falta información del producto o un método de conversión propio.</p>
   <details><summary>¿Para qué sirve?</summary><p>Para comparar series de comercio de distintos años con la misma nomenclatura, por ejemplo despachos aduaneros de 2011 y de 2025, o para saber qué arancel corresponde hoy a un producto que se registró con un código viejo.</p></details>
   <details><summary>¿Es oficial?</summary><p>No. Es una recopilación independiente hecha con los archivos públicos de SAREM. Para cualquier uso formal, consulte la fuente oficial.</p></details>
 </section>
@@ -190,6 +191,7 @@ footer { margin-top: 48px; padding: 28px 0 48px; border-top: 1px solid var(--lin
 <footer>
   <div class="wrap">
     <p>Proyecto: <a href="https://github.com/silvia-mov/nomenclaturas-y-correlaciones-del-mercosur">Nomenclatura Común del MERCOSUR: versiones y correlaciones</a> · <a href="listas.html">Listas de la nomenclatura</a> · <a href="https://silvia-mov.github.io/">Página principal</a></p>
+    <p>Última actualización: 20 de noviembre de 2026 (NCM de noviembre de 2026).</p>
     <p>Fuente: sistema SAREM de la Secretaría del MERCOSUR; tablas de correlación de la Organización Mundial de Aduanas. Elaboración propia. Código bajo licencia MIT.</p>
   </div>
 </footer>
@@ -202,7 +204,9 @@ footer { margin-top: 48px; padding: 28px 0 48px; border-top: 1px solid var(--lin
   const esc = s => String(s ?? "").replace(/[&<>"]/g, x => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[x]));
   const r = document.getElementById("r"), q = document.getElementById("q");
   let D = null;
-  fetch("datos/buscador.json").then(x => x.json()).then(j => { D = j; r.textContent = "Escribí un código y tocá Buscar."; })
+  // Enlace compartible: ...?codigo=85252022 busca ese código al abrir la página
+  const pedido = new URLSearchParams(location.search).get("codigo");
+  fetch("datos/buscador.json").then(x => x.json()).then(j => { D = j; r.textContent = "Escribí un código y tocá Buscar."; if (pedido) { q.value = pedido; buscar(pedido); } })
     .catch(() => { r.textContent = "No se pudieron cargar los datos. Probá recargar la página."; });
   const destino = c => { const v = D.v[c]; return "<tr><td><b>" + pto(c) + "</b></td><td style='text-align:left;white-space:normal'>" + (v ? esc(v[0]) : "–") + "</td><td>" + (v && v[1] != null ? esc(String(v[1]).replace('.', ',')) + " %" : "–") + "</td></tr>"; };
   const tabla = cs => "<div class='tw'><table><thead><tr><th>Código 2026</th><th style='text-align:left'>Descripción</th><th>AEC</th></tr></thead><tbody>" + cs.map(destino).join("") + "</tbody></table></div>";
@@ -225,7 +229,8 @@ footer { margin-top: 48px; padding: 28px 0 48px; border-top: 1px solid var(--lin
     if (D.v[c]) h += "<p><b>" + pto(c) + "</b> está vigente en noviembre de 2026" + (h ? " (volvió a usarse)" : "") + ": " + esc(D.v[c][0]) + ". AEC: <b class='v'>" + esc(String(D.v[c][1]).replace('.', ',')) + " %</b>." + (h ? "" : " No cambió desde que aparece en la NCM.") + "</p>";
     r.innerHTML = h || "<p>El código <b>" + pto(c) + "</b> no figura en ninguna versión de la NCM de 2002 a 2026.</p>";
   }
-  document.getElementById("f").addEventListener("submit", e => { e.preventDefault(); buscar(q.value); });
+  document.getElementById("f").addEventListener("submit", e => { e.preventDefault(); buscar(q.value);
+    const c = q.value.replace(/\D/g, ""); if (c) history.replaceState(null, "", "?codigo=" + c + "#buscar"); });
   document.querySelectorAll(".ejemplos a").forEach(a => a.addEventListener("click", () => { q.value = a.dataset.c; buscar(a.dataset.c); }));
 })();
 </script>

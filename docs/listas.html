@@ -122,12 +122,12 @@ footer { margin-top: 48px; padding: 28px 0 48px; border-top: 1px solid var(--lin
 
 <section id="que-son">
   <h2>Qué son estas listas</h2>
-  <p>En el MERCOSUR los cuatro países cobran, en principio, el mismo arancel a lo que viene de afuera: el <b>Arancel Externo Común (AEC)</b>. Pero hay productos en los que cada país puede cobrar otra cosa. Paraguay avisa al MERCOSUR, dos veces por año, qué productos están en cada una de estas listas.</p>
+  <p>En el MERCOSUR los países cobran, en principio, el mismo arancel a lo que viene de afuera: el <b>Arancel Externo Común (AEC)</b>. Son cinco Estados Partes: Argentina, Brasil, Paraguay, Uruguay y Bolivia, que se sumó en 2024 y adopta el AEC y la nomenclatura de forma gradual. Pero hay productos en los que cada país puede cobrar otra cosa. Paraguay avisa al MERCOSUR qué productos están en cada lista: las de bienes de capital, informática y excepciones, dos veces por año (enero y julio); la de materias primas, una vez por año.</p>
   <div class="kpis">
     <div class="kpi"><div class="v">1.257</div><div class="l">bienes de capital (BK), enero 2026</div></div>
     <div class="kpi"><div class="v">361</div><div class="l">bienes de informática y telecomunicaciones (BIT), enero 2026</div></div>
-    <div class="kpi"><div class="v">715</div><div class="l">códigos en la lista de excepciones (LNE), enero 2026</div></div>
-    <div class="kpi"><div class="v">683</div><div class="l">materias primas con arancel 0 % (lista 2025)</div></div>
+    <div class="kpi"><div class="v">715</div><div class="l">códigos en la lista de excepciones (LNE), enero 2026; el tope es 649, más hasta 50 temporarios (ver la nota)</div></div>
+    <div class="kpi"><div class="v">683</div><div class="l">materias primas en el régimen (lista 2025): arancel 0 % con autorización, para insumos de la industria</div></div>
   </div>
   <div class="grid2">
     <div class="card">
@@ -144,14 +144,16 @@ footer { margin-top: 48px; padding: 28px 0 48px; border-top: 1px solid var(--lin
     </div>
     <div class="card">
       <h3><span class="tag">RMP</span>Régimen de materias primas</h3>
-      <p>Insumos que las industrias pueden importar con arancel 0 % para fabricar en Paraguay. La lista cambia cada año. Fuera del régimen, el producto paga su arancel normal.</p>
+      <p>Insumos que las industrias pueden importar con arancel 0 % para fabricar en Paraguay. No es automático: hace falta estar autorizado y usar el insumo en la producción. La lista cambia cada año. Fuera del régimen, el producto paga su arancel normal.</p>
     </div>
   </div>
-  <p class="note">Las listas BK, BIT y la cantidad de excepciones están autorizadas por el MERCOSUR hasta 2030 (Decisión CMC 08/21 y siguientes). El detalle normativo está en el repositorio de normativa del MERCOSUR.</p>
+  <p class="note">Las listas BK y BIT y la lista de excepciones de Paraguay están autorizadas por el MERCOSUR hasta 2030: <a href="https://github.com/silvia-mov/normativa-mercosur/blob/main/decisiones/2021/DEC_008-2021_ES_texto_bienes-de-capital-y-bienes-de-informatica-y.txt">Decisión CMC 08/21</a> (bienes de capital e informática) y <a href="https://github.com/silvia-mov/normativa-mercosur/blob/main/decisiones/2021/DEC_011-2021_ES_texto_modificacion-de-la-decision-cmc-n-58-10.txt">Decisión CMC 11/21</a> (excepciones), que modifican la <a href="https://github.com/silvia-mov/normativa-mercosur/blob/main/decisiones/2010/DEC_058-2010_ES_texto_listas-nacionales-de-excepciones-al-arancel-externo-comun.txt">Decisión CMC 58/10</a>. La <a href="https://github.com/silvia-mov/normativa-mercosur/blob/main/decisiones/2025/DEC_001-2025_ES_texto_modificacion-de-la-decision-cmc-n-58-10.txt">Decisión CMC 01/25</a> repite el tope de la LNE de Paraguay (649 códigos) y agrega una LNE temporaria de hasta 50 códigos más.</p>
+  <p class="note"><b>Sobre los 715 códigos de la LNE:</b> es la cantidad de códigos distintos que trae el archivo de la notificación de enero de 2026 (casi todos con un arancel distinto del común). Supera el tope de 649, y también 699 si se suman los 50 temporarios. No pudimos conciliar la diferencia: puede que el archivo incluya códigos de otra categoría. Se muestra tal como viene en la notificación.</p>
 </section>
 
 <section id="cuantos">
   <h2>Cuántos códigos tuvo cada lista</h2>
+  <div class="card"><picture><source media="(prefers-color-scheme: dark)" srcset="img/listas_dark.png"><img src="img/listas_light.png" alt="Gráfico de líneas, 2018 a 2026: cantidad de códigos en las listas de bienes de capital, informática, excepciones y materias primas de Paraguay, con el tope de 649 de la lista de excepciones" style="width:100%;height:auto"></picture></div>
   <p>Cantidad de códigos NCM de 8 dígitos en cada notificación de Paraguay al MERCOSUR.</p>
   <div class="card tw">
     <table>
@@ -245,7 +247,7 @@ footer { margin-top: 48px; padding: 28px 0 48px; border-top: 1px solid var(--lin
   </details>
   <details>
     <summary>Por qué tantas máquinas aparecen con varios códigos de hoy</summary>
-    <p>En 2022 se crearon dos partidas que juntan productos de muchos lugares: <b>85.49</b> (residuos y chatarra de aparatos eléctricos y electrónicos) y <b>85.24</b> (módulos de pantallas). Una máquina o una parte de máquina vieja también puede terminar ahí, por ejemplo cuando se importa como chatarra. Por eso muchos bienes de capital e informática tienen, además de su código, los códigos de 85.49. En la práctica, casi siempre el que corresponde es el que tiene el mismo número o uno muy parecido.</p>
+    <p>En 2022 se crearon dos partidas que juntan productos de muchos lugares: <b>85.49</b> (residuos y chatarra de aparatos eléctricos y electrónicos) y <b>85.24</b> (módulos de pantallas). Una máquina o una parte de máquina vieja también puede terminar ahí, por ejemplo cuando se importa como chatarra. Por eso muchos bienes de capital e informática tienen, además de su código, los códigos de 85.49. Para saber cuál corresponde hay que mirar la descripción y las notas de la nomenclatura; el parecido del número no alcanza.</p>
   </details>
   <details>
     <summary>Qué no se usó</summary>
@@ -269,6 +271,7 @@ footer { margin-top: 48px; padding: 28px 0 48px; border-top: 1px solid var(--lin
 <footer>
   <div class="wrap">
     <p>Proyecto: <a href="https://github.com/silvia-mov/nomenclaturas-y-correlaciones-del-mercosur">Nomenclatura Común del MERCOSUR: versiones y correlaciones</a> · <a href="https://silvia-mov.github.io/">Página principal</a></p>
+    <p>Última actualización: 20 de noviembre de 2026 (última notificación: enero de 2026).</p>
     <p>Fuentes: notificaciones de Paraguay al MERCOSUR y sistema SAREM de la Secretaría del MERCOSUR. Código bajo licencia MIT.</p>
   </div>
 </footer>
