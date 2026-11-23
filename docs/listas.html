@@ -15,19 +15,19 @@
 :root {
   --bg: #fffafb; --panel: #ffffff; --text: #1d1a1c; --text2: #5c5459; --line: #f3dde4;
   --s1: #39b89a; --s2: #fec9d7; --s3: #ff5883; --s4: #79d3be; --accent: #1f7f68; --code: #fdf0f4; --link: #1f7f68; --btn: #39b89a; --btntext: #08261f; --hero1: #b9eee1; --hero2: #fec9d7;
-  --tag: #fec9d7; --tagtext: #7a2440;
+  --tag: #fec9d7; --tagtext: #7a2440; --s2b: #e7a3b8;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #161314; --panel: #201b1d; --text: #f5eef1; --text2: #bfb3b8; --line: #3a2f33;
     --s1: #39b89a; --s2: #6b3a4a; --s3: #ff91ad; --s4: #b9eee1; --accent: #79d3be; --code: #2a2225; --link: #79d3be; --btn: #39b89a; --btntext: #08261f; --hero1: #123a31; --hero2: #3d1a26;
-    --tag: #3d1a26; --tagtext: #ffc2d2;
+    --tag: #3d1a26; --tagtext: #ffc2d2; --s2b: #c9758f;
   }
 }
 :root[data-theme="dark"] {
   --bg: #161314; --panel: #201b1d; --text: #f5eef1; --text2: #bfb3b8; --line: #3a2f33;
   --s1: #39b89a; --s2: #6b3a4a; --s3: #ff91ad; --s4: #b9eee1; --accent: #79d3be; --code: #2a2225; --link: #79d3be; --btn: #39b89a; --btntext: #08261f; --hero1: #123a31; --hero2: #3d1a26;
-  --tag: #3d1a26; --tagtext: #ffc2d2;
+  --tag: #3d1a26; --tagtext: #ffc2d2; --s2b: #c9758f;
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -57,6 +57,15 @@ a { color: var(--link); }
 .grid2 .card { margin: 0; }
 .grid2 h3 { margin-top: 0; }
 .tag { display: inline-block; padding: 2px 10px; border-radius: 99px; background: var(--tag); color: var(--tagtext); font-size: 13px; font-weight: 600; margin-right: 6px; }
+.db { display: flex; align-items: center; gap: 10px; justify-content: flex-end; }
+.db .t { flex: 1; min-width: 60px; max-width: 140px; height: 8px; border-radius: 99px; background: var(--code); overflow: hidden; }
+.db .t i { display: block; height: 100%; border-radius: 99px; }
+.db b { font-weight: 600; min-width: 48px; text-align: right; }
+td.anid { width: 38%; min-width: 150px; }
+.nest { position: relative; display: block; height: 16px; border-radius: 6px; background: var(--code); }
+.nest i { position: absolute; left: 0; top: 0; height: 100%; border-radius: 6px; }
+.nest .n1 { opacity: .3; } .nest .n2 { opacity: .6; } .nest .n3 { opacity: 1; }
+tbody tr:hover td { background: var(--code); }
 .tw { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 table { border-collapse: collapse; width: 100%; font-size: 14.5px; font-variant-numeric: tabular-nums; }
 th, td { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
@@ -158,28 +167,26 @@ footer { margin-top: 48px; padding: 28px 0 48px; border-top: 1px solid var(--lin
   <p>Cantidad de códigos NCM de 8 dígitos en cada notificación de Paraguay al MERCOSUR.</p>
   <div class="card tw">
     <table>
-      <thead><tr><th>Notificación</th><th>BK</th><th>BIT</th><th>LNE</th></tr></thead>
+      <thead><tr><th>Notificación</th><th>Bienes de capital (BK)</th><th>Informática (BIT)</th><th>Excepciones (LNE)</th></tr></thead>
       <tbody>
-        <tr><td>Primer semestre 2018</td><td>933</td><td>265</td><td>736</td></tr>
-        <tr><td>Enero 2020</td><td>1.225</td><td>397</td><td>731</td></tr>
-        <tr><td>Julio 2020</td><td>1.227</td><td>401</td><td>738</td></tr>
-        <tr><td>Enero 2021</td><td>1.228</td><td>400</td><td>740</td></tr>
-        <tr><td>Julio 2021</td><td>1.227</td><td>400</td><td>741</td></tr>
-        <tr><td>Enero 2022</td><td>1.227</td><td>402</td><td>731</td></tr>
-        <tr><td>Julio 2022</td><td>1.256</td><td>360</td><td>725</td></tr>
-        <tr><td>Julio 2023</td><td>1.257</td><td>360</td><td>716</td></tr>
-        <tr><td>Diciembre 2023</td><td>1.257</td><td>360</td><td>722</td></tr>
-        <tr><td>Enero 2025</td><td>1.257</td><td>360</td><td>715</td></tr>
-        <tr><td>Julio 2025</td><td>1.257</td><td>361</td><td>715</td></tr>
-        <tr><td>Enero 2026</td><td>1.257</td><td>361</td><td>715</td></tr>
+<tr><td>Primer semestre 2018</td><td><span class="db"><span class="t"><i style="width:74.2%;background:var(--s1)"></i></span><b>933</b></span></td><td><span class="db"><span class="t"><i style="width:65.9%;background:var(--s4)"></i></span><b>265</b></span></td><td><span class="db"><span class="t"><i style="width:99.3%;background:var(--s3)"></i></span><b>736</b></span></td></tr>
+<tr><td>Enero 2020</td><td><span class="db"><span class="t"><i style="width:97.5%;background:var(--s1)"></i></span><b>1.225</b></span></td><td><span class="db"><span class="t"><i style="width:98.8%;background:var(--s4)"></i></span><b>397</b></span></td><td><span class="db"><span class="t"><i style="width:98.7%;background:var(--s3)"></i></span><b>731</b></span></td></tr>
+<tr><td>Julio 2020</td><td><span class="db"><span class="t"><i style="width:97.6%;background:var(--s1)"></i></span><b>1.227</b></span></td><td><span class="db"><span class="t"><i style="width:99.8%;background:var(--s4)"></i></span><b>401</b></span></td><td><span class="db"><span class="t"><i style="width:99.6%;background:var(--s3)"></i></span><b>738</b></span></td></tr>
+<tr><td>Enero 2021</td><td><span class="db"><span class="t"><i style="width:97.7%;background:var(--s1)"></i></span><b>1.228</b></span></td><td><span class="db"><span class="t"><i style="width:99.5%;background:var(--s4)"></i></span><b>400</b></span></td><td><span class="db"><span class="t"><i style="width:99.9%;background:var(--s3)"></i></span><b>740</b></span></td></tr>
+<tr><td>Julio 2021</td><td><span class="db"><span class="t"><i style="width:97.6%;background:var(--s1)"></i></span><b>1.227</b></span></td><td><span class="db"><span class="t"><i style="width:99.5%;background:var(--s4)"></i></span><b>400</b></span></td><td><span class="db"><span class="t"><i style="width:100.0%;background:var(--s3)"></i></span><b>741</b></span></td></tr>
+<tr><td>Enero 2022</td><td><span class="db"><span class="t"><i style="width:97.6%;background:var(--s1)"></i></span><b>1.227</b></span></td><td><span class="db"><span class="t"><i style="width:100.0%;background:var(--s4)"></i></span><b>402</b></span></td><td><span class="db"><span class="t"><i style="width:98.7%;background:var(--s3)"></i></span><b>731</b></span></td></tr>
+<tr><td>Julio 2022</td><td><span class="db"><span class="t"><i style="width:99.9%;background:var(--s1)"></i></span><b>1.256</b></span></td><td><span class="db"><span class="t"><i style="width:89.6%;background:var(--s4)"></i></span><b>360</b></span></td><td><span class="db"><span class="t"><i style="width:97.8%;background:var(--s3)"></i></span><b>725</b></span></td></tr>
+<tr><td>Julio 2023</td><td><span class="db"><span class="t"><i style="width:100.0%;background:var(--s1)"></i></span><b>1.257</b></span></td><td><span class="db"><span class="t"><i style="width:89.6%;background:var(--s4)"></i></span><b>360</b></span></td><td><span class="db"><span class="t"><i style="width:96.6%;background:var(--s3)"></i></span><b>716</b></span></td></tr>
+<tr><td>Diciembre 2023</td><td><span class="db"><span class="t"><i style="width:100.0%;background:var(--s1)"></i></span><b>1.257</b></span></td><td><span class="db"><span class="t"><i style="width:89.6%;background:var(--s4)"></i></span><b>360</b></span></td><td><span class="db"><span class="t"><i style="width:97.4%;background:var(--s3)"></i></span><b>722</b></span></td></tr>
+<tr><td>Enero 2025</td><td><span class="db"><span class="t"><i style="width:100.0%;background:var(--s1)"></i></span><b>1.257</b></span></td><td><span class="db"><span class="t"><i style="width:89.6%;background:var(--s4)"></i></span><b>360</b></span></td><td><span class="db"><span class="t"><i style="width:96.5%;background:var(--s3)"></i></span><b>715</b></span></td></tr>
+<tr><td>Julio 2025</td><td><span class="db"><span class="t"><i style="width:100.0%;background:var(--s1)"></i></span><b>1.257</b></span></td><td><span class="db"><span class="t"><i style="width:89.8%;background:var(--s4)"></i></span><b>361</b></span></td><td><span class="db"><span class="t"><i style="width:96.5%;background:var(--s3)"></i></span><b>715</b></span></td></tr>
+<tr><td>Enero 2026</td><td><span class="db"><span class="t"><i style="width:100.0%;background:var(--s1)"></i></span><b>1.257</b></span></td><td><span class="db"><span class="t"><i style="width:89.8%;background:var(--s4)"></i></span><b>361</b></span></td><td><span class="db"><span class="t"><i style="width:96.5%;background:var(--s3)"></i></span><b>715</b></span></td></tr>
       </tbody>
     </table>
   </div>
   <div class="card tw">
     <table>
-      <thead><tr><th>Régimen de materias primas</th><th>2018</th><th>2019</th><th>1.er sem. 2020</th><th>2023</th><th>2024</th><th>2025</th></tr></thead>
-      <tbody><tr><td>Códigos</td><td>830</td><td>830</td><td>771</td><td>708</td><td>663</td><td>683</td></tr></tbody>
-    </table>
+      <thead><tr><th>Régimen de materias primas</th><th>Códigos</th></tr></thead><tbody><tr><td>2018</td><td><span class="db"><span class="t"><i style="width:100.0%;background:var(--s2b)"></i></span><b>830</b></span></td></tr><tr><td>2019</td><td><span class="db"><span class="t"><i style="width:100.0%;background:var(--s2b)"></i></span><b>830</b></span></td></tr><tr><td>1.er sem. 2020</td><td><span class="db"><span class="t"><i style="width:92.9%;background:var(--s2b)"></i></span><b>771</b></span></td></tr><tr><td>2023</td><td><span class="db"><span class="t"><i style="width:85.3%;background:var(--s2b)"></i></span><b>708</b></span></td></tr><tr><td>2024</td><td><span class="db"><span class="t"><i style="width:79.9%;background:var(--s2b)"></i></span><b>663</b></span></td></tr><tr><td>2025</td><td><span class="db"><span class="t"><i style="width:82.3%;background:var(--s2b)"></i></span><b>683</b></span></td></tr></tbody></table>
   </div>
   <p class="note">El salto de 2022 coincide con la nueva versión de la nomenclatura (VII Enmienda del Sistema Armonizado). No hay archivos de las notificaciones de 2018 (segundo semestre), 2019 y 2024, ni de las listas de materias primas 2021 y 2022.</p>
 </section>
@@ -188,11 +195,10 @@ footer { margin-top: 48px; padding: 28px 0 48px; border-top: 1px solid var(--lin
   <h2>Cuánto se importa con productos de cada lista</h2>
   <p>Parte de las importaciones de Paraguay (valor CIF de los despachos de la DNIT) en productos que estaban en cada lista ese año. Una lista "pesa" aunque el producto haya entrado con un acuerdo comercial; lo que importa para la lista es lo que entró <b>sin acuerdo</b>, porque ahí se aplica el arancel de la lista.</p>
   <div class="card tw"><table>
-    <thead><tr><th>Año</th><th>BK</th><th>BIT</th><th>LNE</th><th>Materias primas</th></tr></thead>
-    <tbody><tr><td>2018</td><td>7,8 %</td><td>11,4 %</td><td>26,0 %</td><td>11,0 %</td></tr><tr><td>2019</td><td>7,2 %</td><td>17,4 %</td><td>25,1 %</td><td>9,2 %</td></tr><tr><td>2020</td><td>9,0 %</td><td>14,8 %</td><td>24,6 %</td><td>11,2 %</td></tr><tr><td>2021</td><td>9,4 %</td><td>13,8 %</td><td>24,5 %</td><td>11,0 %</td></tr><tr><td>2022</td><td>8,6 %</td><td>10,3 %</td><td>23,0 %</td><td>9,8 %</td></tr><tr><td>2023</td><td>9,3 %</td><td>18,8 %</td><td>22,2 %</td><td>9,3 %</td></tr><tr><td>2024</td><td>9,0 %</td><td>14,8 %</td><td>24,3 %</td><td>9,3 %</td></tr><tr><td>2025</td><td>9,7 %</td><td>16,9 %</td><td>23,9 %</td><td>8,8 %</td></tr></tbody></table></div>
+    <thead><tr><th>Año</th><th>Bienes de capital</th><th>Informática</th><th>Excepciones</th><th>Materias primas</th></tr></thead><tbody><tr><td>2018</td><td><span class="db"><span class="t"><i style="width:26.0%;background:var(--s1)"></i></span><b>7,8 %</b></span></td><td><span class="db"><span class="t"><i style="width:38.0%;background:var(--s4)"></i></span><b>11,4 %</b></span></td><td><span class="db"><span class="t"><i style="width:86.7%;background:var(--s3)"></i></span><b>26,0 %</b></span></td><td><span class="db"><span class="t"><i style="width:36.7%;background:var(--s2b)"></i></span><b>11,0 %</b></span></td></tr><tr><td>2019</td><td><span class="db"><span class="t"><i style="width:24.0%;background:var(--s1)"></i></span><b>7,2 %</b></span></td><td><span class="db"><span class="t"><i style="width:58.0%;background:var(--s4)"></i></span><b>17,4 %</b></span></td><td><span class="db"><span class="t"><i style="width:83.7%;background:var(--s3)"></i></span><b>25,1 %</b></span></td><td><span class="db"><span class="t"><i style="width:30.7%;background:var(--s2b)"></i></span><b>9,2 %</b></span></td></tr><tr><td>2020</td><td><span class="db"><span class="t"><i style="width:30.0%;background:var(--s1)"></i></span><b>9,0 %</b></span></td><td><span class="db"><span class="t"><i style="width:49.3%;background:var(--s4)"></i></span><b>14,8 %</b></span></td><td><span class="db"><span class="t"><i style="width:82.0%;background:var(--s3)"></i></span><b>24,6 %</b></span></td><td><span class="db"><span class="t"><i style="width:37.3%;background:var(--s2b)"></i></span><b>11,2 %</b></span></td></tr><tr><td>2021</td><td><span class="db"><span class="t"><i style="width:31.3%;background:var(--s1)"></i></span><b>9,4 %</b></span></td><td><span class="db"><span class="t"><i style="width:46.0%;background:var(--s4)"></i></span><b>13,8 %</b></span></td><td><span class="db"><span class="t"><i style="width:81.7%;background:var(--s3)"></i></span><b>24,5 %</b></span></td><td><span class="db"><span class="t"><i style="width:36.7%;background:var(--s2b)"></i></span><b>11,0 %</b></span></td></tr><tr><td>2022</td><td><span class="db"><span class="t"><i style="width:28.7%;background:var(--s1)"></i></span><b>8,6 %</b></span></td><td><span class="db"><span class="t"><i style="width:34.3%;background:var(--s4)"></i></span><b>10,3 %</b></span></td><td><span class="db"><span class="t"><i style="width:76.7%;background:var(--s3)"></i></span><b>23,0 %</b></span></td><td><span class="db"><span class="t"><i style="width:32.7%;background:var(--s2b)"></i></span><b>9,8 %</b></span></td></tr><tr><td>2023</td><td><span class="db"><span class="t"><i style="width:31.0%;background:var(--s1)"></i></span><b>9,3 %</b></span></td><td><span class="db"><span class="t"><i style="width:62.7%;background:var(--s4)"></i></span><b>18,8 %</b></span></td><td><span class="db"><span class="t"><i style="width:74.0%;background:var(--s3)"></i></span><b>22,2 %</b></span></td><td><span class="db"><span class="t"><i style="width:31.0%;background:var(--s2b)"></i></span><b>9,3 %</b></span></td></tr><tr><td>2024</td><td><span class="db"><span class="t"><i style="width:30.0%;background:var(--s1)"></i></span><b>9,0 %</b></span></td><td><span class="db"><span class="t"><i style="width:49.3%;background:var(--s4)"></i></span><b>14,8 %</b></span></td><td><span class="db"><span class="t"><i style="width:81.0%;background:var(--s3)"></i></span><b>24,3 %</b></span></td><td><span class="db"><span class="t"><i style="width:31.0%;background:var(--s2b)"></i></span><b>9,3 %</b></span></td></tr><tr><td>2025</td><td><span class="db"><span class="t"><i style="width:32.3%;background:var(--s1)"></i></span><b>9,7 %</b></span></td><td><span class="db"><span class="t"><i style="width:56.3%;background:var(--s4)"></i></span><b>16,9 %</b></span></td><td><span class="db"><span class="t"><i style="width:79.7%;background:var(--s3)"></i></span><b>23,9 %</b></span></td><td><span class="db"><span class="t"><i style="width:29.3%;background:var(--s2b)"></i></span><b>8,8 %</b></span></td></tr></tbody></table></div>
   <div class="card tw"><table>
-    <thead><tr><th>2025, millones de USD</th><th>Importado en la lista</th><th>Sin acuerdo</th><th>Sin acuerdo y sin pagar arancel</th></tr></thead>
-    <tbody><tr><td>Bienes de capital</td><td>1.754</td><td>1.306</td><td>1.262</td></tr><tr><td>Informática y telecomunicaciones</td><td>3.059</td><td>3.044</td><td>662</td></tr><tr><td>Excepciones</td><td>4.312</td><td>3.245</td><td>860</td></tr><tr><td>Materias primas</td><td>1.594</td><td>846</td><td>350</td></tr></tbody></table></div>
+    <thead><tr><th>2025, millones de USD</th><th></th><th>En la lista</th><th>Sin acuerdo</th><th>Sin acuerdo y sin arancel</th></tr></thead><tbody><tr><td>Bienes de capital</td><td class="anid"><span class="nest"><i class="n1" style="width:40.7%;background:var(--s1)"></i><i class="n2" style="width:30.3%;background:var(--s1)"></i><i class="n3" style="width:29.3%;background:var(--s1)"></i></span></td><td>1.754</td><td>1.306</td><td>1.262</td></tr><tr><td>Informática y telecomunicaciones</td><td class="anid"><span class="nest"><i class="n1" style="width:70.9%;background:var(--s4)"></i><i class="n2" style="width:70.6%;background:var(--s4)"></i><i class="n3" style="width:15.4%;background:var(--s4)"></i></span></td><td>3.059</td><td>3.044</td><td>662</td></tr><tr><td>Excepciones</td><td class="anid"><span class="nest"><i class="n1" style="width:100.0%;background:var(--s3)"></i><i class="n2" style="width:75.3%;background:var(--s3)"></i><i class="n3" style="width:19.9%;background:var(--s3)"></i></span></td><td>4.312</td><td>3.245</td><td>860</td></tr><tr><td>Materias primas</td><td class="anid"><span class="nest"><i class="n1" style="width:37.0%;background:var(--s2b)"></i><i class="n2" style="width:19.6%;background:var(--s2b)"></i><i class="n3" style="width:8.1%;background:var(--s2b)"></i></span></td><td>1.594</td><td>846</td><td>350</td></tr></tbody></table></div>
+  <p class="note">Barras: la más tenue es todo lo importado en la lista, la intermedia lo que entró sin acuerdo y la más intensa lo que además entró sin pagar arancel.</p>
   <p class="note">Un producto puede estar en más de una lista, así que los porcentajes no se suman. Para cada año se usa la última notificación hasta diciembre (materias primas: la lista del año). En materias primas, el 0 % requiere autorización, así que no todo lo que figura en la lista entró con 0 %. Datos: <a href="https://github.com/silvia-mov/nomenclaturas-y-correlaciones-del-mercosur/blob/main/datos/listas/peso_listas_importaciones.csv">CSV</a>. Fuente: elaboración propia con los despachos de la DNIT (<a href="https://silvia-mov.github.io/comercio-exterior-paraguay-acuerdos/aduana.html">datos de aduana</a>) y las notificaciones de Paraguay al MERCOSUR.</p>
 </section>
 
