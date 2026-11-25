@@ -12,7 +12,7 @@ import pandas as pd
 
 RAIZ = Path(__file__).resolve().parent.parent
 d = pd.read_csv(RAIZ / "datos" / "listas" / "listas_resumen.csv", parse_dates=["fecha"])
-COL = {"BK": "#1f6f5c", "BIT": "#ff5883", "LNE": "#7a1f3d", "RMP": "#39b89a"}
+COL = {"BK": "#3f6b65", "BIT": "#774d78", "LNE": "#4f3050", "RMP": "#5e8f88"}
 NOM = {"BK": "Bienes de capital (BK)", "BIT": "Informática y telecom. (BIT)", "LNE": "Excepciones (LNE)", "RMP": "Materias primas"}
 for modo, bg, fg, gr in (("light", "#ffffff", "#222222", "#dddddd"), ("dark", "#17141a", "#eeeeee", "#333333")):
     f, a = plt.subplots(figsize=(11, 5), dpi=110)

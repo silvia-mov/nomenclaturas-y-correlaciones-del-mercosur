@@ -14,21 +14,21 @@
 <meta property="og:image" content="https://silvia-mov.github.io/nomenclaturas-y-correlaciones-del-mercosur/img/tarjeta_light.png">
 <style>
 :root {
-  --bg: #fffafb; --panel: #ffffff; --text: #1d1a1c; --text2: #5c5459; --line: #f3dde4;
-  --s1: #39b89a; --s2: #fec9d7; --s3: #ff5883; --s4: #79d3be; --accent: #1f7f68; --code: #fdf0f4; --link: #1f7f68; --btn: #39b89a; --btntext: #08261f; --hero1: #b9eee1; --hero2: #fec9d7;
-  --tag: #fec9d7; --tagtext: #7a2440;
+  --bg: #fdfaf3; --panel: #ffffff; --text: #1d1a1c; --text2: #5c5459; --line: #e9e1d3;
+  --s1: #5e8f88; --s2: #e6dae7; --s3: #774d78; --s4: #8db2ac; --accent: #3f6b65; --code: #f7f1e6; --link: #3f6b65; --btn: #5e8f88; --btntext: #08261f; --hero1: #b7d0cc; --hero2: #e6dae7;
+  --tag: #e6dae7; --tagtext: #4f3050;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #161314; --panel: #201b1d; --text: #f5eef1; --text2: #bfb3b8; --line: #3a2f33;
-    --s1: #39b89a; --s2: #6b3a4a; --s3: #ff91ad; --s4: #b9eee1; --accent: #79d3be; --code: #2a2225; --link: #79d3be; --btn: #39b89a; --btntext: #08261f; --hero1: #123a31; --hero2: #3d1a26;
-    --tag: #3d1a26; --tagtext: #ffc2d2;
+    --s1: #5e8f88; --s2: #4a3a4d; --s3: #af8eb1; --s4: #b7d0cc; --accent: #8db2ac; --code: #2a2225; --link: #8db2ac; --btn: #5e8f88; --btntext: #08261f; --hero1: #24403c; --hero2: #3a2a3b;
+    --tag: #3a2a3b; --tagtext: #d9c6da;
   }
 }
 :root[data-theme="dark"] {
   --bg: #161314; --panel: #201b1d; --text: #f5eef1; --text2: #bfb3b8; --line: #3a2f33;
-  --s1: #39b89a; --s2: #6b3a4a; --s3: #ff91ad; --s4: #b9eee1; --accent: #79d3be; --code: #2a2225; --link: #79d3be; --btn: #39b89a; --btntext: #08261f; --hero1: #123a31; --hero2: #3d1a26;
-  --tag: #3d1a26; --tagtext: #ffc2d2;
+  --s1: #5e8f88; --s2: #4a3a4d; --s3: #af8eb1; --s4: #b7d0cc; --accent: #8db2ac; --code: #2a2225; --link: #8db2ac; --btn: #5e8f88; --btntext: #08261f; --hero1: #24403c; --hero2: #3a2a3b;
+  --tag: #3a2a3b; --tagtext: #d9c6da;
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -87,10 +87,10 @@ details { border-bottom: 1px solid var(--line); padding: 10px 0; max-width: 760p
 summary { cursor: pointer; font-weight: 600; }
 footer { margin-top: 48px; padding: 28px 0 48px; border-top: 1px solid var(--line); font-size: 14px; color: var(--text2); }
 .comentar { margin: 40px auto 0; max-width: 960px; padding: 0 16px; }
-.comentar .caja { border: 1.5px dashed #79d3be; border-radius: 12px; padding: 18px 20px; }
+.comentar .caja { border: 1.5px dashed #8db2ac; border-radius: 12px; padding: 18px 20px; }
 .comentar h2 { margin: 0 0 8px; }
 .comentar p { margin: 0 0 14px; }
-.comentar a.boton { display: inline-block; padding: 9px 16px; border-radius: 8px; background: #39b89a; color: #08261f; font-weight: 600; text-decoration: none; }
+.comentar a.boton { display: inline-block; padding: 9px 16px; border-radius: 8px; background: #5e8f88; color: #08261f; font-weight: 600; text-decoration: none; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 @media print { nav.toc, .btns, .consulta, .comentar { display: none !important; } }
 
@@ -273,6 +273,31 @@ footer { margin-top: 48px; padding: 28px 0 48px; border-top: 1px solid var(--lin
   document.getElementById("f").addEventListener("submit", e => { e.preventDefault(); buscar(q.value);
     const c = q.value.replace(/\D/g, ""); if (c) history.replaceState(null, "", "?codigo=" + c + "#buscar"); });
   document.querySelectorAll(".ejemplos a").forEach(a => a.addEventListener("click", () => { q.value = a.dataset.c; buscar(a.dataset.c); }));
+})();
+</script>
+<script>
+/* Al imprimir: siempre tema claro y gráficos con fondo blanco. Debajo de cada gráfico, un enlace para bajarlo en versión clara. */
+(function () {
+  var st = document.createElement("style");
+  st.textContent = ".dl-graf{display:inline-block;font-size:13px;margin:6px 0 0;color:var(--link,inherit)}@media print{.dl-graf{display:none}}";
+  document.head.appendChild(st);
+  var antes = null;
+  addEventListener("beforeprint", function () {
+    var r = document.documentElement; antes = r.getAttribute("data-theme"); r.setAttribute("data-theme", "light");
+    document.querySelectorAll('picture source[media*="dark"]').forEach(function (s) { s.dataset.m = s.media; s.media = "not all"; });
+  });
+  addEventListener("afterprint", function () {
+    var r = document.documentElement; if (antes === null) r.removeAttribute("data-theme"); else r.setAttribute("data-theme", antes);
+    document.querySelectorAll("picture source[data-m]").forEach(function (s) { s.media = s.dataset.m; });
+  });
+  document.querySelectorAll("picture img").forEach(function (img) {
+    var src = img.getAttribute("src") || "";
+    if (!/_light\.png$/.test(src) || /tarjeta/.test(src)) return;
+    var a = document.createElement("a");
+    a.href = src; a.download = src.split("/").pop().replace("_light", ""); a.className = "dl-graf";
+    a.textContent = "Descargar gráfico (fondo blanco)";
+    img.closest("picture").insertAdjacentElement("afterend", a);
+  });
 })();
 </script>
 </body>

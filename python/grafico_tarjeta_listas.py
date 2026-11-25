@@ -7,7 +7,7 @@ import pandas as pd, matplotlib
 matplotlib.use("Agg"); import matplotlib.pyplot as plt
 
 d = pd.read_csv("datos/listas/listas_resumen.csv", parse_dates=["fecha"])
-COL = {"BK": "#FF5883", "BIT": "#39B89A", "LNE": "#FF91AD", "RMP": "#79D3BE"}
+COL = {"BK": "#774D78", "BIT": "#5E8F88", "LNE": "#AF8EB1", "RMP": "#8DB2AC"}
 NOM = {"BK": "Bienes de capital (BK)", "BIT": "Informática y telecomunicaciones (BIT)",
        "LNE": "Lista nacional de excepciones (LNE)", "RMP": "Materias primas (RMP)"}
 for modo, bg, fg, gr in (("light", "#ffffff", "#222", "#ddd"), ("dark", "#17141a", "#eee", "#333")):

@@ -8,9 +8,9 @@ t=t.loc[sorted(t.index,key=lambda s:[int(x) for x in s.split("-")])]
 paso_anio={p:int(p.split("-")[0]) for p in t.index}
 ty=t.groupby(paso_anio).sum().reindex(range(2003,2027),fill_value=0)
 # colores bien distintos en claridad (se distinguen también con daltonismo): oscuro, medio, claro, oscuro rosado
-COL={"complejo":"#1f6f5c","renumerado":"#ff5883","se divide":"#b9eee1","se fusiona":"#7a1f3d"}
+COL={"complejo":"#3f6b65","renumerado":"#774d78","se divide":"#b7d0cc","se fusiona":"#4f3050"}
 v=pd.read_csv("/home/user/nomenclaturas-y-correlaciones-del-mercosur/datos/versiones.csv"); N=dict(zip(v.version,v.codigos_8_digitos))
-for modo,bg,fg,gr in (("light","#ffffff","#1d1a1c","#f3dde4"),("dark","#201b1d","#f5eef1","#3a2f33")):
+for modo,bg,fg,gr in (("light","#ffffff","#1d1a1c","#e9e1d3"),("dark","#201b1d","#f5eef1","#3a2f33")):
     f,a=plt.subplots(figsize=(12,5.2),dpi=150); f.patch.set_facecolor(bg); a.set_facecolor(bg)
     b=None
     for i,c in enumerate(ty.columns):
