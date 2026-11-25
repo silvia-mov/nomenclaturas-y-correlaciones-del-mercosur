@@ -165,9 +165,9 @@ with open(os.path.join(salida_csv, 'listas_resumen.csv'), 'w', newline='', encod
 
 # ---------- Excel ----------
 A = 'Arial'
-HF = Font(name=A, bold=True, color='FFFFFF'); HFILL = PatternFill('solid', fgColor='39B89A')
+HF = Font(name=A, bold=True, color='FFFFFF'); HFILL = PatternFill('solid', fgColor='5E8F88')
 B = Font(name=A, size=10); BB = Font(name=A, size=10, bold=True)
-T = Font(name=A, size=14, bold=True, color='39B89A'); SUB = Font(name=A, size=11, bold=True, color='FF5883')
+T = Font(name=A, size=14, bold=True, color='5E8F88'); SUB = Font(name=A, size=11, bold=True, color='774D78')
 
 
 def cab(ws, cols, anchos):

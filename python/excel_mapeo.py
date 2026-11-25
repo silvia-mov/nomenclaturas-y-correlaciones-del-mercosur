@@ -22,10 +22,10 @@ def desc(v, c): return V[v]['codigos'].get(c, [''])[0]
 FINC = corto(FIN)
 
 A = 'Arial'
-HF = Font(name=A, bold=True, color='FFFFFF'); HFILL = PatternFill('solid', fgColor='39B89A')
+HF = Font(name=A, bold=True, color='FFFFFF'); HFILL = PatternFill('solid', fgColor='5E8F88')
 B = Font(name=A, size=10); BB = Font(name=A, size=10, bold=True)
-T = Font(name=A, size=14, bold=True, color='39B89A'); SUB = Font(name=A, size=11, bold=True, color='FF5883')
-COLOR = {'se divide': 'B9EEE1', 'se fusiona': 'FEC9D7', 'complejo': 'FF91AD', 'renumerado': '79D3BE'}
+T = Font(name=A, size=14, bold=True, color='5E8F88'); SUB = Font(name=A, size=11, bold=True, color='774D78')
+COLOR = {'se divide': 'B7D0CC', 'se fusiona': 'E6DAE7', 'complejo': 'AF8EB1', 'renumerado': '8DB2AC'}
 
 
 def header(ws, row, cols, widths=None):
