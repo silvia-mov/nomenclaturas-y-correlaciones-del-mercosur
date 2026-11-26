@@ -38,7 +38,7 @@ NOTIFS = [
     ('2025-07', '2025-07-31', '*31.07.2025*'),
     ('2026-01', '2026-01-31', '*31.01.2026*'),
 ]
-# Régimen de Materias Primas: listas anuales (el arancel dentro del régimen es 0 %).
+# Régimen de Materias Primas: listas anuales (el arancel dentro del régimen es 0%).
 RMP = [('2018', '2018-01-01', 'MRE-PY_E001_2021*(5).xlsx', 'AÑO 2018'),
        ('2019', '2019-01-01', 'MRE-PY_E001_2021*(5).xlsx', 'AÑO 2019'),
        ('2020-S1', '2020-01-01', 'MRE-PY_E001_2021*(5).xlsx', '1ER SEMESTRE 2020'),
@@ -190,7 +190,7 @@ textos = [
     ('BK', 'Bienes de capital. Máquinas y equipos para producir. Paraguay puede cobrarles un arancel distinto del AEC (régimen hasta 2030, Dec. CMC 08/21).'),
     ('BIT', 'Bienes de informática y telecomunicaciones. Computadoras, equipos de comunicación y sus partes. También con régimen propio hasta 2030.'),
     ('LNE', 'Lista nacional de excepciones al AEC. Códigos en los que Paraguay cobra un arancel distinto del común del MERCOSUR (649 códigos autorizados hasta 2030).'),
-    ('RMP', 'Régimen de materias primas. Insumos que las industrias pueden importar con arancel 0 % dentro del régimen (la lista cambia cada año).'),
+    ('RMP', 'Régimen de materias primas. Insumos que las industrias pueden importar con arancel 0% dentro del régimen (la lista cambia cada año).'),
     ('Hojas', None),
     ('Resumen', 'Cuántos códigos tiene cada lista en cada notificación.'),
     ('BK, BIT, LNE', 'Una fila por código y una columna por notificación con el arancel nacional vigente (vacío: no estaba en la lista). Al final, el código en la NCM vigente.'),

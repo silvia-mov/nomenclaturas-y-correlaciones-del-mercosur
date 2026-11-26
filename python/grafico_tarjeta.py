@@ -22,7 +22,7 @@ for modo,bg,fg,gr in (("light","#ffffff","#1d1a1c","#e9e1d3"),("dark","#201b1d",
     for k,(p,e) in enumerate([("2007-1","IV"),("2012-1","V"),("2017-1","VI"),("2022-1","VII")]):
         if p in tot.index:
             vv=d[d.paso==p].version_vieja.iloc[0]; pct=d[d.paso==p].codigo_viejo.nunique()/N[vv]*100
-            a.text(int(p.split("-")[0]),toty[int(p.split("-")[0])]+60,e+f" Enmienda del SA\n{pct:.1f} % de los códigos".replace(".",",",1),ha="center",color=fg,fontsize=10)
+            a.text(int(p.split("-")[0]),toty[int(p.split("-")[0])]+60,e+f" Enmienda del SA\n{pct:.1f}% de los códigos".replace(".",",",1),ha="center",color=fg,fontsize=10)
     a.tick_params(colors=fg,labelsize=10,length=0); a.set_xticks(range(2003,2027,2)); a.set_xlim(2002.3,2026.7)
     a.text(0,-0.1,"Versiones del mismo año sumadas. Sin las enmiendas, los cambios son pocos y menores.",transform=a.transAxes,color=fg,fontsize=9.5,alpha=.75)
     for s in a.spines.values(): s.set_visible(False)
