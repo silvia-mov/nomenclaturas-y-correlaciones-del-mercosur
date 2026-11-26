@@ -8,6 +8,7 @@ from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import tipografia  # noqa: E402,F401  (Fraunces + Source Sans 3)
 import pandas as pd
 
 RAIZ = Path(__file__).resolve().parent.parent

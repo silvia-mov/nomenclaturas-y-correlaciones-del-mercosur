@@ -4,6 +4,7 @@ Uso: python python/grafico_tarjeta_listas.py
 Lee datos/listas/listas_resumen.csv y crea docs/img/tarjeta_listas_light.png y tarjeta_listas_dark.png.
 """
 import pandas as pd, matplotlib
+import tipografia  # noqa: E402,F401  (Fraunces + Source Sans 3)
 matplotlib.use("Agg"); import matplotlib.pyplot as plt
 
 d = pd.read_csv("datos/listas/listas_resumen.csv", parse_dates=["fecha"])

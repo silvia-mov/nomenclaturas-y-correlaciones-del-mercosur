@@ -1,4 +1,5 @@
 import pandas as pd, matplotlib
+import tipografia  # noqa: E402,F401  (Fraunces + Source Sans 3)
 matplotlib.use("Agg"); import matplotlib.pyplot as plt
 d=pd.read_csv("/home/user/nomenclaturas-y-correlaciones-del-mercosur/datos/cambios_por_paso_2002_2026.csv")
 d["paso"]=d.version_nueva.str.replace("NCM_","").str.replace("_","-")
